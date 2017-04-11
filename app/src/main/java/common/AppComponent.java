@@ -13,10 +13,10 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import me.jessyan.mvparms.demo.di.module.CacheModule;
-import me.jessyan.mvparms.demo.di.module.ServiceModule;
-import me.jessyan.mvparms.demo.mvp.model.api.cache.CacheManager;
-import me.jessyan.mvparms.demo.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.di.module.CacheModule;
+import bai.kang.yun.zxd.di.module.ServiceModule;
+import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
+import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import okhttp3.OkHttpClient;
 
