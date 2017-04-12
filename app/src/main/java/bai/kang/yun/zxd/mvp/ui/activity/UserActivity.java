@@ -13,14 +13,14 @@ import com.jess.arms.utils.UiUtils;
 import com.paginate.Paginate;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import bai.kang.yun.zxd.mvp.contract.UserContract;
-import butterknife.BindView;
-import common.AppComponent;
-import common.WEActivity;
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerUserComponent;
 import bai.kang.yun.zxd.di.module.UserModule;
+import bai.kang.yun.zxd.mvp.contract.UserContract;
 import bai.kang.yun.zxd.mvp.presenter.UserPresenter;
+import butterknife.BindView;
+import common.AppComponent;
+import common.WEActivity;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;

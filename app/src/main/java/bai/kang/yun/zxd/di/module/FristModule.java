@@ -2,36 +2,36 @@ package bai.kang.yun.zxd.di.module;
 
 import com.jess.arms.di.scope.ActivityScope;
 
-import bai.kang.yun.zxd.mvp.contract.MainContract;
-import bai.kang.yun.zxd.mvp.model.MainModel;
+import bai.kang.yun.zxd.mvp.contract.FristContract;
+import bai.kang.yun.zxd.mvp.model.FristModel;
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by jess on 9/4/16 11:10
- * Contact with jess.yan.effort@gmail.com
+ * Created by Administrator on 2017/4/12 0012.
  */
 @Module
-public class MainModule {
-    private MainContract.View view;
+public class FristModule {
+
+    private FristContract.View view;
 
     /**
      * 构建UserModule时,将View的实现类传进来,这样就可以提供View的实现类给presenter
      * @param view
      */
-    public MainModule(MainContract.View view) {
+    public FristModule(FristContract.View view) {
         this.view = view;
     }
 
     @ActivityScope
     @Provides
-    MainContract.View provideMainView(){
+    FristContract.View provideFristView(){
         return this.view;
     }
 
     @ActivityScope
     @Provides
-    MainContract.Model provideMainModel(MainModel model){
+    FristContract.Model provideFristModel(FristModel model){
         return model;
     }
 }

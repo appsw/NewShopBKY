@@ -2,14 +2,15 @@ package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.jess.arms.base.BaseFragment;
-import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.utils.UiUtils;
 import com.paginate.Paginate;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -19,15 +20,21 @@ import bai.kang.yun.zxd.di.component.DaggerMainComponent;
 import bai.kang.yun.zxd.di.module.MainModule;
 import bai.kang.yun.zxd.mvp.contract.MainContract;
 import bai.kang.yun.zxd.mvp.presenter.MainPresenter;
+import bai.kang.yun.zxd.mvp.ui.fragment.CarFragment;
+import bai.kang.yun.zxd.mvp.ui.fragment.FindFragment;
+import bai.kang.yun.zxd.mvp.ui.fragment.FristFragment;
+import bai.kang.yun.zxd.mvp.ui.fragment.MeFragment;
 import butterknife.BindView;
 import common.AppComponent;
 import common.WEActivity;
+import common.WEFragment;
 import timber.log.Timber;
+
+import static bai.kang.yun.zxd.R.id.iv_frist;
 
 
 public class MainActivity extends WEActivity<MainPresenter> implements MainContract.View,
-        SwipeRefreshLayout.OnRefreshListener,View.OnClickListener {
-
+        OnClickListener {
     @Nullable
     @BindView(R.id.rl_frist)
     RelativeLayout rl_frist;
@@ -41,7 +48,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     @BindView(R.id.rl_me)
     RelativeLayout rl_me;
     @Nullable
-    @BindView(R.id.iv_frist)
+    @BindView(iv_frist)
     ImageView im_frist;
     @Nullable
     @BindView(R.id.iv_find)
@@ -54,20 +61,20 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     ImageView im_me;
     @Nullable
     @BindView(R.id.tv_frist)
-    ImageView tv_frist;
+    TextView tv_frist;
     @Nullable
     @BindView(R.id.tv_find)
-    ImageView tv_find;
+    TextView tv_find;
     @Nullable
     @BindView(R.id.tv_car)
-    ImageView tv_car;
+    TextView tv_car;
     @Nullable
     @BindView(R.id.tv_me)
-    ImageView tv_me;
+    TextView tv_me;
 
 
     // 底部标签切换的Fragment
-    private BaseFragment knowFragment, iWantKnowFragment, meFragment,
+    private WEFragment fristFragment, findFragment,carFragment, meFragment,
             currentFragment;
     private Paginate mPaginate;
     private boolean isLoadingMore;
@@ -82,22 +89,24 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
                 .mainModule(new MainModule(this))
                 .build()
                 .inject(this);
+
     }
 
     @Override
     protected View initView() {
+
         return LayoutInflater.from(this).inflate(R.layout.activity_main, null, false);
     }
 
     @Override
     protected void initData() {
-        mPresenter.requestUsers(true);//打开app时自动加载列表
+        rl_frist.setOnClickListener(this);
+        rl_find.setOnClickListener(this);
+        rl_car.setOnClickListener(this);
+        rl_me.setOnClickListener(this);
+        mPresenter.SetView();
     }
 
-    @Override
-    public void onRefresh() {
-        mPresenter.requestUsers(true);
-    }
 
 
 
@@ -129,31 +138,8 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         finish();
     }
 
-    @Override
-    public void setAdapter(DefaultAdapter adapter) {
 
-    }
 
-    /**
-     * 开始加载更多
-     */
-    @Override
-    public void startLoadMore() {
-        isLoadingMore = true;
-    }
-
-    /**
-     * 结束加载更多
-     */
-    @Override
-    public void endLoadMore() {
-        isLoadingMore = false;
-    }
-
-    @Override
-    public RxPermissions getRxPermissions() {
-        return mRxPermissions;
-    }
 
 
 
@@ -169,6 +155,181 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_frist: // 首页
+                clickTab1Layout();
 
+                break;
+            case R.id.rl_find: // 找药
+
+                clickTab2Layout();
+
+                break;
+            case R.id.rl_car: // 购物车
+
+                clickTab3Layout();
+
+                break;
+            case R.id.rl_me: // 我的
+
+                clickTab4Layout();
+
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * 初始化底部标签
+     */
+    public void initTab() {
+        if (fristFragment == null) {
+            fristFragment=FristFragment.getInstance();
+        }
+
+        if (!fristFragment.isAdded()) {
+            // 提交事务
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_layout, fristFragment).commit();
+
+            // 记录当前Fragment
+            currentFragment = fristFragment;
+            // 设置图片文本的变化
+//            im_frist.setImageResource(R.drawable.btn_know_pre);
+//            tv_frist.setTextColor(getResources()
+//                    .getColor(R.color.bottomtab_press));
+//            im_find.setImageResource(R.drawable.btn_wantknow_nor);
+//            tv_find.setTextColor(getResources().getColor(
+//                    R.color.bottomtab_normal));
+//            im_car.setImageResource(R.drawable.btn_my_nor);
+//            tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+//            im_me.setImageResource(R.drawable.btn_my_nor);
+//            tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+        }
+
+    }
+    /**
+     * 点击第一个tab
+     */
+    private void clickTab1Layout() {
+        if (fristFragment == null) {
+            fristFragment =  FristFragment.getInstance();
+        }
+        addOrShowFragment(getSupportFragmentManager().beginTransaction(), fristFragment);
+
+        // 设置底部tab变化
+
+//        im_frist.setImageResource(R.drawable.btn_know_pre);
+//        tv_frist.setTextColor(getResources()
+//                .getColor(R.color.bottomtab_press));
+//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
+//        tv_find.setTextColor(getResources().getColor(
+//                R.color.bottomtab_normal));
+//        im_car.setImageResource(R.drawable.btn_my_nor);
+//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+//        im_me.setImageResource(R.drawable.btn_my_nor);
+//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+    }
+
+    /**
+     * 点击第二个tab
+     */
+    private void clickTab2Layout() {
+        if (findFragment == null) {
+            findFragment =FindFragment.getInstance();
+        }
+        addOrShowFragment(getSupportFragmentManager().beginTransaction(), findFragment);
+
+//        im_frist.setImageResource(R.drawable.btn_know_pre);
+//        tv_frist.setTextColor(getResources()
+//                .getColor(R.color.bottomtab_press));
+//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
+//        tv_find.setTextColor(getResources().getColor(
+//                R.color.bottomtab_normal));
+//        im_car.setImageResource(R.drawable.btn_my_nor);
+//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+//        im_me.setImageResource(R.drawable.btn_my_nor);
+//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+
+    }
+
+    /**
+     * 点击第三个tab
+     */
+    private void clickTab3Layout() {
+        if (carFragment == null) {
+            carFragment = CarFragment.getInstance();
+        }
+
+        addOrShowFragment(getSupportFragmentManager().beginTransaction(), carFragment);
+//        im_frist.setImageResource(R.drawable.btn_know_pre);
+//        tv_frist.setTextColor(getResources()
+//                .getColor(R.color.bottomtab_press));
+//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
+//        tv_find.setTextColor(getResources().getColor(
+//                R.color.bottomtab_normal));
+//        im_car.setImageResource(R.drawable.btn_my_nor);
+//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+//        im_me.setImageResource(R.drawable.btn_my_nor);
+//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+
+    }
+    /**
+     * 点击第四个tab
+     */
+    private void clickTab4Layout() {
+        if (meFragment == null) {
+            meFragment = MeFragment.getInstance();
+        }
+
+        addOrShowFragment(getSupportFragmentManager().beginTransaction(), meFragment);
+//        im_frist.setImageResource(R.drawable.btn_know_pre);
+//        tv_frist.setTextColor(getResources()
+//                .getColor(R.color.bottomtab_press));
+//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
+//        tv_find.setTextColor(getResources().getColor(
+//                R.color.bottomtab_normal));
+//        im_car.setImageResource(R.drawable.btn_my_nor);
+//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+//        im_me.setImageResource(R.drawable.btn_my_nor);
+//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+
+    }
+
+    /**
+     * 添加或者显示碎片
+     *
+     * @param transaction
+     * @param fragment
+     */
+    private void addOrShowFragment(FragmentTransaction transaction,
+                                   WEFragment fragment) {
+        if (currentFragment == fragment)
+            return;
+
+        if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
+            transaction.hide(currentFragment)
+                    .add(R.id.content_layout, fragment).commit();
+        } else {
+            transaction.hide(currentFragment).show(fragment).commit();
+        }
+
+        currentFragment = fragment;
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(currentFragment instanceof FristFragment){
+            FristFragment.OnKeyDown(keyCode, event);
+        }else if(currentFragment instanceof FindFragment){
+            FindFragment.OnKeyDown(keyCode, event);
+        }else if(currentFragment instanceof CarFragment){
+            CarFragment.OnKeyDown(keyCode, event);
+        }else{
+            MeFragment.OnKeyDown(keyCode, event);
+        }
+
+        //    Toast.makeText(MainActivity.this,"不能返回",Toast.LENGTH_SHORT).show();
+        return false;
     }
 }

@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.UserActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
