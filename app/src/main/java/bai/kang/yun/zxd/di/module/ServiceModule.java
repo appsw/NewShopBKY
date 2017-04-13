@@ -3,7 +3,9 @@ package bai.kang.yun.zxd.di.module;
 
 import javax.inject.Singleton;
 
+import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
+import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
 import dagger.Provides;
@@ -27,4 +29,14 @@ public class ServiceModule {
         return retrofit.create(UserService.class);
     }
 
+    @Singleton
+    @Provides
+    BannerService provideBannersService(Retrofit retrofit) {
+        return retrofit.create(BannerService.class);
+    }
+    @Singleton
+    @Provides
+    GoodsListService provideGoodsListService(Retrofit retrofit) {
+        return retrofit.create(GoodsListService.class);
+    }
 }

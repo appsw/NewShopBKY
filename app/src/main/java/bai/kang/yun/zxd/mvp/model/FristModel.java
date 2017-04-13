@@ -24,15 +24,13 @@ public class FristModel extends BaseModel<ServiceManager, CacheManager> implemen
     }
 
     @Override
-    public Observable<Object> getBannerUrl() {
-        Observable<Map<String,String>> banner = mServiceManager.getBannerService().getBannerUrl();
+    public Observable<Map<String, String>> getBannerUrl() {
+        Observable<Map<String,String>> banner = mServiceManager.getBannerService().getBannerUrl(1);
         return mCacheManager.getCommonCache()
-                .getBannres(banner
-                        ,null
-                        , null)
-                .flatMap(new Func1<Reply<Map<String, String>>, Observable<?>>() {
+                .getBannres(banner)
+                .flatMap(new Func1<Reply<Map<String, String>>, Observable<Map<String, String>>>() {
                     @Override
-                    public Observable<?> call(Reply<Map<String, String>> mapReply) {
+                    public Observable<Map<String, String>> call(Reply<Map<String, String>> mapReply) {
                         return Observable.just(mapReply.getData());
                     }
                 });
