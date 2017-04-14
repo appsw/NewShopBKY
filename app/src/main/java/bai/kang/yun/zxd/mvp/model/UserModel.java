@@ -8,12 +8,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.UserContract;
+import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
+import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.User;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
-import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
-import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import rx.Observable;
 import rx.functions.Func1;
 

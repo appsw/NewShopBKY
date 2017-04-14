@@ -24,6 +24,13 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.LoginActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.RegisterActivity">
+
+        </activity>
+
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

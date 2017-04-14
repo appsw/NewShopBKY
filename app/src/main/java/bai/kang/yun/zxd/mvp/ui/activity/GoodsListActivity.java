@@ -71,7 +71,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
     @Override
     protected void initData() {
-
+            mPresenter.requestUsers(true);
     }
 
 

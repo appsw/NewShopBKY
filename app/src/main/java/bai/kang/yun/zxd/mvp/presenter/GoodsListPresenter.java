@@ -6,6 +6,9 @@ import com.jess.arms.base.AppManager;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.LogUtils;
+import com.jess.arms.utils.PermissionUtil;
+import com.jess.arms.utils.RxUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
@@ -17,6 +20,12 @@ import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -59,13 +68,8 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
 
     public void requestUsers(final boolean pullToRefresh) {
 
-for (int i=0;i<3;i++){
-    Goods goods=new Goods();
-    goods.setName(""+i);
-    GoodsList.add(goods);
-}
-mAdapter.notifyDataSetChanged();
-        /*//请求外部存储权限用于适配android6.0的权限管理机制
+        LogUtils.debugInfo("000");
+        //请求外部存储权限用于适配android6.0的权限管理机制
         PermissionUtil.externalStorage(() -> {
             //request permission success, do something.
         }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
@@ -80,12 +84,13 @@ mAdapter.notifyDataSetChanged();
             isEvictCache = false;
         }
 
-        mModel.getGoodslist(123,isEvictCache)
-                .subscribeOn(Schedulers.io())
+//           mModel.getGoodslist(123,isEvictCache)
+        getGoodsList()
+        .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {
                     if (pullToRefresh)
-                        mRootView.showLoading();//显示上拉刷新的进度条
+                        mRootView.showLoading();//显mRootView.showLoadi示上拉刷新的进度条
                     else
                         mRootView.startLoadMore();//显示下拉加载更多的进度条
                 }).subscribeOn(AndroidSchedulers.mainThread())
@@ -101,16 +106,17 @@ mAdapter.notifyDataSetChanged();
                         new ErrorHandleSubscriber<List<Goods>>(mErrorHandler) {
                     @Override
                     public void onNext(List<Goods> users) {
-
+                        LogUtils.debugInfo("1111");
                         if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
                         preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
                         GoodsList.addAll(users);
-                        if (pullToRefresh)
-                            mAdapter.notifyDataSetChanged();
+                        if (pullToRefresh){
+                            LogUtils.debugInfo("222");
+                            mAdapter.notifyDataSetChanged();}
                         else
                             mAdapter.notifyItemRangeInserted(preEndIndex, users.size());
                     }
-                });*/
+                });
     }
 
 
@@ -121,6 +127,25 @@ mAdapter.notifyDataSetChanged();
         this.mAppManager = null;
         this.mImageLoader = null;
         this.mApplication = null;
+    }
+    public Observable<List<Goods>> getGoodsList(){
+
+
+        return Observable.create(new Observable.OnSubscribe<List<Goods>>() {
+            @Override
+            public void call(Subscriber<? super List<Goods>> subscriber) {
+                //Emit Data
+                List<Goods> goodses=new ArrayList();
+                for (int i=0;i<3;i++){
+                    Goods goods=new Goods();
+                    goods.setName(""+i);
+                    goods.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
+                    goodses.add(goods);
+                    subscriber.onNext(goodses);
+                }
+                subscriber.onCompleted();
+            }
+        });
     }
 
 }
