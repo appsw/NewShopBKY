@@ -5,12 +5,11 @@ import android.app.Application;
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import javax.inject.Inject;
 
-import bai.kang.yun.zxd.mvp.contract.RegisterContract;
+import bai.kang.yun.zxd.mvp.contract.DetailContract;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 
@@ -25,23 +24,18 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 
 /**
- * Created by Administrator on 2017/4/14 0014.
+ * Created by Administrator on 2017/4/15 0015.
  */
 
 @ActivityScope
-public class RegisterPresenter extends BasePresenter<RegisterContract.Model, RegisterContract.View> {
+public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailContract.View> {
     private RxErrorHandler mErrorHandler;
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
 
-    private String name;
-    private String email;
-    private String pswd;
-    private String rpswd;
-    private String verification;
     @Inject
-    public RegisterPresenter(RegisterContract.Model model, RegisterContract.View rootView
+    public DetailPresenter(DetailContract.Model model, DetailContract.View rootView
             , RxErrorHandler handler, Application application
             , ImageLoader imageLoader, AppManager appManager) {
         super(model, rootView);
@@ -50,28 +44,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.Model, Reg
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
     }
-    public void register(){
-        name=mRootView.getName();
-        pswd=mRootView.getPsw();
-        rpswd=mRootView.getRPsw();
-        email=mRootView.getEmail();
-        verification=mRootView.getVerification();
-        if(name.isEmpty()){
-            UiUtils.makeText("请输入用户名");
-        }else if(pswd.isEmpty()){
-            UiUtils.makeText("请输入密码");
-        }else if(rpswd.isEmpty()){
-            UiUtils.makeText("请输入确认密码");
-        }else if(rpswd.equals(pswd)){
-            UiUtils.makeText("两次密码输入不同");
-        }else if(email.isEmpty()){
-            UiUtils.makeText("请输入邮箱");
-        }else if(verification.isEmpty()){
-            UiUtils.makeText("请输入验证码");
-        }else {
-            UiUtils.makeText("ok");
-        }
-    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

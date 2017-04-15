@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 
 import com.jess.arms.utils.UiUtils;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.di.component.DaggerRegisterComponent;
-import bai.kang.yun.zxd.di.module.RegisterModule;
-import bai.kang.yun.zxd.mvp.contract.RegisterContract;
-import bai.kang.yun.zxd.mvp.presenter.RegisterPresenter;
-import butterknife.BindView;
-import butterknife.OnClick;
+import bai.kang.yun.zxd.di.component.DaggerDetailComponent;
+import bai.kang.yun.zxd.di.module.DetailModule;
+import bai.kang.yun.zxd.mvp.contract.DetailContract;
+import bai.kang.yun.zxd.mvp.presenter.DetailPresenter;
 import common.AppComponent;
 import common.WEActivity;
 
@@ -30,36 +27,25 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 
 /**
- * Created by Administrator on 2017/4/14 0014.
+ * Created by Administrator on 2017/4/15 0015.
  */
 
-public class RegisterActivity extends WEActivity<RegisterPresenter> implements RegisterContract.View {
+public class DetailActivity extends WEActivity<DetailPresenter> implements DetailContract.View {
 
-
-    @BindView(R.id.register_name)
-    EditText name;
-    @BindView(R.id.register_email)
-    EditText email;
-    @BindView(R.id.register_password1)
-    EditText pswd;
-    @BindView(R.id.register_password2)
-    EditText rpswd;
-    @BindView(R.id.et_yzm)
-    EditText verification;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerRegisterComponent
+        DaggerDetailComponent
                 .builder()
                 .appComponent(appComponent)
-                .registerModule(new RegisterModule(this)) //请将RegisterModule()第一个首字母改为小写
+                .detailModule(new DetailModule(this)) //请将DetailModule()第一个首字母改为小写
                 .build()
                 .inject(this);
     }
 
     @Override
     protected View initView() {
-        return LayoutInflater.from(this).inflate(R.layout.activity_register, null, false);
+        return LayoutInflater.from(this).inflate(R.layout.activity_detailed, null, false);
     }
 
     @Override
@@ -96,32 +82,4 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
     }
 
 
-    @Override
-    public String getName() {
-        return name.getText().toString();
-    }
-
-    @Override
-    public String getPsw() {
-        return pswd.getText().toString();
-    }
-
-    @Override
-    public String getRPsw() {
-        return rpswd.getText().toString();
-    }
-
-    @Override
-    public String getEmail() {
-        return email.getText().toString();
-    }
-
-    @Override
-    public String getVerification() {
-        return verification.getText().toString();
-    }
-    @OnClick(R.id.register_register)
-    void register(){
-        mPresenter.register();
-    }
 }

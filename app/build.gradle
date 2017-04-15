@@ -61,12 +61,16 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     compile rootProject.ext.dependencies["paginate"]
     //arms
-//    compile project(':arms')
+    //    compile project(':arms')
     compile 'me.jessyan:arms:1.2.5'
     //test
     testCompile rootProject.ext.dependencies["junit"]
     debugCompile rootProject.ext.dependencies["canary-debug"]
     releaseCompile rootProject.ext.dependencies["canary-release"]
     testCompile rootProject.ext.dependencies["canary-release"]
-    compile 'com.jude:rollviewpager:1.2.9'//轮播
+    compile 'com.jude:rollviewpager:1.2.9'
+    //轮播
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    //友盟
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

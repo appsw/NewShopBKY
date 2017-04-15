@@ -16,9 +16,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/ImageTranslucentTheme">
 
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.UserActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.DetailActivity">
 
         </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity">
@@ -51,7 +54,9 @@
         <meta-data
             android:name="com.jess.arms.widget.imageloader.glide.GlideConfiguration"
             android:value="GlideModule"/>
-
+        <!--友盟-->
+        <meta-data android:value="58f1d7fa1061d23c69001718" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

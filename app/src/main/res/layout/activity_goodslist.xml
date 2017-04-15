@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/green"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
@@ -84,6 +86,7 @@
         android:background="#DCDCDC"></View>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/goodslist_swipeRefreshLayout"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="15px"

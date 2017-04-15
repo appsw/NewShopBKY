@@ -5,6 +5,7 @@ import android.app.Application;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.base.AppManager;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import javax.inject.Inject;
@@ -48,7 +49,15 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     public void Login(){
         name=mRootView.getName();
         psw=mRootView.getPsw();
+        if(name.isEmpty()){
+            UiUtils.makeText("请输入用户名");
+        }else if(psw.isEmpty()){
+            UiUtils.makeText("请输入密码");
+        }else {
+            UiUtils.makeText("ok");
+        }
     }
+
 
     @Override
     public void onDestroy() {

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/green"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+    <FrameLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="60dp" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:background="#000000" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/green" />
+
+        <ImageView
+            android:id="@+id/register_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/android_list_idex_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="商品详情"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+        <bai.kang.yun.zxd.app.utils.ScrollViewContainer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <bai.kang.yun.zxd.app.utils.PullPushLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <RelativeLayout
+                        android:id="@+id/rl_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="960px" >
+                        <com.jude.rollviewpager.RollPagerView
+                            android:layout_width="match_parent"
+                            android:layout_height="960px"
+                            android:id="@+id/rollViewpager"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="900px"
+                        android:layout_below="@id/rl_top"
+                        android:background="#FFFFFF"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="辅导费雷克萨德积分了"
+                            android:textSize="25sp"
+                            android:maxLength="35"
+                            android:textColor="@color/black"
+                            android:padding="15dp"
+                            android:id="@+id/textView" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="￥"
+                            android:textSize="30sp"
+                            android:textColor="@color/darkred"
+                            android:layout_below="@+id/textView"
+                            android:id="@+id/textView6" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="51dp"
+                            android:layout_below="@+id/textView"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:id="@+id/linearLayout"
+                            android:paddingTop="15dp">
+                            <Button
+                                android:id="@+id/btn_reduce"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textSize="25sp"
+                                android:background="@color/white"/>
+                            <EditText
+                                android:id="@+id/et_num"
+                                android:layout_width="80dp"
+                                android:gravity="center"
+                                android:maxLength="6"
+                                android:text="1"
+                                android:digits="1234567890"
+                                android:textSize="15sp"
+                                android:layout_height="wrap_content" />
+                            <Button
+                                android:id="@+id/btn_add"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:text="+"
+                                android:textSize="25sp"
+                                android:background="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="商品总价："
+                                android:textSize="15sp"
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="80dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="￥"
+                                android:textColor="@color/darkred"
+                                android:textSize="15sp"/>
+                            <TextView
+                                android:id="@+id/tv_sum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20"
+                                android:textColor="@color/darkred"
+                                android:textSize="15sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/gd_kx"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:padding="10dp"
+                            android:paddingTop="30dp"
+                            android:orientation="horizontal"
+                            android:id="@+id/relativeLayout">
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent">
+                                <Button
+                                    android:id="@+id/btn_jiaru"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/darkred"
+                                    android:text="加入购物车"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:padding="10dp"
+                                    android:layout_marginRight="50dp"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:gravity="right">
+                                <Button
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/darkred"
+                                    android:text="立即购买"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:padding="10dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:id="@+id/btn_mai"
+                                    android:layout_marginLeft="50dp"
+                                    />
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="继续拖动查看图文详情>>"
+                            android:textColor="@color/darkred"
+                            android:textSize="15sp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:id="@+id/textView3"
+                            android:layout_alignParentBottom="true"/>
+
+                        <GridView
+                            android:id="@+id/gd_kx"
+                            android:horizontalSpacing="1dp"
+                            android:verticalSpacing="2dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linearLayout"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:stretchMode="columnWidth"
+                            android:numColumns="4"
+                            >
+
+                        </GridView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="459.00"
+                            android:textSize="30sp"
+                            android:textColor="@color/darkred"
+                            android:id="@+id/textView2"
+                            android:layout_alignBaseline="@+id/textView6"
+                            android:layout_alignBottom="@+id/textView6"
+                            android:layout_toRightOf="@+id/textView6"
+                            android:layout_toEndOf="@+id/textView6" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </bai.kang.yun.zxd.app.utils.PullPushLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000" >
+                <WebView
+                    android:id="@+id/xq_webview"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </ScrollView>
+        </bai.kang.yun.zxd.app.utils.ScrollViewContainer>
+    </LinearLayout>
+</LinearLayout>
