@@ -236,7 +236,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
      */
     private void clickTab2Layout() {
         if (findFragment == null) {
-            findFragment =FindFragment.getInstance();
+            findFragment = FindFragment.newInstance();
         }
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), findFragment);
 

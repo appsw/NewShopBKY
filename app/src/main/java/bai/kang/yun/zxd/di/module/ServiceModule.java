@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
+import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
@@ -38,5 +39,10 @@ public class ServiceModule {
     @Provides
     GoodsListService provideGoodsListService(Retrofit retrofit) {
         return retrofit.create(GoodsListService.class);
+    }
+    @Singleton
+    @Provides
+    GoodsGridService provideGoodsGridService(Retrofit retrofit) {
+        return retrofit.create(GoodsGridService.class);
     }
 }
