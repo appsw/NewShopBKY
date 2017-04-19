@@ -2,13 +2,14 @@ package bai.kang.yun.zxd.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.utils.UiUtils;
@@ -42,8 +43,8 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
 
     @BindView(R.id.find_list)
     RecyclerView list;
-    @BindView(R.id.find_grid)
-    RecyclerView grid;
+    @BindView(R.id.find_category_grid_list)
+    ListView grid;
 
     public static FindFragment newInstance() {
         FindFragment fragment = new FindFragment();
@@ -68,6 +69,7 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
     @Override
     protected void initData() {
         mPresenter.getCategorylist();
+        mPresenter.setRight(1);
     }
 
     /**
@@ -120,9 +122,15 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
     }
 
     @Override
-    public void setAdapter(DefaultAdapter listadapter,DefaultAdapter gridadapter) {
+    public void setAdapter(DefaultAdapter listadapter,BaseAdapter gridadapter) {
         list.setAdapter(listadapter);
         grid.setAdapter(gridadapter);
+        listadapter.setOnItemClickListener(new DefaultAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int viewType, Object data, int position) {
+
+            }
+        });
         initRecycleView();
     }
     /**
@@ -130,7 +138,7 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
      */
     private void initRecycleView() {
         UiUtils.configRecycleView(list, new LinearLayoutManager(getActivity()));
-        UiUtils.configRecycleView(grid, new GridLayoutManager(getActivity(), 3));
     }
+
 
 }

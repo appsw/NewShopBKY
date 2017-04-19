@@ -1,7 +1,6 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
@@ -16,7 +15,7 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.FindContract;
 import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
-import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryGridAdapter;
+import bai.kang.yun.zxd.mvp.ui.adapter.FristListAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -49,7 +48,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
     private AppManager mAppManager;
     private List<SPCategory> lists= new ArrayList();;
     private List<SPCategory> grids= new ArrayList();;
-    GoodsCategoryGridAdapter goodsCategoryGridAdapter;
+    FristListAdapter goodsCategoryGridAdapter;
     GoodsCategoryListAdapter goodsCategoryListAdapter;
     @Inject
     public FindPresenter(FindContract.Model model, FindContract.View rootView
@@ -60,7 +59,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
-        goodsCategoryGridAdapter=new GoodsCategoryGridAdapter(grids);
+        goodsCategoryGridAdapter=new FristListAdapter(mApplication,grids);
         goodsCategoryListAdapter=new GoodsCategoryListAdapter(lists);
         mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
     }
@@ -74,10 +73,32 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
                         new ErrorHandleSubscriber<List<SPCategory>>(mErrorHandler) {
                             @Override
                             public void onNext(List<SPCategory> goods) {
-                                Log.e("1111","1111");
                                 lists.addAll(goods);
                                 goodsCategoryListAdapter.notifyDataSetChanged();}
                         });
+    }
+    public void setRight(int id){
+        getGoodsList()
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<List<SPCategory>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<List<SPCategory>>(mErrorHandler) {
+                            @Override
+                            public void onNext(List<SPCategory> goods) {
+                                grids.addAll(goods);
+//                                GoodsCategoryGridAdapter.notifyDataSetChanged();
+                                goodsCategoryGridAdapter=new FristListAdapter(mApplication,grids);
+                                mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
+                            }
+                        });
+
+    }
+    public SPCategory getRightCategory(int id){
+        SPCategory spCategory=new SPCategory();
+
+        return spCategory;
     }
 
     @Override
@@ -94,14 +115,13 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
             public void call(Subscriber<? super List<SPCategory>> subscriber) {
                 //Emit Data
                 List<SPCategory> goodses=new ArrayList();
-                Log.e("000","000");
                 for (int i=0;i<=10;i++){
-                    Log.e("i"," "+i);
                     SPCategory goods=new SPCategory();
                     goods.setName(""+i);
+                    goods.setImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
+                    goods.setSubCategory(goodses);
                     goodses.add(goods);
                 }
-                Log.e("222","222");
                 subscriber.onNext(goodses);
                 subscriber.onCompleted();
             }

@@ -5,9 +5,17 @@
     android:layout_height="wrap_content">
 <TextView
     android:id="@+id/find_textview"
-    android:gravity="center"
+    android:layout_marginLeft="3dp"
     android:textSize="25sp"
+    android:textColor="@color/black"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="非处方药"/>
+    <bai.kang.yun.zxd.app.utils.MyGridView
+        android:id="@+id/find_category_grid"
+        android:numColumns="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </bai.kang.yun.zxd.app.utils.MyGridView>
 </LinearLayout>
