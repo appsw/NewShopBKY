@@ -89,7 +89,6 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
                 .mainModule(new MainModule(this))
                 .build()
                 .inject(this);
-
     }
 
     @Override
@@ -194,17 +193,17 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
             // 记录当前Fragment
             currentFragment = fristFragment;
-            // 设置图片文本的变化
-//            im_frist.setImageResource(R.drawable.btn_know_pre);
-//            tv_frist.setTextColor(getResources()
-//                    .getColor(R.color.bottomtab_press));
-//            im_find.setImageResource(R.drawable.btn_wantknow_nor);
-//            tv_find.setTextColor(getResources().getColor(
-//                    R.color.bottomtab_normal));
-//            im_car.setImageResource(R.drawable.btn_my_nor);
-//            tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
-//            im_me.setImageResource(R.drawable.btn_my_nor);
-//            tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+             //设置图片文本的变化
+            im_frist.setImageResource(R.mipmap.frists);
+            tv_frist.setTextColor(getResources()
+                    .getColor(R.color.btn_after));
+            im_find.setImageResource(R.mipmap.find);
+            tv_find.setTextColor(getResources().getColor(
+                    R.color.btn_befor));
+            im_car.setImageResource(R.mipmap.car);
+            tv_car.setTextColor(getResources().getColor(R.color.btn_befor));
+            im_me.setImageResource(R.mipmap.me);
+            tv_me.setTextColor(getResources().getColor(R.color.btn_befor));
         }
 
     }
@@ -217,18 +216,17 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         }
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), fristFragment);
 
-        // 设置底部tab变化
-
-//        im_frist.setImageResource(R.drawable.btn_know_pre);
-//        tv_frist.setTextColor(getResources()
-//                .getColor(R.color.bottomtab_press));
-//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
-//        tv_find.setTextColor(getResources().getColor(
-//                R.color.bottomtab_normal));
-//        im_car.setImageResource(R.drawable.btn_my_nor);
-//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
-//        im_me.setImageResource(R.drawable.btn_my_nor);
-//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+        //设置图片文本的变化
+        im_frist.setImageResource(R.mipmap.frists);
+        tv_frist.setTextColor(getResources()
+                .getColor(R.color.btn_after));
+        im_find.setImageResource(R.mipmap.find);
+        tv_find.setTextColor(getResources().getColor(
+                R.color.btn_befor));
+        im_car.setImageResource(R.mipmap.car);
+        tv_car.setTextColor(getResources().getColor(R.color.btn_befor));
+        im_me.setImageResource(R.mipmap.me);
+        tv_me.setTextColor(getResources().getColor(R.color.btn_befor));
     }
 
     /**
@@ -240,16 +238,17 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         }
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), findFragment);
 
-//        im_frist.setImageResource(R.drawable.btn_know_pre);
-//        tv_frist.setTextColor(getResources()
-//                .getColor(R.color.bottomtab_press));
-//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
-//        tv_find.setTextColor(getResources().getColor(
-//                R.color.bottomtab_normal));
-//        im_car.setImageResource(R.drawable.btn_my_nor);
-//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
-//        im_me.setImageResource(R.drawable.btn_my_nor);
-//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+        //设置图片文本的变化
+        im_frist.setImageResource(R.mipmap.frist);
+        tv_frist.setTextColor(getResources()
+                .getColor(R.color.btn_befor));
+        im_find.setImageResource(R.mipmap.finds);
+        tv_find.setTextColor(getResources().getColor(
+                R.color.btn_after));
+        im_car.setImageResource(R.mipmap.car);
+        tv_car.setTextColor(getResources().getColor(R.color.btn_befor));
+        im_me.setImageResource(R.mipmap.me);
+        tv_me.setTextColor(getResources().getColor(R.color.btn_befor));
 
     }
 
@@ -262,16 +261,17 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         }
 
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), carFragment);
-//        im_frist.setImageResource(R.drawable.btn_know_pre);
-//        tv_frist.setTextColor(getResources()
-//                .getColor(R.color.bottomtab_press));
-//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
-//        tv_find.setTextColor(getResources().getColor(
-//                R.color.bottomtab_normal));
-//        im_car.setImageResource(R.drawable.btn_my_nor);
-//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
-//        im_me.setImageResource(R.drawable.btn_my_nor);
-//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+        //设置图片文本的变化
+        im_frist.setImageResource(R.mipmap.frist);
+        tv_frist.setTextColor(getResources()
+                .getColor(R.color.btn_befor));
+        im_find.setImageResource(R.mipmap.find);
+        tv_find.setTextColor(getResources().getColor(
+                R.color.btn_befor));
+        im_car.setImageResource(R.mipmap.cars);
+        tv_car.setTextColor(getResources().getColor(R.color.btn_after));
+        im_me.setImageResource(R.mipmap.me);
+        tv_me.setTextColor(getResources().getColor(R.color.btn_befor));
 
     }
     /**
@@ -283,16 +283,17 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         }
 
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), meFragment);
-//        im_frist.setImageResource(R.drawable.btn_know_pre);
-//        tv_frist.setTextColor(getResources()
-//                .getColor(R.color.bottomtab_press));
-//        im_find.setImageResource(R.drawable.btn_wantknow_nor);
-//        tv_find.setTextColor(getResources().getColor(
-//                R.color.bottomtab_normal));
-//        im_car.setImageResource(R.drawable.btn_my_nor);
-//        tv_car.setTextColor(getResources().getColor(R.color.bottomtab_normal));
-//        im_me.setImageResource(R.drawable.btn_my_nor);
-//        tv_me.setTextColor(getResources().getColor(R.color.bottomtab_normal));
+        //设置图片文本的变化
+        im_frist.setImageResource(R.mipmap.frist);
+        tv_frist.setTextColor(getResources()
+                .getColor(R.color.btn_befor));
+        im_find.setImageResource(R.mipmap.find);
+        tv_find.setTextColor(getResources().getColor(
+                R.color.btn_befor));
+        im_car.setImageResource(R.mipmap.car);
+        tv_car.setTextColor(getResources().getColor(R.color.btn_befor));
+        im_me.setImageResource(R.mipmap.mes);
+        tv_me.setTextColor(getResources().getColor(R.color.btn_after));
 
     }
 

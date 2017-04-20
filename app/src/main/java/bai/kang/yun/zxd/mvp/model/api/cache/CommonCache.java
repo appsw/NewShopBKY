@@ -18,8 +18,6 @@ import rx.Observable;
  */
 public interface CommonCache {
 
-
-
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Reply<List<User>>> getUsers(Observable<List<User>> oUsers, DynamicKey idLastUserQueried, EvictProvider evictProvider);
     Observable<Reply<Map<String,String>>> getBannres(Observable<Map<String,String>> oBanners);

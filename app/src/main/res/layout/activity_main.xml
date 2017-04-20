@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/green"
+    >
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
-    android:fitsSystemWindows="true">
+    android:background="@color/green">
 
     <RelativeLayout
         android:background="@color/white"
@@ -16,7 +21,7 @@
         <RelativeLayout
             android:id="@+id/top_tab"
             android:layout_width="match_parent"
-            android:layout_height="50dip"
+            android:layout_height="100px"
             android:background="@color/green" >
         <TextView
             android:layout_width="match_parent"
@@ -34,7 +39,7 @@
         <LinearLayout
             android:id="@+id/ll_bottom_tab"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="180px"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -48,10 +53,9 @@
 
                 <ImageView
                     android:id="@+id/iv_frist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
                     android:layout_centerHorizontal="true"
-
                     android:contentDescription="@null"/>
 
                 <TextView
@@ -73,8 +77,8 @@
 
                 <ImageView
                     android:id="@+id/iv_find"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
                     android:layout_centerHorizontal="true"
 
                     android:contentDescription="@null" />
@@ -98,8 +102,8 @@
 
                 <ImageView
                     android:id="@+id/iv_car"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
                     android:layout_centerHorizontal="true"
 
                     android:contentDescription="@null" />
@@ -123,8 +127,8 @@
 
                 <ImageView
                     android:id="@+id/iv_me"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
                     android:layout_centerHorizontal="true"
 
                     android:contentDescription="@null" />
@@ -162,3 +166,4 @@
     </RelativeLayout>
 
 </FrameLayout>
+</RelativeLayout>

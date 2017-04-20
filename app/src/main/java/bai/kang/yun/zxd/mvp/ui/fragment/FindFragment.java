@@ -19,6 +19,8 @@ import bai.kang.yun.zxd.di.component.DaggerFindComponent;
 import bai.kang.yun.zxd.di.module.FindModule;
 import bai.kang.yun.zxd.mvp.contract.FindContract;
 import bai.kang.yun.zxd.mvp.presenter.FindPresenter;
+import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryListAdapter;
+import bai.kang.yun.zxd.mvp.ui.holder.GoodsCategoryListItemHolder;
 import butterknife.BindView;
 import common.AppComponent;
 import common.WEFragment;
@@ -123,12 +125,16 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
 
     @Override
     public void setAdapter(DefaultAdapter listadapter,BaseAdapter gridadapter) {
-        list.setAdapter(listadapter);
+        GoodsCategoryListAdapter goodsCategoryListAdapter= (GoodsCategoryListAdapter) listadapter;
+        list.setAdapter(goodsCategoryListAdapter);
         grid.setAdapter(gridadapter);
+
         listadapter.setOnItemClickListener(new DefaultAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int viewType, Object data, int position) {
-
+                GoodsCategoryListItemHolder.setSelectIndex(position);
+                goodsCategoryListAdapter.notifyDataSetChanged();
+                mPresenter.setRight(position);
             }
         });
         initRecycleView();

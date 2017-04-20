@@ -303,5 +303,15 @@
     <color name="search_toolbar_bg">#ff484B50</color>
     <color name="toast_color">#ff2E76B9</color>
     <color name="login_button">#ff775025</color>
+    <color name="button_fouces_gray">#f6f6f6</color>
+    <color name="button_bg_gray">#dddcdc</color>//按钮背景灰色
+    <color name="sub_title">#848689</color>//副标题文本颜色
+    <!-- 公共颜色属性 -->
+    <color name="bg_activity">#fff0f2f5</color>
+    <color name="bg_view">#ffffffff</color>
+    <color name="bg_header">#fff8f8f8</color>
+<!--底部按钮-->
+    <color name="btn_befor">#707070</color>
+    <color name="btn_after">#26be05</color>
 
 </resources>

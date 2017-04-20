@@ -56,7 +56,7 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
 
         final ViewHolder viewHolder;
         if(convertView==null){
-            convertView = mInflater.inflate(R.layout.item_goodsgrid,null);
+            convertView = mInflater.inflate(R.layout.item_categoergrid,null);
             viewHolder=new ViewHolder();
             viewHolder.imageView= (ImageView) convertView.findViewById(R.id.iv_goods);
             viewHolder.name=(TextView) convertView.findViewById(R.id.tv_name);

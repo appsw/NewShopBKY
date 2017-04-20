@@ -19,14 +19,16 @@ public class GoodsCategoryListAdapter extends DefaultAdapter<SPCategory> {
     public GoodsCategoryListAdapter(List<SPCategory> infos) {
         super(infos);
     }
-
+    GoodsCategoryListItemHolder goodsCategoryListItemHolder;
     @Override
     public BaseHolder<SPCategory> getHolder(View v, int viewType) {
-        return new GoodsCategoryListItemHolder(v);
+        goodsCategoryListItemHolder=new GoodsCategoryListItemHolder(v);
+        return goodsCategoryListItemHolder;
     }
 
     @Override
     public int getLayoutId(int viewType) {
         return R.layout.item_textview;
     }
+
 }
