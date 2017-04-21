@@ -257,7 +257,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
      */
     private void clickTab3Layout() {
         if (carFragment == null) {
-            carFragment = CarFragment.getInstance();
+            carFragment = CarFragment.newInstance();
         }
 
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), carFragment);
@@ -279,7 +279,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
      */
     private void clickTab4Layout() {
         if (meFragment == null) {
-            meFragment = MeFragment.getInstance();
+            meFragment = MeFragment.newInstance();
         }
 
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), meFragment);
