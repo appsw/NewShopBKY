@@ -6,11 +6,17 @@ import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BaseModel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.CarContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
 
 
 /**
@@ -45,4 +51,17 @@ public class CarModel extends BaseModel<ServiceManager, CacheManager> implements
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<List<ShoppingCartBean>> ShoppingCartList(int userid) {
+        Observable<List<ShoppingCartBean>> carlist = mServiceManager.getCarListService().getCarList(userid);
+
+        return mCacheManager.getCommonCache()
+                .getCarList(userid)
+                .flatMap(new Func1<Reply<List<ShoppingCartBean>>, Observable<List<ShoppingCartBean>>>() {
+                    @Override
+                    public Observable<List<ShoppingCartBean>> call(Reply<List<ShoppingCartBean>> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
 }

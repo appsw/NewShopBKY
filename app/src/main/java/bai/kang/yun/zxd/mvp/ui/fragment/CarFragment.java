@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,12 +14,18 @@ import android.widget.TextView;
 
 import com.jess.arms.utils.UiUtils;
 
+import java.util.List;
+
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.DBHelper;
+import bai.kang.yun.zxd.app.utils.OnShoppingCartChangeListener;
+import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
 import bai.kang.yun.zxd.di.component.DaggerCarComponent;
 import bai.kang.yun.zxd.di.module.CarModule;
 import bai.kang.yun.zxd.mvp.contract.CarContract;
+import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.presenter.CarPresenter;
+import bai.kang.yun.zxd.mvp.ui.adapter.MyExpandableListAdapter;
 import butterknife.BindView;
 import common.AppComponent;
 import common.WEFragment;
@@ -46,13 +52,15 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
     @BindView(R.id.ivSelectAll)
     ImageView ivSelectAll;
     @BindView(R.id.btnSettle)
-    Button btnSettle;
+    TextView btnSettle;
     @BindView(R.id.tvCountMoney)
     TextView tvCountMoney;
     @BindView(R.id.rlShoppingCartEmpty)
     RelativeLayout rlShoppingCartEmpty;
     @BindView(R.id.rlBottomBar)
     RelativeLayout rlBottomBar;
+//    @BindView(R.id.tvTitle)
+//    TextView tvTitle;
 
 
     public static CarFragment newInstance() {
@@ -78,6 +86,7 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
     @Override
     protected void initData() {
         DBHelper.init(UiUtils.getContext());
+        mPresenter.requestShoppingCartList(1);
     }
 
     /**
@@ -129,4 +138,69 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
 
     }
 
+    @Override
+    public void setAdapter(BaseExpandableListAdapter adapter1) {
+        MyExpandableListAdapter adapter= (MyExpandableListAdapter) adapter1;
+        expandableListView.setAdapter(adapter);
+        adapter.setOnShoppingCartChangeListener(new OnShoppingCartChangeListener() {
+
+            public void onDataChange(String selectCount, String selectMoney) {
+                int goodsCount = ShoppingCartBiz.getGoodsCount();
+//                if (!isNetworkOk) {//网络状态判断暂时不显示
+//                }
+                if (goodsCount == 0) {
+                    showEmpty(true);
+                } else {
+                    showEmpty(false);//其实不需要做这个判断，因为没有商品的时候，必须退出去添加商品；
+                }
+                String countMoney = String.format(getResources().getString(R.string.count_money), selectMoney);
+                String countGoods = String.format(getResources().getString(R.string.count_goods), selectCount);
+//                String title = String.format(getResources().getString(R.string.shop_title), goodsCount + "");
+                tvCountMoney.setText(countMoney);
+                btnSettle.setText(countGoods);
+//                tvTitle.setText(title);
+            }
+
+
+            public void onSelectItem(boolean isSelectedAll) {
+                ShoppingCartBiz.checkItem(isSelectedAll, ivSelectAll);
+            }
+        });
+        //通过监听器关联Activity和Adapter的关系，解耦；
+        View.OnClickListener listener = adapter.getAdapterListener();
+        if (listener != null) {
+            //即使换了一个新的Adapter，也要将“全选事件”传递给adapter处理；
+            ivSelectAll.setOnClickListener(adapter.getAdapterListener());
+            //结算时，一般是需要将数据传给订单界面的
+            btnSettle.setOnClickListener(adapter.getAdapterListener());
+        }
+        expandableListView.setGroupIndicator(null);
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                return true;
+            }
+        });
+    }
+    /**
+     * 展开所有组
+     */
+    @Override
+    public void expandAllGroup(List<ShoppingCartBean> mListGoods) {
+        for (int i = 0; i < mListGoods.size(); i++) {
+            expandableListView.expandGroup(i);
+        }
+    }
+
+    public void showEmpty(boolean isEmpty) {
+        if (isEmpty) {
+            expandableListView.setVisibility(View.GONE);
+            rlShoppingCartEmpty.setVisibility(View.VISIBLE);
+            rlBottomBar.setVisibility(View.GONE);
+        } else {
+            expandableListView.setVisibility(View.VISIBLE);
+            rlShoppingCartEmpty.setVisibility(View.GONE);
+            rlBottomBar.setVisibility(View.VISIBLE);
+        }
+    }
 }
