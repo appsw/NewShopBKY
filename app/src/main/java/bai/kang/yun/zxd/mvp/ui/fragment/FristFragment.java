@@ -33,8 +33,10 @@ import bai.kang.yun.zxd.di.module.FristModule;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
 import bai.kang.yun.zxd.mvp.presenter.FristPresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.SearchActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.RollViewpagerAdapter;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEApplication;
 import common.WEFragment;
@@ -197,5 +199,10 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
                 .imageView(ggw_im3)
                 .build());
 
+    }
+    @OnClick(R.id.ss)
+    void ss(){
+        Intent intent=new Intent(mApplication, SearchActivity.class);
+        UiUtils.startActivity(intent);
     }
 }

@@ -7,6 +7,23 @@
     android:layout_height="478dip"
     android:background="@color/bg_activity"
     android:orientation="vertical" >
+    <!-- 顶部 -->
+
+    <RelativeLayout
+        android:id="@+id/top_tab"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:background="@color/green" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="个人资料"
+            android:gravity="center"
+            android:textColor="@color/floralwhite"
+            android:textSize="20sp"/>
+
+
+    </RelativeLayout>
 
     <!-- 头像, 用户名称等信息 -->
     <include layout="@layout/person_head_slice"

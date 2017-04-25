@@ -24,6 +24,9 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.DetailActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.SearchActivity">
+
+        </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity">
 
         </activity>
