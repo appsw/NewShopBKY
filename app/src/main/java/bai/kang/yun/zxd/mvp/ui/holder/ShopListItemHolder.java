@@ -15,8 +15,8 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
-import bai.kang.yun.zxd.mvp.ui.activity.ShopListActivity;
+import bai.kang.yun.zxd.mvp.model.entity.Shop;
+import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.WEApplication;
@@ -26,7 +26,7 @@ import rx.Observable;
  * Created by Administrator on 2017/4/13 0013.
  */
 
-public class GoodsListItemHolder extends BaseHolder<Goods> {
+public class ShopListItemHolder extends BaseHolder<Shop> {
     @Nullable
     @BindView(R.id.item_im)
     ImageView im;
@@ -34,19 +34,19 @@ public class GoodsListItemHolder extends BaseHolder<Goods> {
     @BindView(R.id.item_name)
     TextView name;
     @Nullable
-    @BindView(R.id.item_abstract)
-    TextView abst;
+    @BindView(R.id.item_add)
+    TextView add;
     @Nullable
     @BindView(R.id.item_jg)
     TextView price;
     @Nullable
-    @BindView(R.id.item_seleing)
-    TextView seleing;
+    @BindView(R.id.item_probability)
+    TextView probability;
     @BindView(R.id.item_ll)
     LinearLayout ll;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
-    public GoodsListItemHolder(View itemView) {
+    public ShopListItemHolder(View itemView) {
         super(itemView);
         //可以在任何可以拿到Application的地方,拿到AppComponent,从而得到用Dagger管理的单例对象
         mApplication = (WEApplication) itemView.getContext().getApplicationContext();
@@ -54,25 +54,25 @@ public class GoodsListItemHolder extends BaseHolder<Goods> {
     }
 
     @Override
-    public void setData(Goods data, int position) {
+    public void setData(Shop data, int position) {
         Observable.just(data.getName())
                 .subscribe(RxTextView.text(name));
-        Observable.just(data.getAbstract())
-                .subscribe(RxTextView.text(abst));
-        Observable.just(data.getPrice()+"")
+        Observable.just(data.getAdd())
+                .subscribe(RxTextView.text(add));
+        Observable.just(data.getGoods_Price()+"")
                 .subscribe(RxTextView.text(price));
-        Observable.just(data.getSeleing()+"")
-                .subscribe(RxTextView.text(seleing));
+        Observable.just(data.getProbability()+"")
+                .subscribe(RxTextView.text(probability));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(data.getImageUrl())
+                .url(data.getImgUrl())
                 .imageView(im)
                 .build());
     }
     @OnClick(R.id.item_ll)
     void onclick(){
-        Intent intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
+        Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
         UiUtils.startActivity(intent);
     }
 
