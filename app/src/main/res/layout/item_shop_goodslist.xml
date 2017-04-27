@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jess.arms.widget.autolayout.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+    <LinearLayout
+        android:id="@+id/item_ll"
+        android:layout_width="match_parent"
+        android:layout_height="320px">
+        <ImageView
+            android:id="@+id/item_im"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@mipmap/ic_launcher"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快克快克快克快克快克快克快克快克快克快克快克快克"
+                android:layout_marginTop="5dp"
+                android:textColor="#000"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/item_abstract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="国字健字G20100800"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/item_jg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥59.0"
+                    android:textSize="18sp"
+                    android:textColor="@color/darkred"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</com.jess.arms.widget.autolayout.AutoCardView>

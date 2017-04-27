@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:name="common.WEApplication"
         android:allowBackup="true"
@@ -22,6 +22,9 @@
 
         </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.DetailActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.ShopDetailActivity">
 
         </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.ShopListActivity">

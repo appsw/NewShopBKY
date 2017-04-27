@@ -1,13 +1,13 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.LogUtils;
-import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
@@ -16,9 +16,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
+import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
-import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
+import bai.kang.yun.zxd.mvp.model.entity.Shop;
+import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListForShopAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -26,6 +27,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.jess.arms.utils.UiUtils.startActivity;
 
 
 /**
@@ -39,22 +42,20 @@ import rx.schedulers.Schedulers;
 
 
 /**
- * Created by Administrator on 2017/4/13 0013.
+ * Created by Administrator on 2017/4/27 0027.
  */
 
 @ActivityScope
-public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, GoodsListContract.View> {
+public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model, ShopDetailContract.View> {
     private RxErrorHandler mErrorHandler;
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     private List<Goods> GoodsList = new ArrayList<>();
     private DefaultAdapter mAdapter;
-    private boolean isFirst = true;
-    private int preEndIndex;
 
     @Inject
-    public GoodsListPresenter(GoodsListContract.Model model, GoodsListContract.View rootView
+    public ShopDetailPresenter(ShopDetailContract.Model model, ShopDetailContract.View rootView
             , RxErrorHandler handler, Application application
             , ImageLoader imageLoader, AppManager appManager) {
         super(model, rootView);
@@ -62,62 +63,43 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
-        mAdapter = new GoodsListAdapter(GoodsList);
-        mRootView.setAdapter(mAdapter);//设置Adapter
+        mAdapter=new GoodsListForShopAdapter(GoodsList);
+        mRootView.setAdapter(mAdapter);
     }
-
-    public void requestUsers(final boolean pullToRefresh) {
-
-        //请求外部存储权限用于适配android6.0的权限管理机制
-        PermissionUtil.externalStorage(() -> {
-            //request permission success, do something.
-        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
-
-
-        //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
-
-        boolean isEvictCache = pullToRefresh;//是否驱逐缓存,为ture即不使用缓存,每次上拉刷新即需要最新数据,则不使用缓存
-
-        if (pullToRefresh && isFirst) {//默认在第一次上拉刷新时使用缓存
-            isFirst = false;
-            isEvictCache = false;
-        }
-
-//           mModel.getGoodslist(123,isEvictCache)
+    public void getShop(){
+        Shop shop=new Shop();
+        shop.setName("1111");
+        shop.setAdd("济南济南");
+        shop.setImgUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
+        mRootView.setShop(shop);
+    }
+    public void getShopGoods(){
         getGoodsList()
-        .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
-                .doOnSubscribe(() -> {
-                    if (pullToRefresh)
-                        mRootView.showLoading();//显mRootView.showLoadi示上拉刷新的进度条
-                    else
-                        mRootView.startLoadMore();//显示下拉加载更多的进度条
-                }).subscribeOn(AndroidSchedulers.mainThread())
+
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> {
-                    if (pullToRefresh)
-                        mRootView.hideLoading();//隐藏上拉刷新的进度条
-                    else
-                        mRootView.endLoadMore();//隐藏下拉加载更多的进度条
-                })
+
                 .compose(RxUtils.<List<Goods>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
                         new ErrorHandleSubscriber<List<Goods>>(mErrorHandler) {
-                    @Override
-                    public void onNext(List<Goods> users) {
-                        LogUtils.debugInfo("1111");
-                        if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
-                        preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                        GoodsList.addAll(users);
-                        if (pullToRefresh){
-                            LogUtils.debugInfo("222");
-                            mAdapter.notifyDataSetChanged();}
-                        else
-                            mAdapter.notifyItemRangeInserted(preEndIndex, users.size());
-                    }
-                });
-    }
+                            @Override
+                            public void onNext(List<Goods> users) {
+                                GoodsList.addAll(users);
+                                mAdapter.notifyDataSetChanged();}
 
+                        });
+    }
+    public void call(String s){
+        //意图：想干什么事
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_CALL);
+        //url:统一资源定位符
+        //uri:统一资源标示符（更广）
+        intent.setData(Uri.parse("tel:" + s));
+        //开启系统拨号器
+        startActivity(intent);
+    }
 
     @Override
     public void onDestroy() {

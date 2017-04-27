@@ -12,6 +12,7 @@ import bai.kang.yun.zxd.di.component.DaggerDetailComponent;
 import bai.kang.yun.zxd.di.module.DetailModule;
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
 import bai.kang.yun.zxd.mvp.presenter.DetailPresenter;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEActivity;
 
@@ -52,7 +53,11 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     protected void initData() {
 
     }
-
+    @OnClick(R.id.textView3)
+    void startshop(){
+        Intent intent=new Intent(DetailActivity.this,ShopDetailActivity.class);
+        UiUtils.startActivity(intent);
+    }
 
     @Override
     public void showLoading() {
