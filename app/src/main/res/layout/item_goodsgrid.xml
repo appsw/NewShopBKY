@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jess.arms.widget.autolayout.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="550px"
-    android:layout_marginRight="15px"
-    android:layout_marginBottom="15px"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="wrap_content"
     >
 
     <ImageView
         android:id="@+id/iv_goods"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="100px"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_width="550px"
+        android:layout_height="550px"
+        />
 
 
     <TextView
+        android:layout_marginTop="20px"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:textColor="@color/black"
-        android:textSize="80px"
-        tools:text="ssssss" />
+        android:textSize="65px"
+        android:text="复方氨酚烷胺胶囊" />
+    <TextView
+        android:layout_marginTop="30px"
+        android:id="@+id/tv_p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:textColor="@color/darkred"
+        android:textSize="65px"
+        android:text="￥12.5" />
 
-</com.jess.arms.widget.autolayout.AutoCardView>
+</LinearLayout>

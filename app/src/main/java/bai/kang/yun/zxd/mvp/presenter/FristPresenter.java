@@ -42,8 +42,12 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
     RollViewpagerAdapter rollViewpagerAdapter;
     GoodsGridAdapter goodsGridAdapter;
     SimpleAdapter simpleadapter;
-    String [] name={"商品分类","附近药店","健康问答","签到抽奖","男性","女性",
-            "老人","儿童"};
+    String [] name={"男性","女性",
+            "老人","儿童","中成药","西成药","附近药店","健康问答"};
+    int[] ic={R.mipmap.ic_nan,R.mipmap.ic_nv,
+            R.mipmap.ic_lao,R.mipmap.ic_shao,
+            R.mipmap.ic_zhong,R.mipmap.ic_xi,R.mipmap.ic_fu,
+            R.mipmap.ic_wen};
     List<Map<String,Object>> list=new ArrayList<>();
     private boolean isFirst = true;
     private int preEndIndex;
@@ -65,33 +69,29 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
     }
     public void getGGwUrl(){
         List<String> urls=new ArrayList<>();
-        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
+        urls.add("http://img.800pharm.com/images/20160921/20160921005414_8.jpg");
+        urls.add("http://img.800pharm.com/images/20160921/20160921005444_393.jpg");
+        urls.add("http://img.800pharm.com/images/20170321/20170321150712_81.jpg");
         mRootView.setImg(urls);
     }
     public void requestUrls() {
-        mModel.getBannerUrl()
-                .subscribeOn(Schedulers.io())
+//        mModel.getBannerUrl()
+         getBanner()
+                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .compose(RxUtils.bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
-                .subscribe(
-                        new ErrorHandleSubscriber<Map<String,String>>(mErrorHandler) {
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe(
+                        new ErrorHandleSubscriber<List<Map<String,String>>>(mErrorHandler) {
                     @Override
-                    public void onNext(Map<String,String> stringStringMap) {
-                            Map<String,String> string=new HashMap();
-                            string.put("url","https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-                            UrlList.add(string);
+                    public void onNext(List<Map<String,String>> stringStringMap) {
+
+                            UrlList.addAll(stringStringMap);
 
                         rollViewpagerAdapter.notifyDataSetChanged();
 
                     }
                 });
-        Map<String,String> string=new HashMap();
-        string.put("url","https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-        UrlList.add(string);
-
-        rollViewpagerAdapter.notifyDataSetChanged();
     }
     public void getGoodsGrid(){
 
@@ -112,7 +112,7 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
     public void setGrid(){
         for(int i=0;i<name.length;i++){
             Map<String,Object> map=new HashMap<>();
-            map.put("pt",R.mipmap.ic_launcher);
+            map.put("pt",ic[i]);
             map.put("name",name[i]);
             list.add(map);
         }
@@ -133,14 +133,45 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
             public void call(Subscriber<? super List<Goods>> subscriber) {
                 //Emit Data
                 List<Goods> goodses=new ArrayList();
-                for (int i=0;i<15;i++){
+                for (int i=0;i<14;i++){
                     Goods goods=new Goods();
-                    goods.setName(""+i);
-                    goods.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
+                    goods.setName("复方氨酚烷胺胶囊");
+                    goods.setPrice("￥1"+i);
+                    goods.setImageUrl("http://c1.yaofangwang.net/Common/Upload/Medicine/280/280759/dd5ff363-cb6f-4570-be4d-5777cc9c99019495.jpg_300x300.jpg");
                     goodses.add(goods);
 
                 }
                 subscriber.onNext(goodses);
+                subscriber.onCompleted();
+            }
+        });
+    }
+    private Observable<List<Map<String,String>>> getBanner(){
+        return Observable.create(new Observable.OnSubscribe<List<Map<String,String>>>() {
+            @Override
+            public void call(Subscriber<? super List<Map<String,String>>> subscriber) {
+                //Emit Data
+                List<Map<String,String>> maps=new ArrayList<Map<String, String>>();
+
+                Map<String,String> string=new HashMap();
+                string.put("url","https://c1.yaofangwang.net/Common/Upload/Imggg/20170329/8b1024b8-c8df-44d5-8e23-e27a7ed87ad54415.jpg");
+                maps.add(string);
+
+
+                Map<String,String> string1=new HashMap();
+                string1.put("url","https://c1.yaofangwang.net/Common/Upload/Imggg/20170417/1324b133-f405-4b52-8a0b-6159a0f5482f5769.jpg");
+                maps.add(string1);
+
+
+                Map<String,String> string2=new HashMap();
+                string2.put("url","https://c1.yaofangwang.net/Common/Upload/Imggg/20170426/564a1746-ad8b-4901-b4c8-e8e165855ec26803.jpg");
+                maps.add(string2);
+
+
+                Map<String,String> string3=new HashMap();
+                string3.put("url","http://img.800pharm.com/images/20170418/20170418152104_197.jpg");
+                maps.add(string3);
+                subscriber.onNext(maps);
                 subscriber.onCompleted();
             }
         });

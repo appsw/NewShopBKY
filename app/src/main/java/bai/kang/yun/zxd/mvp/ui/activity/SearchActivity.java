@@ -132,7 +132,7 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //获取到用户点击列表里的文字,并自动填充到搜索框内
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                TextView textView = (TextView) view.findViewById(R.id.find_textview);
                 String name = textView.getText().toString();
                 et_search.setText(name);
                 Toast.makeText(mApplication, name, Toast.LENGTH_SHORT).show();

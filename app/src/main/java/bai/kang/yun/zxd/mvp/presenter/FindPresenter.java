@@ -50,6 +50,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
     private List<SPCategory> grids= new ArrayList();;
     FristListAdapter goodsCategoryGridAdapter;
     GoodsCategoryListAdapter goodsCategoryListAdapter;
+    private String[] names={"中西药品","养生保健","医疗器械","计生用品","中药饮片","美容护肤"};
     @Inject
     public FindPresenter(FindContract.Model model, FindContract.View rootView
             , RxErrorHandler handler, Application application
@@ -64,7 +65,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
         mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
     }
     public void getCategorylist(){
-        getGoodsList()
+        getLeft()
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
@@ -124,6 +125,23 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
                     goodses.add(goods);
                 }
                 subscriber.onNext(goodses);
+                subscriber.onCompleted();
+            }
+        });
+    }
+    private Observable<List<SPCategory>> getLeft(){
+        return Observable.create(new Observable.OnSubscribe<List<SPCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<SPCategory>> subscriber) {
+                //Emit Data
+                List<SPCategory> Categorys=new ArrayList();
+                for (int i=0;i<names.length;i++){
+                    SPCategory Category=new SPCategory();
+                    Category.setName(names[i]);
+                    Category.setId(i);
+                    Categorys.add(Category);
+                }
+                subscriber.onNext(Categorys);
                 subscriber.onCompleted();
             }
         });

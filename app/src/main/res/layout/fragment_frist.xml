@@ -100,21 +100,24 @@
                     android:layout_weight="3"
                     android:layout_height="match_parent">
                     <ImageView
+                        android:layout_margin="2px"
                         android:id="@+id/frist_ggw_1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="5"
                     android:orientation="vertical"
                     android:layout_height="match_parent">
                     <ImageView
+                        android:layout_margin="2px"
                         android:id="@+id/frist_ggw_2"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
                     <ImageView
+                        android:layout_margin="2px"
                         android:id="@+id/frist_ggw_3"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -122,10 +125,14 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@color/gray"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150px"
-                android:background="#c5c5c5">
+                android:background="#dbfbe3">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -134,7 +141,7 @@
                     <View
                         android:layout_width="260px"
                         android:layout_height="3px"
-                        android:background="@color/black"/>
+                        android:background="@color/gray"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -145,7 +152,7 @@
                         android:layout_height="match_parent"
                         android:text="商城推荐"
                         android:textColor="@color/black"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
@@ -156,7 +163,7 @@
                     <View
                         android:layout_width="260px"
                         android:layout_height="3px"
-                        android:background="@color/black"/>
+                        android:background="@color/gray"/>
                 </LinearLayout>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
@@ -164,6 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
+                android:background="#dbfbe3"
                 tools:listitem="@layout/item_goodsgrid"
                 />
         </LinearLayout>

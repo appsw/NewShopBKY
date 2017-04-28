@@ -19,7 +19,7 @@ import rx.Observable;
 
 public class GoodsCategoryListItemHolder extends BaseHolder<SPCategory> {
 
-    @BindView(R.id.find_textview)
+    @BindView(R.id.name)
     TextView name;
     @BindView(R.id.item_ll_text)
     LinearLayout itemView;

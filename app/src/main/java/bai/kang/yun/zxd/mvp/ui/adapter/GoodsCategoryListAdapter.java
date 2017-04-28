@@ -28,7 +28,7 @@ public class GoodsCategoryListAdapter extends DefaultAdapter<SPCategory> {
 
     @Override
     public int getLayoutId(int viewType) {
-        return R.layout.item_textview;
+        return R.layout.item_find_left;
     }
 
 }

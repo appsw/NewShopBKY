@@ -6,17 +6,17 @@ package bai.kang.yun.zxd.mvp.model.entity;
 
 public class Goods {
 
-    float Price;
+    String Price;
     int Seleing;
     String Name;
     String Abstract;
     String ImageUrl;
 
-    public float getPrice() {
+    public String getPrice() {
         return Price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         Price = price;
     }
 

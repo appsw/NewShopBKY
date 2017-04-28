@@ -30,6 +30,8 @@ public class GoodsGridItemHolder extends BaseHolder<Goods> {
     ImageView im;
     @BindView(R.id.tv_name)
     TextView name;
+    @BindView(R.id.tv_p)
+    TextView Price;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
     public GoodsGridItemHolder(View itemView) {
@@ -44,6 +46,8 @@ public class GoodsGridItemHolder extends BaseHolder<Goods> {
 
         Observable.just(data.getName())
                 .subscribe(RxTextView.text(name));
+        Observable.just(data.getPrice())
+                .subscribe(RxTextView.text(Price));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
