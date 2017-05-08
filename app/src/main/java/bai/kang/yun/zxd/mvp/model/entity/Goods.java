@@ -11,6 +11,15 @@ public class Goods {
     String Name;
     String Abstract;
     String ImageUrl;
+    int num;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     public String getPrice() {
         return Price;
