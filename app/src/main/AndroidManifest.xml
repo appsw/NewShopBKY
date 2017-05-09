@@ -2,14 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="bai.kang.yun.zxd">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--允许程序设置内置sd卡的读权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--打电话-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!--允许程序打开网络套接字-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--允许程序获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--允许程序访问WiFi网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name="common.WEApplication"
         android:allowBackup="true"
@@ -42,6 +52,9 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.RegisterActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MapActivity">
+
+        </activity>
 
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>
@@ -50,6 +63,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <service android:name="com.amap.api.location.APSService"></service>
         <!-- autolayout meta
         将设计图的宽高配置后,配合AutoLauout控件使用,在设计图尺寸以外的其它尺寸手机上,也能达到和设计图一样的效果
         -->
@@ -66,6 +80,10 @@
         <!--友盟-->
         <meta-data android:value="58f1d7fa1061d23c69001718" android:name="UMENG_APPKEY"/>
         <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <!--高德地图-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="fb1f080a0e87149d90e8426aa2b41c6a"/>
     </application>
 
 </manifest>

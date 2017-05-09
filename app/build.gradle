@@ -18,6 +18,8 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64" }
     }
     buildTypes {
 
@@ -31,9 +33,9 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -73,4 +75,13 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0.jar')
     //友盟
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
+    compile files('libs/Amap_2DMap_V4.2.0_20170209.jar')
+    //高德
+     //3D地图so及jar
+    compile 'com.amap.api:3dmap:latest.integration'
+    //定位功能
+    compile 'com.amap.api:location:latest.integration'
+    // 搜索功能
+    compile 'com.amap.api:search:latest.integration'
 }

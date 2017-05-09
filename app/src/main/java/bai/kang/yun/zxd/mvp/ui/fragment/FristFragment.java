@@ -33,6 +33,7 @@ import bai.kang.yun.zxd.di.module.FristModule;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
 import bai.kang.yun.zxd.mvp.presenter.FristPresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.MapActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.SearchActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.RollViewpagerAdapter;
 import butterknife.BindView;
@@ -159,6 +160,11 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==6){
+                    Intent intent=new Intent(getActivity(), MapActivity.class);
+                    UiUtils.startActivity(intent);
+                    return;
+                }
                Intent intent=new Intent(getActivity(), GoodsListActivity.class);
                 UiUtils.startActivity(intent);
                 UiUtils.makeText("您点击了第"+position+"个");
