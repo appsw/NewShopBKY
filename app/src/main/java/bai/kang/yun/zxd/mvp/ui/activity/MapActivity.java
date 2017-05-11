@@ -11,7 +11,14 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bai.kang.yun.zxd.R;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
@@ -20,6 +27,7 @@ import bai.kang.yun.zxd.R;
 public class MapActivity extends Activity {
     MapView mMapView = null;
     AMap aMap = null;
+    ArrayList<MarkerOptions> markerOptionses=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +52,63 @@ public class MapActivity extends Activity {
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        MarkerOptions markerOption = new MarkerOptions();
-        LatLng latLng = new LatLng(36.341568,116.397972);
-        markerOption.position(latLng);
-        markerOption.title("济南市").snippet("济南市：36.341568, 116.940174");
+        setmaker();
 
-        markerOption.draggable(true);//设置Marker可拖动
-        markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                .decodeResource(getResources(),R.mipmap.ic_fu)));
-        // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-        markerOption.setFlat(true);//设置marker平贴地图效果
-        aMap.addMarker(markerOption);
+    }
+    public void setmaker(){
+
+
+        Observable.create(new Observable.OnSubscribe< List<MarkerOptions>>() {
+            @Override
+            public void call(Subscriber<? super List<MarkerOptions>> subscriber) {
+                //Emit Data
+                for (int i=0;i<3;i++){
+                    MarkerOptions markerOption = new MarkerOptions();
+                    LatLng latLng = new LatLng(36.341568+i,116.397972);
+                    markerOption.position(latLng);
+                    markerOption.title("济南市").snippet("济南市：36.341568, 116.940174");
+
+                    markerOption.draggable(true);//设置Marker可拖动
+                    markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                            .decodeResource(getResources(),R.mipmap.ic_fu)));
+                    // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                    markerOption.setFlat(true);//设置marker平贴地图效果
+                    markerOptionses.add(markerOption);
+
+                }
+                subscriber.onNext(markerOptionses);
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<MarkerOptions>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<MarkerOptions> MarkerOption) {
+                        aMap.addMarkers(markerOptionses,true);
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override

@@ -1,9 +1,13 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.util.Log;
 
-import com.jess.arms.di.scope.ActivityScope;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.jess.arms.base.AppManager;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
@@ -54,6 +58,48 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
+            EMClient.getInstance().login(name, psw, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    Log.e("ok","ok");
+                   mRootView.showLoading();
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    EMClient.getInstance().logout(true);
+                    Log.e("err",""+s);
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
+
+        }
+    }
+
+    public void re(){
+        name=mRootView.getName();
+        psw=mRootView.getPsw();
+        if(name.isEmpty()){
+            UiUtils.makeText("请输入用户名");
+        }else if(psw.isEmpty()){
+            UiUtils.makeText("请输入密码");
+        }else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        EMClient.getInstance().createAccount(name,psw);
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        Log.e("sing_up","注册失败");
+                    }
+                }
+            }).start();
+
             UiUtils.makeText("ok");
         }
     }

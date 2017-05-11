@@ -3,6 +3,8 @@ package common;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.di.module.GlobeConfigModule;
 import com.jess.arms.http.GlobeHttpHandler;
@@ -45,6 +47,9 @@ public class WEApplication extends BaseApplication {
                 .serviceModule(new ServiceModule())//需自行创建
                 .cacheModule(new CacheModule())//需自行创建
                 .build();
+
+        EaseUI.getInstance().init(this, null);
+        EMClient.getInstance().setDebugMode(true);
 
         if (BuildConfig.LOG_DEBUG) {//Timber日志打印
             Timber.plant(new Timber.DebugTree());

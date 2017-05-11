@@ -1,23 +1,19 @@
 package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.jess.arms.utils.UiUtils;
 
-import javax.annotation.Nullable;
-
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.di.component.DaggerLoginComponent;
-import bai.kang.yun.zxd.di.module.LoginModule;
-import bai.kang.yun.zxd.mvp.contract.LoginContract;
-import bai.kang.yun.zxd.mvp.presenter.LoginPresenter;
-import butterknife.BindView;
+import bai.kang.yun.zxd.di.component.DaggerChatListComponent;
+import bai.kang.yun.zxd.di.module.ChatListModule;
+import bai.kang.yun.zxd.mvp.contract.ChatListContract;
+import bai.kang.yun.zxd.mvp.presenter.ChatListPresenter;
 import common.AppComponent;
 import common.WEActivity;
 
@@ -33,58 +29,36 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 
 /**
- * Created by Administrator on 2017/4/14 0014.
+ * Created by Administrator on 2017/5/11 0011.
  */
 
-public class LoginActivity extends WEActivity<LoginPresenter> implements LoginContract.View {
+public class ChatListActivity extends WEActivity<ChatListPresenter> implements ChatListContract.View {
 
-    @Nullable
-    @BindView(R.id.login_name)
-    EditText name;
-    @BindView(R.id.login_password)
-    EditText psaaword;
-    @BindView(R.id.login_register)
-    TextView register;
-    @BindView(R.id.btn_login)
-    Button login;
+
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerLoginComponent
+        DaggerChatListComponent
                 .builder()
                 .appComponent(appComponent)
-                .loginModule(new LoginModule(this)) //请将LoginModule()第一个首字母改为小写
+                .chatListModule(new ChatListModule(this)) //请将ChatListModule()第一个首字母改为小写
                 .build()
                 .inject(this);
     }
 
     @Override
     protected View initView() {
-        return LayoutInflater.from(this).inflate(R.layout.activity_login, null, false);
+        return LayoutInflater.from(this).inflate(R.layout.activity_chatlist, null, false);
     }
 
     @Override
     protected void initData() {
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent=new Intent(UiUtils.getContext(),RegisterActivity.class);
-//                UiUtils.startActivity(intent);
-                mPresenter.re();
-            }
-        });
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.Login();
-
-            }
-        });
+        mPresenter.startChat();
     }
 
 
     @Override
     public void showLoading() {
-        UiUtils.startActivity(new Intent(LoginActivity.this, ChatListActivity.class));
+
     }
 
     @Override
@@ -108,16 +82,11 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
     public void killMyself() {
         finish();
     }
-
-
     @Override
-    public String getPsw() {
-        return psaaword.getText().toString();
-    }
-
-    @Override
-    public String getName() {
-        return name.getText().toString();
+    public void startChat(Bundle args) {
+        EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
     }
 
 
