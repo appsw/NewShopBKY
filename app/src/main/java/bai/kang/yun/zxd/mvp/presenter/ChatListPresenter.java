@@ -1,9 +1,7 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
-import android.os.Bundle;
 
-import com.hyphenate.easeui.EaseConstant;
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -48,10 +46,10 @@ public class ChatListPresenter extends BasePresenter<ChatListContract.Model, Cha
     }
     public void startChat(){
         //传入参数
-        Bundle args = new Bundle();
-        args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-        args.putString(EaseConstant.EXTRA_USER_ID, "1234");
-        mRootView.startChat(args);
+//        Bundle args = new Bundle();
+//        args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+//        args.putString(EaseConstant.EXTRA_USER_ID, "1234");
+//        mRootView.startChat(args);
     }
 
     @Override

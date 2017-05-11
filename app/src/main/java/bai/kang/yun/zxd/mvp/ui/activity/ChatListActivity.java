@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.jess.arms.utils.UiUtils;
 
 import bai.kang.yun.zxd.R;
@@ -84,9 +83,9 @@ public class ChatListActivity extends WEActivity<ChatListPresenter> implements C
     }
     @Override
     public void startChat(Bundle args) {
-        EaseChatFragment chatFragment = new EaseChatFragment();
-        chatFragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
+//        ChatFragment chatFragment = new ChatFragment();
+//        chatFragment.setArguments(args);
+//        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
     }
 
 

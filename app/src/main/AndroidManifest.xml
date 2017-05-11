@@ -69,6 +69,12 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.ChatListActivity">
 
         </activity>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity">
+
+        </activity>
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity">
+
+        </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

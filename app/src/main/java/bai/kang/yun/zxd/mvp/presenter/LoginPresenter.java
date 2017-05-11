@@ -3,9 +3,8 @@ package bai.kang.yun.zxd.mvp.presenter;
 import android.app.Application;
 import android.util.Log;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -58,16 +57,31 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
-            EMClient.getInstance().login(name, psw, new EMCallBack() {
+            ChatClient.getInstance().login(name, psw, new Callback() {
                 @Override
                 public void onSuccess() {
                     Log.e("ok","ok");
-                   mRootView.showLoading();
+                    mRootView.showLoading();
                 }
 
                 @Override
                 public void onError(int i, String s) {
-                    EMClient.getInstance().logout(true);
+                    ChatClient.getInstance().logout(true, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+
+                        }
+                    });
                     Log.e("err",""+s);
                 }
 
@@ -88,17 +102,24 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
-            new Thread(new Runnable() {
+            ChatClient.getInstance().createAccount(name, psw, new Callback() {
                 @Override
-                public void run() {
-                    try {
-                        EMClient.getInstance().createAccount(name,psw);
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
-                        Log.e("sing_up","注册失败");
-                    }
+                public void onSuccess() {
+                    Log.e("ok","ok");
+
                 }
-            }).start();
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.e("err",""+s);
+
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+
+                }
+            });
 
             UiUtils.makeText("ok");
         }

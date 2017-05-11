@@ -84,5 +84,8 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     // 搜索功能
     compile 'com.amap.api:search:latest.integration'
-    compile project(path: ':easeui')
+    //环信客服
+    compile 'com.hyphenate:kefu-easeui-android:latest.release'
+   // compile project(path: ':easeui')
+    compile 'com.android.support:support-v4:23.1.1'
 }
