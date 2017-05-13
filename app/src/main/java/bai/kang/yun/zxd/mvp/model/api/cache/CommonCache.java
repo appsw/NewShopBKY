@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictProvider;
@@ -24,4 +25,6 @@ public interface CommonCache {
     Observable<Reply<Map<String,String>>> getBannres(Observable<Map<String,String>> oBanners);
     Observable<Reply<List<Goods>>> getGoodsList(Observable<List<Goods>> oBanners, EvictProvider evictProvider);
     Observable<Reply<List<ShoppingCartBean>>> getCarList(int oCarList);
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<Token>> getToken(Observable<Token> scope,DynamicKey idLastUserQueried);
 }

@@ -57,32 +57,30 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
-            ChatClient.getInstance().login(name, psw, new Callback() {
+           String s= mModel.getToken("http://api.baikangyun.com/app/get_AD/10");
+//            Log.e("token",""+s);
+
+        }
+    }
+    public void open(){
+        ChatClient.getInstance().login(name, psw, new Callback() {
+        @Override
+        public void onSuccess() {
+            Log.e("ok","ok");
+            mRootView.showLoading();
+        }
+
+        @Override
+        public void onError(int i, String s) {
+            ChatClient.getInstance().logout(true, new Callback() {
                 @Override
                 public void onSuccess() {
-                    Log.e("ok","ok");
-                    mRootView.showLoading();
+
                 }
 
                 @Override
                 public void onError(int i, String s) {
-                    ChatClient.getInstance().logout(true, new Callback() {
-                        @Override
-                        public void onSuccess() {
 
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-
-                        }
-
-                        @Override
-                        public void onProgress(int i, String s) {
-
-                        }
-                    });
-                    Log.e("err",""+s);
                 }
 
                 @Override
@@ -90,10 +88,15 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                 }
             });
+            Log.e("err",""+s);
+        }
+
+        @Override
+        public void onProgress(int i, String s) {
 
         }
-    }
-
+    });
+}
     public void re(){
         name=mRootView.getName();
         psw=mRootView.getPsw();

@@ -17,6 +17,7 @@ public class ServiceManager implements BaseServiceManager {
     private GoodsListService mGoodsListService;
     private GoodsGridService mGoodsGridService;
     private CarListService mCarListService;
+    private GetTokenService mGetTokenService;
 
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
@@ -25,13 +26,15 @@ public class ServiceManager implements BaseServiceManager {
      */
     @Inject public ServiceManager(CommonService commonService,UserService userService,
                                   BannerService bannerService,GoodsListService goodsListService,
-                                  GoodsGridService goodsGridService,CarListService carListService){
+                                  GoodsGridService goodsGridService,CarListService carListService,
+                                  GetTokenService getTokenService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
         this.mGoodsListService=goodsListService;
         this.mGoodsGridService=goodsGridService;
         this.mCarListService=carListService;
+        this.mGetTokenService=getTokenService;
     }
 
     public CommonService getCommonService() {
@@ -47,6 +50,7 @@ public class ServiceManager implements BaseServiceManager {
     public GoodsListService getGoodsListService(){return mGoodsListService;}
     public GoodsGridService getGoodsGridService(){return mGoodsGridService;}
     public CarListService getCarListService(){return mCarListService;}
+    public GetTokenService getGetTokenService(){return mGetTokenService;}
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)
      */

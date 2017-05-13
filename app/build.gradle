@@ -31,7 +31,7 @@ android {
         }
 
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled false
             shrinkResources false

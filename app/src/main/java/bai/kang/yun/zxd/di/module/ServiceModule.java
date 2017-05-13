@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
@@ -50,5 +51,10 @@ public class ServiceModule {
     @Provides
     CarListService provideCarListService(Retrofit retrofit) {
         return retrofit.create(CarListService.class);
+    }
+    @Singleton
+    @Provides
+    GetTokenService provideGetTokenService(Retrofit retrofit) {
+        return retrofit.create(GetTokenService.class);
     }
 }

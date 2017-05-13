@@ -1,6 +1,9 @@
 package bai.kang.yun.zxd.mvp.model;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
@@ -30,13 +33,16 @@ import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 public class LoginModel extends BaseModel<ServiceManager, CacheManager> implements LoginContract.Model {
     private Gson mGson;
     private Application mApplication;
+    TokenModel tokenModel;
 
     @Inject
     public LoginModel(ServiceManager serviceManager, CacheManager cacheManager, Gson gson, Application application) {
         super(serviceManager, cacheManager);
         this.mGson = gson;
         this.mApplication = application;
+        tokenModel=new TokenModel(serviceManager, cacheManager,handler);
     }
+
 
     @Override
     public void onDestroy() {
@@ -45,4 +51,17 @@ public class LoginModel extends BaseModel<ServiceManager, CacheManager> implemen
         this.mApplication = null;
     }
 
+    @Override
+    public String getToken(String url) {
+        tokenModel.getToken(url);
+        return null;
+    }
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String token=msg.obj.toString();
+            Log.e("token",""+token);
+        }
+    };
 }

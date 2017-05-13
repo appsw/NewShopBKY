@@ -5,6 +5,6 @@ package bai.kang.yun.zxd.mvp.model.api;
  * contact with jess.yan.effort@gmail.com
  */
 public interface Api {
-    String APP_DOMAIN = "https://api.baikangyun.com";
+    String APP_DOMAIN = "http://api.baikangyun.com";
     String RequestSuccess = "0";
 }
