@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hyphenate.chat.ChatClient;
-import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.jess.arms.utils.UiUtils;
 
 import javax.annotation.Nullable;
@@ -86,16 +84,18 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
 
     @Override
     public void showLoading() {
-        if(ChatClient.getInstance().isLoggedInBefore()){
-            //已经登录，可以直接进入会话界面
-            Intent intent = new IntentBuilder(LoginActivity.this)
-                    .setServiceIMNumber("kefuchannelimid_812847") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
-                    .build();
-            startActivity(intent);
-        }else{
-            //未登录，需要登录后，再进入会话界面
-            UiUtils.makeText("未登录");
-        }
+
+//        环信客服
+//        if(ChatClient.getInstance().isLoggedInBefore()){
+//            //已经登录，可以直接进入会话界面
+//            Intent intent = new IntentBuilder(LoginActivity.this)
+//                    .setServiceIMNumber("kefuchannelimid_812847") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+//                    .build();
+//            startActivity(intent);
+//        }else{
+//            //未登录，需要登录后，再进入会话界面
+//            UiUtils.makeText("未登录");
+//        }
 
     }
 

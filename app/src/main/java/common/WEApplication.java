@@ -2,8 +2,6 @@ package common;
 
 import android.content.Context;
 
-import com.hyphenate.chat.ChatClient;
-import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.di.module.GlobeConfigModule;
 import com.jess.arms.http.GlobeHttpHandler;
@@ -42,16 +40,16 @@ public class WEApplication extends BaseApplication {
                 .serviceModule(new ServiceModule())//需自行创建
                 .cacheModule(new CacheModule())//需自行创建
                 .build();
-        ChatClient.Options options = new ChatClient.Options();
-        options.setAppkey("1137170511178002#kefuchannelapp41331");//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
-        options.setTenantId("41331");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
-
-        // Kefu SDK 初始化
-        if (!ChatClient.getInstance().init(this, options)){
-            return;
-        }
-        // Kefu EaseUI的初始化
-        UIProvider.getInstance().init(this);
+//        ChatClient.Options options = new ChatClient.Options();
+//        options.setAppkey("1137170511178002#kefuchannelapp41331");//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
+//        options.setTenantId("41331");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
+//
+//        // Kefu SDK 初始化
+//        if (!ChatClient.getInstance().init(this, options)){
+//            return;
+//        }
+//        // Kefu EaseUI的初始化
+//        UIProvider.getInstance().init(this);
 
 
         if (BuildConfig.LOG_DEBUG) {//Timber日志打印
