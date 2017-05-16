@@ -6,6 +6,9 @@ import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
+import rx.Observable;
+
 /**
  * 通过Template生成对应页面的MVP和Dagger代码,请注意输入框中输入的名字必须相同
  * 由于每个项目包结构都不一定相同,所以每生成一个文件需要自己导入import包名,可以在设置中设置自动导入包名
@@ -27,6 +30,6 @@ public interface FindContract {
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-
+        Observable<ReturnCategory> getCategory(int id);
     }
 }

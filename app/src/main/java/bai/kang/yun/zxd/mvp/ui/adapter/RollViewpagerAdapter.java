@@ -1,5 +1,6 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,8 +11,8 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 
 import java.util.List;
-import java.util.Map;
 
+import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import common.WEApplication;
 
 /**
@@ -19,10 +20,11 @@ import common.WEApplication;
  */
 
 public class RollViewpagerAdapter extends StaticPagerAdapter {
-    List<Map<String,String>> list;
+    List<Banner.DataEntity> list;
+    String host="http://www.baikangyun.com";
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
-    public RollViewpagerAdapter(List<Map<String,String>> list){
+    public RollViewpagerAdapter( List<Banner.DataEntity> list){
         this.list=list;
         //可以在任何可以拿到Application的地方,拿到AppComponent,从而得到用Dagger管理的单例对象
         mApplication = (WEApplication) UiUtils.getContext().getApplicationContext();
@@ -32,7 +34,8 @@ public class RollViewpagerAdapter extends StaticPagerAdapter {
     @Override
     public View getView(ViewGroup container, int position) {
         final ImageView imageView=new ImageView(container.getContext());
-        String imageUrl= list.get(position).get("url");
+        String imageUrl= host+list.get(position).getImg();
+        Log.e("imageUrl",imageUrl+"111");
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(imageUrl)

@@ -67,9 +67,9 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(UiUtils.getContext(),RegisterActivity.class);
-//                UiUtils.startActivity(intent);
-                mPresenter.re();
+                Intent intent=new Intent(UiUtils.getContext(),RegisterActivity.class);
+                UiUtils.startActivity(intent);
+//                mPresenter.re();
             }
         });
         login.setOnClickListener(new View.OnClickListener() {

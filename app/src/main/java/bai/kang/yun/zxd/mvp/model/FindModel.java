@@ -11,6 +11,11 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.FindContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
 
 
 /**
@@ -47,4 +52,16 @@ public class FindModel extends BaseModel<ServiceManager, CacheManager> implement
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnCategory> getCategory(int id) {
+        Observable<ReturnCategory> category = mServiceManager.getGetCategoryService().getCategory(id);
+        return mCacheManager.getCommonCache()
+                .getCategory(category,new DynamicKey(id))
+                .flatMap(new Func1<Reply<ReturnCategory>, Observable<ReturnCategory>>() {
+                    @Override
+                    public Observable<ReturnCategory> call(Reply<ReturnCategory> mapReply) {
+                        return Observable.just(mapReply.getData());
+                    }
+                });
+    }
 }

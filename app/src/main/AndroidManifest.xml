@@ -90,7 +90,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent1105734419" />
+                <data android:scheme="tencent1106092569" />
             </intent-filter>
         </activity>
         <service android:name="com.amap.api.location.APSService"></service>

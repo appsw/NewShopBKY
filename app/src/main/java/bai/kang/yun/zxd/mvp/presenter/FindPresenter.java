@@ -6,6 +6,7 @@ import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.FindContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
 import bai.kang.yun.zxd.mvp.ui.adapter.FristListAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryListAdapter;
@@ -46,8 +48,9 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
-    private List<SPCategory> lists= new ArrayList();;
-    private List<SPCategory> grids= new ArrayList();;
+    private List<ReturnCategory.DataEntity> list1= new ArrayList();
+    private List<ReturnCategory.DataEntity> list2= new ArrayList();
+    private List<ReturnCategory.DataEntity> grid3= new ArrayList();
     FristListAdapter goodsCategoryGridAdapter;
     GoodsCategoryListAdapter goodsCategoryListAdapter;
     private String[] names={"中西药品","养生保健","医疗器械","计生用品","中药饮片","美容护肤"};
@@ -60,49 +63,89 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
-        goodsCategoryGridAdapter=new FristListAdapter(mApplication,grids);
-        goodsCategoryListAdapter=new GoodsCategoryListAdapter(lists);
+        goodsCategoryGridAdapter=new FristListAdapter(mApplication,list2);
+        goodsCategoryListAdapter=new GoodsCategoryListAdapter(list1);
         mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
     }
     public void getCategorylist(){
-        getLeft()
+        mModel.getCategory(0)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxUtils.<List<SPCategory>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<ReturnCategory>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<SPCategory>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<ReturnCategory>(mErrorHandler) {
                             @Override
-                            public void onNext(List<SPCategory> goods) {
-                                lists.addAll(goods);
-                                goodsCategoryListAdapter.notifyDataSetChanged();}
+                            public void onNext(ReturnCategory category) {
+                                if(category.getStatus()==1){
+                                    list1.addAll(category.getData());
+                                    goodsCategoryListAdapter.notifyDataSetChanged();
+                                }else {
+                                    UiUtils.makeText("网络错误");
+                                }
+                                }
                         });
     }
-    public void setRight(int id){
-        grids.clear();
-        getGoodsList()
+    public void setRight2(int id){
+        int ID;
+        if(id==999){
+             ID=147;
+        }else {
+            ID=list1.get(id).getId();
+        }
+
+        list2.clear();
+        grid3.clear();
+        mModel.getCategory(ID)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxUtils.<List<SPCategory>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<ReturnCategory>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<SPCategory>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<ReturnCategory>(mErrorHandler) {
                             @Override
-                            public void onNext(List<SPCategory> goods) {
-                                grids.addAll(goods);
-//                                GoodsCategoryGridAdapter.notifyDataSetChanged();
-                                goodsCategoryGridAdapter=new FristListAdapter(mApplication,grids);
-                                mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
+                            public void onNext(ReturnCategory goods) {
+                                if(goods.getStatus()==1){
+                                    list2.addAll(goods.getData());
+                                    for(int i=0;i<list2.size();i++){
+                                        ReturnCategory.DataEntity dataEntity=list2.get(i);
+                                        setRight3(dataEntity.getId(),i);
+                                    }
+                                    goodsCategoryGridAdapter.notifyDataSetChanged();
+                                }
+
                             }
                         });
 
     }
-    public SPCategory getRightCategory(int id){
-        SPCategory spCategory=new SPCategory();
 
-        return spCategory;
+    public void setRight3(int id,int pos){
+        mModel.getCategory(id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnCategory>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnCategory>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnCategory goods) {
+                                if(pos<list2.size()){
+                                    if(goods.getStatus()==1){
+                                        list2.get(pos).setGrid3(goods.getData());
+                                    }
+                                }else {
+                                    if(goods.getStatus()==1){
+                                        list2.get(pos).setGrid3(goods.getData());
+                                        goodsCategoryGridAdapter=new FristListAdapter(mApplication,list2);
+                                        mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
+                                    }
+                                }
+
+
+                            }
+                        });
+
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

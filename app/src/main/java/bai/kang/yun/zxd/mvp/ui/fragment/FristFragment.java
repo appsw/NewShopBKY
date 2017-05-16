@@ -31,6 +31,7 @@ import bai.kang.yun.zxd.app.utils.SpaceItemDecoration;
 import bai.kang.yun.zxd.di.component.DaggerFristComponent;
 import bai.kang.yun.zxd.di.module.FristModule;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
+import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.presenter.FristPresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.MapActivity;
@@ -188,20 +189,20 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
     }
 
     @Override
-    public void setImg(List<String> urls) {
+    public void setImg(List<Advertisement.DataEntity> urls) {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(urls.get(0))
+                .url("http://www.baikangyun.com"+urls.get(0).getImg())
                 .imageView(ggw_im1)
                 .build());
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(urls.get(1))
+                .url("http://www.baikangyun.com"+urls.get(1).getImg())
                 .imageView(ggw_im2)
                 .build());
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(urls.get(2))
+                .url("http://www.baikangyun.com"+urls.get(2).getImg())
                 .imageView(ggw_im3)
                 .build());
 

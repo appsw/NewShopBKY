@@ -9,7 +9,7 @@ import com.jess.arms.base.BaseHolder;
 import com.jess.arms.utils.UiUtils;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import butterknife.BindView;
 import rx.Observable;
 
@@ -17,7 +17,7 @@ import rx.Observable;
  * Created by Administrator on 2017/4/18 0018.
  */
 
-public class GoodsCategoryListItemHolder extends BaseHolder<SPCategory> {
+public class GoodsCategoryListItemHolder extends BaseHolder<ReturnCategory.DataEntity> {
 
     @BindView(R.id.name)
     TextView name;
@@ -31,7 +31,7 @@ public class GoodsCategoryListItemHolder extends BaseHolder<SPCategory> {
     }
 
     @Override
-    public void setData(SPCategory data, int position) {
+    public void setData(ReturnCategory.DataEntity data, int position) {
         /** 选中的行: 背景白色, 否则灰色  */
         if(curSelectRow == position){
             itemView.setBackgroundColor(UiUtils.getContext().getResources().getColor(R.color.slategrey));
@@ -40,7 +40,7 @@ public class GoodsCategoryListItemHolder extends BaseHolder<SPCategory> {
         }
         Observable.just(data.getName())
                 .subscribe(RxTextView.text(name));
-        id=data.getParentId();
+        id=data.getId();
     }
     static public void setSelectIndex(int selectIndex){
         curSelectRow = selectIndex ;

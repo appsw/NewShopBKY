@@ -14,7 +14,7 @@ import java.util.List;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.MyGridView;
-import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 
 
 /**
@@ -23,12 +23,12 @@ import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
 
 public class FristListAdapter extends BaseAdapter {
 
-    List<SPCategory> list;
+    List<ReturnCategory.DataEntity> list;
     Context context;
     private LayoutInflater mInflater;
 
 
-    public FristListAdapter(Context context, List<SPCategory> list){
+    public FristListAdapter(Context context, List<ReturnCategory.DataEntity> list){
         this.context=context;
         this.list=list;
         this.mInflater = LayoutInflater.from(context);
@@ -62,8 +62,8 @@ public class FristListAdapter extends BaseAdapter {
             }else {
                 viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
             }
-                SPCategory spCategoryr=list.get(position);
-                List<SPCategory> list=spCategoryr.getSubCategory();
+        ReturnCategory.DataEntity spCategoryr=list.get(position);
+                List<ReturnCategory.DataEntity> list=spCategoryr.getGrid3();
                 viewHolder.name.setText(spCategoryr.getName());
                 GoodsCategoryGridAdapter goodsCategoryGridAdapter=new GoodsCategoryGridAdapter(list, UiUtils.getContext());
                 viewHolder.gridView.setAdapter(goodsCategoryGridAdapter);

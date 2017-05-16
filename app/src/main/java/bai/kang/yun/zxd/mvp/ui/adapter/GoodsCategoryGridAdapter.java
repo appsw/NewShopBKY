@@ -13,6 +13,7 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
 import common.WEApplication;
 
@@ -22,12 +23,12 @@ import common.WEApplication;
 
 public class GoodsCategoryGridAdapter extends BaseAdapter {
 
-    List<SPCategory> spCategories;
+    List<ReturnCategory.DataEntity> spCategories;
     private LayoutInflater mInflater;
     Context context;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
-    public GoodsCategoryGridAdapter(List<SPCategory> spCategories,Context context){
+    public GoodsCategoryGridAdapter(List<ReturnCategory.DataEntity> spCategories,Context context){
         this.spCategories=spCategories;
         this.context=context;
         this.mInflater = LayoutInflater.from(context);
@@ -64,7 +65,7 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
         }
-        SPCategory spCategory=spCategories.get(position);
+        ReturnCategory.DataEntity spCategory=spCategories.get(position);
 //        Log.e("url",""+spCategory.getImage());
 //        mImageLoader.loadImage(mApplication, GlideImageConfig
 //                .builder()

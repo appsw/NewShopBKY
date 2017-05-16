@@ -1,6 +1,8 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
 import bai.kang.yun.zxd.mvp.model.entity.Token;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -15,15 +17,12 @@ public interface GetTokenService {
 //
 //    @Headers({HEADER_API_VERSION})
 
-//    @FormUrlEncoded
-//    @POST("/OAuth/get_token")
-//    Observable<Token> getToken (@Field("client_id") String client_id,
-//                                @Field("redirect_uri") String redirect_uri,
-//                                @Field("scope") String scope,
-//                                @Field("response_type") String response_type);
-//    @FormUrlEncoded
-    @POST("/app/get_AD/10")
-//    @POST("/OAuth/get_token")
-//    Observable<Token>  getToken (@Body JsonObject data);
-    Observable<Token>  getToken ();
+    @FormUrlEncoded
+    @POST("/OAuth/get_token")
+    Observable<Token> getToken (@Field("client_id") String client_id,
+                                @Field("redirect_uri") String redirect_uri,
+                                @Field("scope") String scope,
+                                @Field("response_type") String response_type);
+
+
 }

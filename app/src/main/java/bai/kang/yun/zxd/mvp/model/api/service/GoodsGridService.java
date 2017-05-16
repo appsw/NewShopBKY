@@ -1,11 +1,7 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
-import java.util.List;
-
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.Query;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -13,9 +9,10 @@ import rx.Observable;
  */
 
 public interface GoodsGridService {
-    String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
+//    String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
+//
+//    @Headers({HEADER_API_VERSION})
+    @POST("/goods/get_recommend")
+    Observable<ReturnGoods> getGoodsGrid ();
 
-    @Headers({HEADER_API_VERSION})
-    @GET("/goodsgrid")
-    Observable<List<Goods>> getGoodsGrid(@Query("id") int id);
 }

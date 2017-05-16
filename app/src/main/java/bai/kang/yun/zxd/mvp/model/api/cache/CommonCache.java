@@ -1,10 +1,13 @@
 package bai.kang.yun.zxd.mvp.model.api.cache;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
+import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
@@ -22,9 +25,17 @@ public interface CommonCache {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
     Observable<Reply<List<User>>> getUsers(Observable<List<User>> oUsers, DynamicKey idLastUserQueried, EvictProvider evictProvider);
-    Observable<Reply<Map<String,String>>> getBannres(Observable<Map<String,String>> oBanners);
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<Banner>> getBannres(Observable<Banner> oBanners);
     Observable<Reply<List<Goods>>> getGoodsList(Observable<List<Goods>> oBanners, EvictProvider evictProvider);
+    Observable<Reply<ReturnGoods>> getGoodsGrid(Observable<ReturnGoods> goods);
+
     Observable<Reply<List<ShoppingCartBean>>> getCarList(int oCarList);
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<Token>> getToken(Observable<Token> scope,DynamicKey idLastUserQueried);
+
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnCategory>> getCategory(Observable<ReturnCategory> scope, DynamicKey idLastUserQueried);
+
+    Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
 }

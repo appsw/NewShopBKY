@@ -121,7 +121,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         dialog.show();//显示对话框
     }
     public void qq(){
-        QQAuth mqqAuth = QQAuth.createInstance("1105734419", mApplication); // 10000000为你申请的APP_ID,mContext是上下文
+        QQAuth mqqAuth = QQAuth.createInstance("1106092569", mApplication); // 10000000为你申请的APP_ID,mContext是上下文
         WPA mWPA = new WPA(mApplication, mqqAuth.getQQToken());
         String ESQ = "943009802";  //512821255为客服QQ号
         int ret = mWPA.startWPAConversation(this,ESQ, "你好，我正在看这个商品~"+ESQ); //客服QQ

@@ -12,7 +12,7 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,7 +23,7 @@ import rx.Observable;
  * Created by Administrator on 2017/4/17 0017.
  */
 
-public class GoodsGridItemHolder extends BaseHolder<Goods> {
+public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
 
 
     @BindView(R.id.iv_goods)
@@ -32,6 +32,7 @@ public class GoodsGridItemHolder extends BaseHolder<Goods> {
     TextView name;
     @BindView(R.id.tv_p)
     TextView Price;
+    static final String HOST="http://www.baikangyun.com";
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
     public GoodsGridItemHolder(View itemView) {
@@ -42,16 +43,16 @@ public class GoodsGridItemHolder extends BaseHolder<Goods> {
     }
 
     @Override
-    public void setData(Goods data, int position) {
+    public void setData(ReturnGoods.DataEntity data, int position) {
 
-        Observable.just(data.getName())
+        Observable.just(data.getProductname())
                 .subscribe(RxTextView.text(name));
-        Observable.just(data.getPrice())
+        Observable.just(data.getSaleprice()+"")
                 .subscribe(RxTextView.text(Price));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(data.getImageUrl())
+                .url(HOST+data.getImageurl())
                 .imageView(im)
                 .build());
     }

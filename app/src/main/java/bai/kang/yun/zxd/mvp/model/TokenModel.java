@@ -51,7 +51,7 @@ public class TokenModel extends BaseModel<ServiceManager, CacheManager> {
 //        Observable<Token> tokenObservable=mServiceManager
 //                .getGetTokenService().getToken("app_baikangyun","",scope,"token");
         Observable<Token> tokenObservable=mServiceManager
-                .getGetTokenService().getToken();
+                .getGetTokenService().getToken("","","","");
 //        使用rxcache缓存
          mCacheManager.getCommonCache()
                 .getToken(tokenObservable

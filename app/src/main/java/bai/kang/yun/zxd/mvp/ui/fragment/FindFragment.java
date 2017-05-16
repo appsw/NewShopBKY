@@ -71,7 +71,7 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
     @Override
     protected void initData() {
         mPresenter.getCategorylist();
-        mPresenter.setRight(1);
+        mPresenter.setRight2(999);
     }
 
     /**
@@ -134,7 +134,7 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
             public void onItemClick(View view, int viewType, Object data, int position) {
                 GoodsCategoryListItemHolder.setSelectIndex(position);
                 goodsCategoryListAdapter.notifyDataSetChanged();
-                mPresenter.setRight(position);
+                mPresenter.setRight2(position);
             }
         });
         initRecycleView();

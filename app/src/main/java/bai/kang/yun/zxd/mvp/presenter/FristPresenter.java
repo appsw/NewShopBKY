@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.SimpleAdapter;
 
 import com.jess.arms.base.AppManager;
@@ -18,7 +19,10 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
+import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
+import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsGridAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.RollViewpagerAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -37,8 +41,8 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
     private RxErrorHandler mErrorHandler;
     private AppManager mAppManager;
     private Application mApplication;
-    private List<Map<String,String>> UrlList= new ArrayList();
-    private List<Goods> GoodsList= new ArrayList();
+    private List<Banner.DataEntity> banners=new ArrayList<>();
+    private List<ReturnGoods.DataEntity> GoodsList= new ArrayList();
     RollViewpagerAdapter rollViewpagerAdapter;
     GoodsGridAdapter goodsGridAdapter;
     SimpleAdapter simpleadapter;
@@ -59,7 +63,7 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
         this.mApplication = application;
         this.mErrorHandler = handler;
         this.mAppManager = appManager;
-        rollViewpagerAdapter = new RollViewpagerAdapter(UrlList);
+        rollViewpagerAdapter = new RollViewpagerAdapter(banners);
         goodsGridAdapter=new GoodsGridAdapter(GoodsList);
         simpleadapter=new SimpleAdapter(UiUtils.getContext(),list, R.layout.item_gridview,
                 new String[]{"pt","name"},new int[]{R.id.pt,R.id.name});
@@ -68,45 +72,59 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
 
     }
     public void getGGwUrl(){
-        List<String> urls=new ArrayList<>();
-        urls.add("http://img.800pharm.com/images/20160921/20160921005414_8.jpg");
-        urls.add("http://img.800pharm.com/images/20160921/20160921005444_393.jpg");
-        urls.add("http://img.800pharm.com/images/20170321/20170321150712_81.jpg");
-        mRootView.setImg(urls);
+        mModel.getAD()
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .compose(RxUtils.bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new ErrorHandleSubscriber<Advertisement>(mErrorHandler) {
+                            @Override
+                            public void onNext(Advertisement advertisement) {
+                                if(advertisement.getStatus()==1){
+                                    mRootView.setImg(advertisement.getData());
+                                }
+                            }
+                        });
+
     }
     public void requestUrls() {
-//        mModel.getBannerUrl()
-         getBanner()
+        mModel.getBannerUrl()
                  .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .compose(RxUtils.bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                  .observeOn(AndroidSchedulers.mainThread())
                  .subscribe(
-                        new ErrorHandleSubscriber<List<Map<String,String>>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<Banner>(mErrorHandler) {
                     @Override
-                    public void onNext(List<Map<String,String>> stringStringMap) {
+                    public void onNext(Banner banner) {
+                        if(banner.getStatus()==1){
+                            banners.addAll(banner.getData());
+                            rollViewpagerAdapter.notifyDataSetChanged();
+                        }
 
-                            UrlList.addAll(stringStringMap);
+                        Log.e("state",banner.getData().toString()+"");
 
-                        rollViewpagerAdapter.notifyDataSetChanged();
 
                     }
                 });
     }
     public void getGoodsGrid(){
 
-//           mModel.getGoodslist(123,isEvictCache)
-        getGoodsList()
+           mModel.getGoodsGrid()
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxUtils.<List<Goods>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<ReturnGoods>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<Goods>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<ReturnGoods>(mErrorHandler) {
                             @Override
-                            public void onNext(List<Goods> goods) {
-                                GoodsList.addAll(goods);
-                                goodsGridAdapter.notifyDataSetChanged();}
+                            public void onNext(ReturnGoods goods) {
+                                if(goods.getStatus()==1){
+                                    GoodsList.addAll(goods.getData());
+                                    goodsGridAdapter.notifyDataSetChanged();
+                                }
+                                }
                         });
     }
     public void setGrid(){
