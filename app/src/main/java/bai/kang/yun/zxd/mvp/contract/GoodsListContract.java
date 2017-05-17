@@ -5,9 +5,7 @@ import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.util.List;
-
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import rx.Observable;
 
 /**
@@ -35,6 +33,6 @@ public interface GoodsListContract {
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-        Observable<List<Goods>> getGoodslist(int id,boolean updata);
+        Observable<CategoryGoods> getGoodslist(int id, int page, boolean updata);
     }
 }

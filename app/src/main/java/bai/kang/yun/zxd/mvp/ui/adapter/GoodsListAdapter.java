@@ -8,20 +8,20 @@ import com.jess.arms.base.DefaultAdapter;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.ui.holder.GoodsListItemHolder;
 
 /**
  * Created by Administrator on 2017/4/13 0013.
  */
 
-public class GoodsListAdapter extends DefaultAdapter<Goods> {
-    public GoodsListAdapter(List<Goods> infos) {
+public class GoodsListAdapter extends DefaultAdapter<CategoryGoods.ItemEntity> {
+    public GoodsListAdapter(List<CategoryGoods.ItemEntity> infos) {
         super(infos);
     }
 
     @Override
-    public BaseHolder<Goods> getHolder(View v, int viewType) {
+    public BaseHolder<CategoryGoods.ItemEntity> getHolder(View v, int viewType) {
         return new GoodsListItemHolder(v);
     }
 

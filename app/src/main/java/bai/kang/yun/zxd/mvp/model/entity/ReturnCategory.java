@@ -1,5 +1,6 @@
 package bai.kang.yun.zxd.mvp.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,7 +83,7 @@ public class ReturnCategory {
             this.pid = pid;
         }
 
-        private List<DataEntity> grid3;
+        private List<DataEntity> grid3=new ArrayList<>();
 
         public List<DataEntity> getGrid3() {
             return grid3;

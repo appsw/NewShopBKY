@@ -176,6 +176,7 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         });
     }
 
+
     @Override
     public void setAdapter(RollViewpagerAdapter rolladapter, SimpleAdapter simpleAdapter,
                            DefaultAdapter defaultadapter) {

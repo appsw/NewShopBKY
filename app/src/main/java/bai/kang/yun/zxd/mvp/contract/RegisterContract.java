@@ -1,7 +1,12 @@
 package bai.kang.yun.zxd.mvp.contract;
 
+import android.graphics.drawable.Drawable;
+
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
+
+import bai.kang.yun.zxd.mvp.model.entity.PhoneYzm;
+import rx.Observable;
 
 /**
  * 通过Template生成对应页面的MVP和Dagger代码,请注意输入框中输入的名字必须相同
@@ -24,10 +29,15 @@ public interface RegisterContract {
         String getRPsw();
         String getEmail();
         String getVerification();
+        String getPhoneYzm();
+        void setYZM(Drawable drawable);
+        void setSendBtngray();
+        void setSendBtngreen();
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-
+        Observable<PhoneYzm> getPhoneYzm(String mobile);
+        Observable<PhoneYzm> register(String pswd,String username,String mobile);
     }
 }

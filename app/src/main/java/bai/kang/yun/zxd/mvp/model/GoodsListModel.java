@@ -6,14 +6,13 @@ import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BaseModel;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
+import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import rx.Observable;
@@ -53,16 +52,17 @@ public class GoodsListModel extends BaseModel<ServiceManager, CacheManager> impl
     }
 
     @Override
-    public Observable<List<Goods>> getGoodslist(int id, boolean update) {
-        Observable<List<Goods>> Goods = mServiceManager.getGoodsListService()
-                .getGoodslist(id);
+    public Observable<CategoryGoods> getGoodslist(int id,int page, boolean update) {
+        Observable<CategoryGoods> Goods = mServiceManager.
+                getCategoryGoodsService().getCategory(id,page);
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
         return mCacheManager.getCommonCache()
-                .getGoodsList(Goods
+                .getCategoryGoods(Goods
+                        ,new DynamicKeyGroup(id,page)
                 ,new EvictDynamicKey(update))
-                .flatMap(new Func1<Reply<List<Goods>>, Observable<List<Goods>>>() {
+                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
                     @Override
-                    public Observable<List<Goods>> call(Reply<List<Goods>> listReply) {
+                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
                         return Observable.just(listReply.getData());
                     }
                 });

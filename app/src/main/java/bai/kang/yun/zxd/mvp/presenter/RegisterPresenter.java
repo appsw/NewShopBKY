@@ -1,17 +1,27 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxUtils;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import javax.inject.Inject;
 
+import bai.kang.yun.zxd.app.utils.Code;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.contract.RegisterContract;
+import bai.kang.yun.zxd.mvp.model.entity.PhoneYzm;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -40,6 +50,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.Model, Reg
     private String pswd;
     private String rpswd;
     private String verification;
+    private String phone_yzm;
     @Inject
     public RegisterPresenter(RegisterContract.Model model, RegisterContract.View rootView
             , RxErrorHandler handler, Application application
@@ -55,22 +66,67 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.Model, Reg
         pswd=mRootView.getPsw();
         rpswd=mRootView.getRPsw();
         email=mRootView.getEmail();
-        verification=mRootView.getVerification();
+        phone_yzm=mRootView.getPhoneYzm();
         if(name.isEmpty()){
             UiUtils.makeText("请输入用户名");
         }else if(pswd.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else if(rpswd.isEmpty()){
             UiUtils.makeText("请输入确认密码");
-        }else if(rpswd.equals(pswd)){
+        }else if(!rpswd.equals(pswd)){
             UiUtils.makeText("两次密码输入不同");
         }else if(email.isEmpty()){
-            UiUtils.makeText("请输入邮箱");
-        }else if(verification.isEmpty()){
-            UiUtils.makeText("请输入验证码");
-        }else {
+            UiUtils.makeText("请输入手机号");
+        }else if(phone_yzm.isEmpty()){
+            UiUtils.makeText("请输入手机验证码");
+        }else if(!phone_yzm.equals(Transfer.YZM)){
+            UiUtils.makeText("手机验证码错误");
+        }
+        else {
             UiUtils.makeText("ok");
         }
+    }
+    public void setyzm(){
+        Drawable drawable=new BitmapDrawable(Code.getInstance().createBitmap());
+        mRootView.setYZM(drawable);
+
+    }
+    public void send(){
+        verification=mRootView.getVerification();
+        email=mRootView.getEmail();
+        if(email.isEmpty()){
+            UiUtils.makeText("请输入手机号！");
+            return;
+        }
+        if(verification.isEmpty()){
+            UiUtils.makeText("请输入验证码！");
+            return;
+        }
+        if(!verification.equals(Code.getInstance().getCode())){
+            UiUtils.makeText("输入验证码错误！");
+            return;
+        }
+        mRootView.setSendBtngray();
+        sendtosevice(email);
+    }
+    private void sendtosevice(String mobile){
+        mModel.getPhoneYzm(mobile)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<PhoneYzm>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<PhoneYzm>(mErrorHandler) {
+                            @Override
+                            public void onNext(PhoneYzm category) {
+                                if(category.getStatus()==1){
+                                    Transfer.YZM=category.getMessage();
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                    mRootView.setSendBtngreen();
+                                }
+                            }
+                        });
     }
     @Override
     public void onDestroy() {

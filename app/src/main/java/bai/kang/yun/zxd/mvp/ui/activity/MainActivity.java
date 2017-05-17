@@ -333,4 +333,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
         //    Toast.makeText(MainActivity.this,"不能返回",Toast.LENGTH_SHORT).show();
         return false;
     }
+    public  void startactivity(Intent intent){
+        startActivityForResult(intent,3);
+    }
 }

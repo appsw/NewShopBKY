@@ -63,6 +63,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
+
         goodsCategoryGridAdapter=new FristListAdapter(mApplication,list2);
         goodsCategoryListAdapter=new GoodsCategoryListAdapter(list1);
         mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
@@ -89,7 +90,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
     public void setRight2(int id){
         int ID;
         if(id==999){
-             ID=147;
+             ID=118;
         }else {
             ID=list1.get(id).getId();
         }
@@ -111,7 +112,7 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
                                         ReturnCategory.DataEntity dataEntity=list2.get(i);
                                         setRight3(dataEntity.getId(),i);
                                     }
-                                    goodsCategoryGridAdapter.notifyDataSetChanged();
+//                                    goodsCategoryGridAdapter.notifyDataSetChanged();
                                 }
 
                             }
@@ -131,13 +132,15 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
                             public void onNext(ReturnCategory goods) {
                                 if(pos<list2.size()){
                                     if(goods.getStatus()==1){
-                                        list2.get(pos).setGrid3(goods.getData());
+                                        list2.get(pos).getGrid3().addAll(goods.getData());
+                                        goodsCategoryGridAdapter.notifyDataSetChanged();
                                     }
                                 }else {
                                     if(goods.getStatus()==1){
-                                        list2.get(pos).setGrid3(goods.getData());
-                                        goodsCategoryGridAdapter=new FristListAdapter(mApplication,list2);
-                                        mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
+                                        list2.get(pos).getGrid3().addAll(goods.getData());
+                                        goodsCategoryGridAdapter.notifyDataSetChanged();
+//                                        goodsCategoryGridAdapter=new FristListAdapter(mApplication,list2);
+//                                        mRootView.setAdapter(goodsCategoryListAdapter,goodsCategoryGridAdapter);
                                     }
                                 }
 

@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.RegisterContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.PhoneYzm;
+import rx.Observable;
 
 
 /**
@@ -45,4 +47,17 @@ public class RegisterModel extends BaseModel<ServiceManager, CacheManager> imple
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<PhoneYzm> getPhoneYzm(String mobile) {
+        Observable<PhoneYzm> yzm = mServiceManager.
+                getGetPhoneYzm().getCategory(mobile);
+        return yzm;
+    }
+
+    @Override
+    public Observable<PhoneYzm> register(String pswd, String username, String mobile) {
+        Observable<PhoneYzm> yzm = mServiceManager.
+                getRegisterService().getCategory(pswd,username,mobile);
+        return yzm;
+    }
 }

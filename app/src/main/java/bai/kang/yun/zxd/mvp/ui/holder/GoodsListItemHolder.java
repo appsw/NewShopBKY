@@ -15,7 +15,7 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.ui.activity.ShopListActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,7 +26,7 @@ import rx.Observable;
  * Created by Administrator on 2017/4/13 0013.
  */
 
-public class GoodsListItemHolder extends BaseHolder<Goods> {
+public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
     @Nullable
     @BindView(R.id.item_im)
     ImageView im;
@@ -46,6 +46,7 @@ public class GoodsListItemHolder extends BaseHolder<Goods> {
     LinearLayout ll;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
+    final String HOST="http://www.baikangyun.com";
     public GoodsListItemHolder(View itemView) {
         super(itemView);
         //可以在任何可以拿到Application的地方,拿到AppComponent,从而得到用Dagger管理的单例对象
@@ -54,19 +55,19 @@ public class GoodsListItemHolder extends BaseHolder<Goods> {
     }
 
     @Override
-    public void setData(Goods data, int position) {
-        Observable.just(data.getName())
+    public void setData(CategoryGoods.ItemEntity data, int position) {
+        Observable.just(data.getDrugs_name())
                 .subscribe(RxTextView.text(name));
-        Observable.just(data.getAbstract())
+        Observable.just(data.getPizhunwenhao())
                 .subscribe(RxTextView.text(abst));
-        Observable.just(data.getPrice()+"")
+        Observable.just(data.getMinPrice()+"")
                 .subscribe(RxTextView.text(price));
-        Observable.just(data.getSeleing()+"")
+        Observable.just(data.getSpCount()+"")
                 .subscribe(RxTextView.text(seleing));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(data.getImageUrl())
+                .url(HOST+data.getImg_title())
                 .imageView(im)
                 .build());
     }

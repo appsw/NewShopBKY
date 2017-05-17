@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
@@ -12,6 +13,7 @@ import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
 import io.rx_cache.DynamicKey;
+import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.LifeCache;
 import io.rx_cache.Reply;
@@ -36,6 +38,9 @@ public interface CommonCache {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ReturnCategory>> getCategory(Observable<ReturnCategory> scope, DynamicKey idLastUserQueried);
+
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<CategoryGoods>> getCategoryGoods(Observable<CategoryGoods> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
 }

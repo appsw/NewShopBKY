@@ -20,7 +20,9 @@ public class ServiceManager implements BaseServiceManager {
     private GetTokenService mGetTokenService;
     private GetADService mGetADService;
     private GetCategoryService mGetCategoryService;
-
+    private GetCategoryGoodsService mGetCategoryGoodsService;
+    private GetPhoneYzm mGetPhoneYzm;
+    private RegisterService mRegisterService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -30,7 +32,8 @@ public class ServiceManager implements BaseServiceManager {
                                   BannerService bannerService,GoodsListService goodsListService,
                                   GoodsGridService goodsGridService,CarListService carListService,
                                   GetTokenService getTokenService,GetADService getADService,
-                                  GetCategoryService getCategoryService){
+                                  GetCategoryService getCategoryService,GetCategoryGoodsService getCategoryGoodsService,
+                                  GetPhoneYzm getPhoneYzm,RegisterService registerService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -40,6 +43,9 @@ public class ServiceManager implements BaseServiceManager {
         this.mGetTokenService=getTokenService;
         this.mGetADService=getADService;
         this.mGetCategoryService=getCategoryService;
+        this.mGetCategoryGoodsService=getCategoryGoodsService;
+        this.mGetPhoneYzm=getPhoneYzm;
+        this.mRegisterService=registerService;
     }
 
     public CommonService getCommonService() {
@@ -58,6 +64,9 @@ public class ServiceManager implements BaseServiceManager {
     public GetTokenService getGetTokenService(){return mGetTokenService;}
     public GetADService getGetADService(){return mGetADService;}
     public GetCategoryService getGetCategoryService(){return mGetCategoryService;}
+    public GetCategoryGoodsService getCategoryGoodsService(){return mGetCategoryGoodsService;}
+    public GetPhoneYzm getGetPhoneYzm(){return mGetPhoneYzm;}
+    public RegisterService getRegisterService(){return mRegisterService;}
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)
      */

@@ -35,7 +35,6 @@ public class RollViewpagerAdapter extends StaticPagerAdapter {
     public View getView(ViewGroup container, int position) {
         final ImageView imageView=new ImageView(container.getContext());
         String imageUrl= host+list.get(position).getImg();
-        Log.e("imageUrl",imageUrl+"111");
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(imageUrl)

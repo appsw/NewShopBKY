@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerGoodsListComponent;
 import bai.kang.yun.zxd.di.module.GoodsListModule;
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
@@ -71,7 +73,8 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
     @Override
     protected void initData() {
-            mPresenter.requestUsers(true);
+        Log.e("id","id:"+ Transfer.chosegoods);
+        mPresenter.requestUsers(Transfer.chosegoods,true);
     }
 
 
@@ -109,7 +112,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
     @Override
     public void onRefresh() {
-        mPresenter.requestUsers(true);
+        mPresenter.requestUsers(Transfer.chosegoods,true);
     }
 
     /**
@@ -149,7 +152,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    mPresenter.requestUsers(false);
+                    mPresenter.requestUsers(Transfer.chosegoods,false);
                 }
 
                 @Override

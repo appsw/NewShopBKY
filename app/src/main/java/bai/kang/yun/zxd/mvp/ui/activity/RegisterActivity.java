@@ -1,14 +1,19 @@
 package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.jess.arms.utils.UiUtils;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Code;
 import bai.kang.yun.zxd.di.component.DaggerRegisterComponent;
 import bai.kang.yun.zxd.di.module.RegisterModule;
 import bai.kang.yun.zxd.mvp.contract.RegisterContract;
@@ -44,8 +49,15 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
     EditText pswd;
     @BindView(R.id.register_password2)
     EditText rpswd;
+    @BindView(R.id.register_phone_yzm)
+    EditText phone_yzm;
     @BindView(R.id.et_yzm)
     EditText verification;
+    @BindView(R.id.im_yzm)
+    ImageView in_yzm;
+
+    @BindView(R.id.btn_send)
+    Button btn_send;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -64,9 +76,17 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
 
     @Override
     protected void initData() {
-
+        mPresenter.setyzm();
     }
-
+    @OnClick(R.id.btn_send)
+    void send(){
+        mPresenter.send();
+        Log.e("code",""+Code.getInstance().getCode());
+    }
+    @OnClick(R.id.im_yzm)
+    void setyzm(){
+        mPresenter.setyzm();
+    }
 
     @Override
     public void showLoading() {
@@ -120,6 +140,29 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
     public String getVerification() {
         return verification.getText().toString();
     }
+
+    @Override
+    public String getPhoneYzm() {
+        return phone_yzm.getText().toString();
+    }
+
+    @Override
+    public void setYZM(Drawable drawable) {
+        in_yzm.setBackground(drawable);
+    }
+
+    @Override
+    public void setSendBtngray() {
+        btn_send.setBackgroundResource(R.color.darkgray);
+        btn_send.setEnabled(false);
+    }
+
+    @Override
+    public void setSendBtngreen() {
+        btn_send.setBackgroundResource(R.color.green);
+        btn_send.setEnabled(true);
+    }
+
     @OnClick(R.id.register_register)
     void register(){
         mPresenter.register();

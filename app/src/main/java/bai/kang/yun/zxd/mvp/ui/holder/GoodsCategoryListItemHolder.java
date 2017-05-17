@@ -34,7 +34,7 @@ public class GoodsCategoryListItemHolder extends BaseHolder<ReturnCategory.DataE
     public void setData(ReturnCategory.DataEntity data, int position) {
         /** 选中的行: 背景白色, 否则灰色  */
         if(curSelectRow == position){
-            itemView.setBackgroundColor(UiUtils.getContext().getResources().getColor(R.color.slategrey));
+            itemView.setBackgroundColor(UiUtils.getContext().getResources().getColor(R.color.darkgray));
         }else{
             itemView.setBackgroundColor(UiUtils.getContext().getResources().getColor(R.color.white));
         }

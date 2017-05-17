@@ -17,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
+import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -48,10 +49,11 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
-    private List<Goods> GoodsList = new ArrayList<>();
+    private List<CategoryGoods.ItemEntity> GoodsList = new ArrayList<>();
     private DefaultAdapter mAdapter;
     private boolean isFirst = true;
     private int preEndIndex;
+    private int page = 1;
 
     @Inject
     public GoodsListPresenter(GoodsListContract.Model model, GoodsListContract.View rootView
@@ -66,14 +68,14 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
         mRootView.setAdapter(mAdapter);//设置Adapter
     }
 
-    public void requestUsers(final boolean pullToRefresh) {
+    public void requestUsers(final int id,final boolean pullToRefresh) {
 
         //请求外部存储权限用于适配android6.0的权限管理机制
         PermissionUtil.externalStorage(() -> {
             //request permission success, do something.
         }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
 
-
+        if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
 
         boolean isEvictCache = pullToRefresh;//是否驱逐缓存,为ture即不使用缓存,每次上拉刷新即需要最新数据,则不使用缓存
@@ -83,8 +85,7 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
             isEvictCache = false;
         }
 
-//           mModel.getGoodslist(123,isEvictCache)
-        getGoodsList()
+        mModel.getGoodslist(id,page,isEvictCache)
         .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {
@@ -100,20 +101,21 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                     else
                         mRootView.endLoadMore();//隐藏下拉加载更多的进度条
                 })
-                .compose(RxUtils.<List<Goods>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<CategoryGoods>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<Goods>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<CategoryGoods>(mErrorHandler) {
                     @Override
-                    public void onNext(List<Goods> users) {
+                    public void onNext(CategoryGoods users) {
                         LogUtils.debugInfo("1111");
                         if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
                         preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                        GoodsList.addAll(users);
+                        GoodsList.addAll(users.getPage_data().getItems());
                         if (pullToRefresh){
                             LogUtils.debugInfo("222");
                             mAdapter.notifyDataSetChanged();}
                         else
-                            mAdapter.notifyItemRangeInserted(preEndIndex, users.size());
+                            mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
+                    page++;
                     }
                 });
     }

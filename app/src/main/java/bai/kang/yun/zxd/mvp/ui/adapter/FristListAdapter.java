@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import java.util.List;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.MyGridView;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
+import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
 
 
 /**
@@ -70,9 +73,9 @@ public class FristListAdapter extends BaseAdapter {
                 viewHolder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Intent intent =new Intent(context, CategoryList.class);
-//                        intent.putExtra("keywords",list.get(position).get("id")+"");
-//                        ((Activity) parent.getContext()).startActivityForResult(intent,3);
+                        Transfer.chosegoods=list.get(position).getId();
+                        Intent intent =new Intent(context, GoodsListActivity.class);
+                        UiUtils.startActivity(intent);
 
                     }
                 });

@@ -1,7 +1,6 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
-import android.util.Log;
 import android.widget.SimpleAdapter;
 
 import com.jess.arms.base.AppManager;
@@ -102,10 +101,6 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
                             banners.addAll(banner.getData());
                             rollViewpagerAdapter.notifyDataSetChanged();
                         }
-
-                        Log.e("state",banner.getData().toString()+"");
-
-
                     }
                 });
     }

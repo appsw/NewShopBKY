@@ -7,10 +7,13 @@ import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
+import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
 import dagger.Provides;
@@ -68,5 +71,20 @@ public class ServiceModule {
     @Provides
     GetCategoryService provideGetCategoryService(Retrofit retrofit) {
         return retrofit.create(GetCategoryService.class);
+    }
+    @Singleton
+    @Provides
+    GetCategoryGoodsService provideGetCategoryGoodsService(Retrofit retrofit) {
+        return retrofit.create(GetCategoryGoodsService.class);
+    }
+    @Singleton
+    @Provides
+    GetPhoneYzm provideGetPhoneYzm(Retrofit retrofit) {
+        return retrofit.create(GetPhoneYzm.class);
+    }
+    @Singleton
+    @Provides
+    RegisterService provideRegisterService(Retrofit retrofit) {
+        return retrofit.create(RegisterService.class);
     }
 }
