@@ -77,13 +77,13 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.Model, Reg
             UiUtils.makeText("两次密码输入不同");
         }else if(email.isEmpty()){
             UiUtils.makeText("请输入手机号");
-        }else if(phone_yzm.isEmpty()){
+        }/*else if(phone_yzm.isEmpty()){
             UiUtils.makeText("请输入手机验证码");
         }else if(!phone_yzm.equals(Transfer.YZM)){
             UiUtils.makeText("手机验证码错误");
-        }
+        }*/
         else {
-            UiUtils.makeText("ok");
+            SendToSeviceRegister(name,pswd,email);
         }
     }
     public void setyzm(){
@@ -107,9 +107,28 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.Model, Reg
             return;
         }
         mRootView.setSendBtngray();
-        sendtosevice(email);
+        sendtoseviceYZM(email);
     }
-    private void sendtosevice(String mobile){
+    private void SendToSeviceRegister(String username,String pswd,String mobile){
+        mModel.register(pswd,username,mobile)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<PhoneYzm>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<PhoneYzm>(mErrorHandler) {
+                            @Override
+                            public void onNext(PhoneYzm category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText("注册成功");
+                                    mRootView.OpenLogin();
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
+    }
+    private void sendtoseviceYZM(String mobile){
         mModel.getPhoneYzm(mobile)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔

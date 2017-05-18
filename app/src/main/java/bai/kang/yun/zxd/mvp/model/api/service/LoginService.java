@@ -1,11 +1,9 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
-import java.util.List;
-
-import bai.kang.yun.zxd.mvp.model.entity.User;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.Query;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnUser;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -13,10 +11,10 @@ import rx.Observable;
  */
 
 public interface LoginService {
-    String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
-
-    @Headers({HEADER_API_VERSION})
-    @GET("/users")
-    Observable<List<User>> Login(@Query("name") String name, @Query("psw") String psw);
+    @FormUrlEncoded
+    @POST("/user/user_login")
+    Observable<ReturnUser> login (
+                                        @Field("user_name") String user_name,
+                                        @Field("password") String password);
 
 }

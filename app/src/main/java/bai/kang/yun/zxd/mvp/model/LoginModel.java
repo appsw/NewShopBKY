@@ -14,6 +14,8 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.LoginContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnUser;
+import rx.Observable;
 
 
 /**
@@ -56,6 +58,14 @@ public class LoginModel extends BaseModel<ServiceManager, CacheManager> implemen
         tokenModel.getToken(url);
         return null;
     }
+
+    @Override
+    public Observable<ReturnUser> Login(String username, String pswd) {
+        Observable<ReturnUser> yzm = mServiceManager.
+                getLoginService().login(username,pswd);
+        return yzm;
+    }
+
     Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {

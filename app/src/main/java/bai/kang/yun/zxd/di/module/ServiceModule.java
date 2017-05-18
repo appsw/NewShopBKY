@@ -13,6 +13,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
+import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
@@ -86,5 +87,10 @@ public class ServiceModule {
     @Provides
     RegisterService provideRegisterService(Retrofit retrofit) {
         return retrofit.create(RegisterService.class);
+    }
+    @Singleton
+    @Provides
+    LoginService provideLoginService(Retrofit retrofit) {
+        return retrofit.create(LoginService.class);
     }
 }

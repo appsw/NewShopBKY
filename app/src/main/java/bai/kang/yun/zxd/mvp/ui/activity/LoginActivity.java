@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,11 +65,19 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
 
     @Override
     protected void initData() {
+        if(getIntent().getBundleExtra("data")!=null){
+            Bundle bundle=getIntent().getBundleExtra("data");
+            name.setText(bundle.getString("name"));
+            psaaword.setText(bundle.getString("pswd"));
+        }
+
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(UiUtils.getContext(),RegisterActivity.class);
                 UiUtils.startActivity(intent);
+                killMyself();
 //                mPresenter.re();
             }
         });

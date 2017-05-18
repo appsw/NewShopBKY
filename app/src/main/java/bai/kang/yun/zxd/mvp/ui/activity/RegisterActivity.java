@@ -2,6 +2,7 @@ package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -161,6 +162,17 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
     public void setSendBtngreen() {
         btn_send.setBackgroundResource(R.color.green);
         btn_send.setEnabled(true);
+    }
+
+    @Override
+    public void OpenLogin() {
+        Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString("name",getName());
+        bundle.putString("pswd",getPsw());
+        i.putExtra("data",bundle);
+        startActivityForResult(i,3);
+        killMyself();
     }
 
     @OnClick(R.id.register_register)

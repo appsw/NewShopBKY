@@ -36,7 +36,7 @@ public interface CommonCache {
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<Token>> getToken(Observable<Token> scope,DynamicKey idLastUserQueried);
 
-    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    @LifeCache(duration = 7, timeUnit = TimeUnit.DAYS)
     Observable<Reply<ReturnCategory>> getCategory(Observable<ReturnCategory> scope, DynamicKey idLastUserQueried);
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)

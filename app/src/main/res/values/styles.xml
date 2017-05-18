@@ -123,4 +123,12 @@
         <!-- 半透明 -->
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <style name="edit_text" parent="@style/textStyle">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/bg_line_write</item>
+        <item name="android:layout_marginLeft">8.0dip</item>
+        <item name="android:textSize">@dimen/textSizeNormal</item>
+    </style>
 </resources>

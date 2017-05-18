@@ -1,8 +1,9 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
 import bai.kang.yun.zxd.mvp.model.entity.PhoneYzm;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -10,8 +11,9 @@ import rx.Observable;
  */
 
 public interface RegisterService {
-    @GET("/user/user_regist")
-    Observable<PhoneYzm> getCategory (@Query("password") String password,
-                                      @Query("user_name") String user_name,
-                                      @Query("mobile") String mobile);
+    @FormUrlEncoded
+    @POST("/user/user_regist")
+    Observable<PhoneYzm> getCategory (@Field("password") String password,
+                                      @Field("user_name") String user_name,
+                                      @Field("mobile") String mobile);
 }

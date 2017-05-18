@@ -1,11 +1,14 @@
 package bai.kang.yun.zxd.mvp.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jess.arms.utils.UiUtils;
 
@@ -15,6 +18,7 @@ import bai.kang.yun.zxd.di.module.MeModule;
 import bai.kang.yun.zxd.mvp.contract.MeContract;
 import bai.kang.yun.zxd.mvp.presenter.MePresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
+import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
 import common.WEFragment;
@@ -36,7 +40,9 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 public class MeFragment extends WEFragment<MePresenter> implements MeContract.View {
 
-
+    @BindView(R.id.nickname_txtv)
+    TextView tv_name;
+    SharedPreferences config;
     public static MeFragment newInstance() {
         MeFragment fragment = new MeFragment();
         return fragment;
@@ -50,11 +56,24 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
                 .meModule(new MeModule(this))//请将MeModule()第一个首字母改为小写
                 .build()
                 .inject(this);
+
     }
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
+
         return inflater.inflate(R.layout.fragment_me, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        config=getActivity().getApplication().getSharedPreferences("config", Context.MODE_PRIVATE);
+        if(config!=null){
+            String name=config.getString("name","点击此处登录");
+            tv_name.setText(name);
+        }
+
     }
 
     @Override

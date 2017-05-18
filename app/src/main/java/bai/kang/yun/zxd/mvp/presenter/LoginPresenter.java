@@ -1,17 +1,25 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxUtils;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.LoginContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnUser;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -35,12 +43,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     String name,psw;
-
+    SharedPreferences config;
     @Inject
     public LoginPresenter(LoginContract.Model model, LoginContract.View rootView
             , RxErrorHandler handler, Application application
             , ImageLoader imageLoader, AppManager appManager) {
         super(model, rootView);
+        config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
         this.mErrorHandler = handler;
         this.mApplication = application;
         this.mImageLoader = imageLoader;
@@ -54,7 +63,25 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
-           String s= mModel.getToken("http://api.baikangyun.com/app/get_AD/10");
+            mModel.Login(name,psw)
+                    .subscribeOn(Schedulers.io())
+                    .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxUtils.<ReturnUser>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                    .subscribe(
+                            new ErrorHandleSubscriber<ReturnUser>(mErrorHandler) {
+                                @Override
+                                public void onNext(ReturnUser category) {
+                                    if(category.getStatus()==1){
+                                        UiUtils.makeText("登录成功");
+                                        config.edit().putString("name",category.getSingle().getUser_name())
+                                        .putInt("id",category.getSingle().getId()).commit();
+                                        mRootView.killMyself();
+                                    }else {
+                                        UiUtils.makeText(category.getMessage());
+                                    }
+                                }
+                            });
 
         }
     }

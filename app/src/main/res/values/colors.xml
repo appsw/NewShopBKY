@@ -306,6 +306,8 @@
     <color name="button_fouces_gray">#f6f6f6</color>
     <color name="button_bg_gray">#dddcdc</color>//按钮背景灰色
     <color name="sub_title">#848689</color>//副标题文本颜色
+    <color name="light_red">#f15353</color>//京东红
+    <color name="select_light_red">#f03f3f</color>//京东红:选中背景颜色
     <!-- 公共颜色属性 -->
     <color name="bg_activity">#fff0f2f5</color>
     <color name="bg_view">#ffffffff</color>
