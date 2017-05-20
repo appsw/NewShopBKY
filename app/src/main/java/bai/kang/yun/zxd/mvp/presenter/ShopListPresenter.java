@@ -6,7 +6,6 @@ import com.jess.arms.base.AppManager;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.RxUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
@@ -16,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.ShopListContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
 import bai.kang.yun.zxd.mvp.ui.adapter.ShopListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -47,10 +47,11 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
-    private List<Shop> ShopList = new ArrayList<>();
+    private List<ReturnShop.ItemEntity> ShopList = new ArrayList<>();
     private DefaultAdapter mAdapter;
     private boolean isFirst = true;
     private int preEndIndex;
+    private int page = 1;
 
     @Inject
     public ShopListPresenter(ShopListContract.Model model, ShopListContract.View rootView
@@ -65,10 +66,11 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
         mRootView.setAdapter(mAdapter);//设置Adapter
     }
 
-    public void requestUsers(final boolean pullToRefresh) {
+    public void requestUsers(final int kind,final int id,final boolean pullToRefresh) {
 
 
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
+        if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
 
         boolean isEvictCache = pullToRefresh;//是否驱逐缓存,为ture即不使用缓存,每次上拉刷新即需要最新数据,则不使用缓存
 
@@ -77,8 +79,7 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
             isEvictCache = false;
         }
 
-//           mModel.getGoodslist(123,isEvictCache)
-        getGoodsList()
+         mModel.getShoplist(kind,id,page,isEvictCache)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {
@@ -94,20 +95,22 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
                     else
                         mRootView.endLoadMore();//隐藏下拉加载更多的进度条
                 })
-                .compose(RxUtils.<List<Shop>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<ReturnShop>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<Shop>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<ReturnShop>(mErrorHandler) {
                             @Override
-                            public void onNext(List<Shop> users) {
-                                LogUtils.debugInfo("1111");
-                                if (pullToRefresh) ShopList.clear();//如果是上拉刷新则清空列表
-                                preEndIndex = ShopList.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                                ShopList.addAll(users);
-                                if (pullToRefresh){
-                                    LogUtils.debugInfo("222");
-                                    mAdapter.notifyDataSetChanged();}
-                                else
-                                    mAdapter.notifyItemRangeInserted(preEndIndex, users.size());
+                            public void onNext(ReturnShop shops) {
+                                if(shops.getStatus()==1){
+                                    if (pullToRefresh) ShopList.clear();//如果是上拉刷新则清空列表
+                                    preEndIndex = ShopList.size();//更新之前列表总长度,用于确定加载更多的起始位置
+                                    ShopList.addAll(shops.getPage_data().getItems());
+                                    if (pullToRefresh){
+                                        mAdapter.notifyDataSetChanged();}
+                                    else
+                                        mAdapter.notifyItemRangeInserted(preEndIndex,shops.getPage_data().getItems().size());
+                                    page++;
+                                }
+
                             }
                         });
     }

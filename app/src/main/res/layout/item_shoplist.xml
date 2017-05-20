@@ -50,11 +50,11 @@
                 <TextView
 
                     android:gravity="right"
-                    android:layout_width="200px"
+                    android:layout_width="300px"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:text="好评率"/>
+                    android:text="店铺评分："/>
                 <TextView
                     android:id="@+id/item_probability"
                     android:layout_width="wrap_content"

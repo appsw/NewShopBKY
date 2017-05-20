@@ -11,6 +11,12 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.ShopListContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
+import io.rx_cache.DynamicKeyGroup;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
 
 
 /**
@@ -45,4 +51,20 @@ public class ShopListModel extends BaseModel<ServiceManager, CacheManager> imple
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnShop> getShoplist(int kind,int id, int page, boolean updata) {
+        Observable<ReturnShop> shops = mServiceManager.
+                getShopListService().getShopList(kind,id,page);
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getShopList(shops
+                        ,new DynamicKeyGroup(id,page)
+                        ,new EvictDynamicKey(updata))
+                .flatMap(new Func1<Reply<ReturnShop>, Observable<ReturnShop>>() {
+                    @Override
+                    public Observable<ReturnShop> call(Reply<ReturnShop> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
 }

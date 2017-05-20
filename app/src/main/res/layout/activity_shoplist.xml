@@ -25,9 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="70px"
-            android:text="分类"
+            android:text="销售中店铺"
             android:textColor="@color/white"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:textSize="20sp"/>
 
 
@@ -74,26 +74,6 @@
                 android:text="国字健字G20100800"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp">
-                <TextView
-                    android:id="@+id/item_jg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="功能主治："
-                    android:textSize="18sp"
-                    android:textColor="@color/darkred"/>
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="开胃消食。食欲不振"/>
-
-
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

@@ -15,7 +15,7 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Shop;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,7 +26,7 @@ import rx.Observable;
  * Created by Administrator on 2017/4/13 0013.
  */
 
-public class ShopListItemHolder extends BaseHolder<Shop> {
+public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
     @Nullable
     @BindView(R.id.item_im)
     ImageView im;
@@ -46,6 +46,8 @@ public class ShopListItemHolder extends BaseHolder<Shop> {
     LinearLayout ll;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
+    final String HOST="http://www.baikangyun.com";
+
     public ShopListItemHolder(View itemView) {
         super(itemView);
         //可以在任何可以拿到Application的地方,拿到AppComponent,从而得到用Dagger管理的单例对象
@@ -54,19 +56,19 @@ public class ShopListItemHolder extends BaseHolder<Shop> {
     }
 
     @Override
-    public void setData(Shop data, int position) {
+    public void setData(ReturnShop.ItemEntity data, int position) {
         Observable.just(data.getName())
                 .subscribe(RxTextView.text(name));
-        Observable.just(data.getAdd())
+        Observable.just(data.getArea_name())
                 .subscribe(RxTextView.text(add));
-        Observable.just(data.getGoods_Price()+"")
+        Observable.just("￥"+data.getSalePrice())
                 .subscribe(RxTextView.text(price));
-        Observable.just(data.getProbability()+"")
+        Observable.just(data.getScore()+"")
                 .subscribe(RxTextView.text(probability));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
-                .url(data.getImgUrl())
+                .url(HOST+data.getImageUrl())
                 .imageView(im)
                 .build());
     }

@@ -7,15 +7,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.utils.UiUtils;
+import com.jess.arms.widget.imageloader.ImageLoader;
+import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import com.paginate.Paginate;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerShopListComponent;
 import bai.kang.yun.zxd.di.module.ShopListModule;
 import bai.kang.yun.zxd.mvp.contract.ShopListContract;
@@ -50,9 +56,18 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
     @Nullable
     @BindView(R.id.goodslist_swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.goods_name)
+    TextView tv_name;
+    @BindView(R.id.goods_abstract)
+    TextView tv_zzh;
+    @BindView(R.id.goods_factory)
+    TextView tv_factory;
+    @BindView(R.id.item_im)
+    ImageView im;
     private Paginate mPaginate;
     private boolean isLoadingMore;
     private RxPermissions mRxPermissions;
+    private ImageLoader mImageLoader;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -62,6 +77,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
                 .shopListModule(new ShopListModule(this)) //请将ShopListModule()第一个首字母改为小写
                 .build()
                 .inject(this);
+        mImageLoader = appComponent.imageLoader();
     }
 
     @Override
@@ -71,7 +87,19 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
     @Override
     protected void initData() {
-        mPresenter.requestUsers(true);
+
+        Observable.just(Transfer.chosegoods_for_open_shoplist_name)
+                .subscribe(RxTextView.text(tv_name));
+        Observable.just(Transfer.chosegoods_for_open_shoplist_name)
+                .subscribe(RxTextView.text(tv_zzh));
+        Observable.just(Transfer.chosegoods_for_open_shoplist_Manufacturers)
+                .subscribe(RxTextView.text(tv_factory));
+        mImageLoader.loadImage(mApplication, GlideImageConfig
+                .builder()
+                .url(Transfer.chosegoods_for_open_shoplist_imurl)
+                .imageView(im)
+                .build());
+        mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,true);
     }
 
 
@@ -109,7 +137,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
     @Override
     public void onRefresh() {
-        mPresenter.requestUsers(true);
+        mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,true);
     }
 
     @Override
@@ -148,7 +176,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    mPresenter.requestUsers(false);
+                    mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,false);
                 }
 
                 @Override

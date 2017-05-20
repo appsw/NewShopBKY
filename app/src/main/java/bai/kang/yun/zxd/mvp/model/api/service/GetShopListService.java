@@ -1,6 +1,6 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
-import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -11,5 +11,5 @@ import rx.Observable;
 
 public interface GetShopListService {
     @GET("/goods/get_shop_list/{kind}/{id}/{page}")
-    Observable<ReturnCategory> getCategory (@Path("kind") int kind,@Path("id") int id,@Path("page") int page);
+    Observable<ReturnShop> getShopList (@Path("kind") int kind, @Path("id") int id, @Path("page") int page);
 }

@@ -8,20 +8,20 @@ import com.jess.arms.base.DefaultAdapter;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.mvp.model.entity.Shop;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.ui.holder.ShopListItemHolder;
 
 /**
  * Created by Administrator on 2017/4/26 0026.
  */
 
-public class ShopListAdapter extends DefaultAdapter<Shop> {
-    public ShopListAdapter(List<Shop> infos) {
+public class ShopListAdapter extends DefaultAdapter<ReturnShop.ItemEntity> {
+    public ShopListAdapter(List<ReturnShop.ItemEntity> infos) {
         super(infos);
     }
 
     @Override
-    public BaseHolder<Shop> getHolder(View v, int viewType) {
+    public BaseHolder<ReturnShop.ItemEntity> getHolder(View v, int viewType) {
         return new ShopListItemHolder(v);
     }
 

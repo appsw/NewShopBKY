@@ -9,6 +9,7 @@ import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
@@ -41,6 +42,9 @@ public interface CommonCache {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<CategoryGoods>> getCategoryGoods(Observable<CategoryGoods> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
+
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnShop>> getShopList(Observable<ReturnShop> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
 }
