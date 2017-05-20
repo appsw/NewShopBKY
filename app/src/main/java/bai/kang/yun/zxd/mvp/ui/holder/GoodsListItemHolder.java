@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.holder;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
     TextView seleing;
     @BindView(R.id.item_ll)
     LinearLayout ll;
+    private CategoryGoods.ItemEntity itemEntity;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
     final String HOST="http://www.baikangyun.com";
@@ -56,6 +58,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
 
     @Override
     public void setData(CategoryGoods.ItemEntity data, int position) {
+        itemEntity=data;
         Observable.just(data.getDrugs_name())
                 .subscribe(RxTextView.text(name));
         Observable.just(data.getPizhunwenhao())
@@ -73,6 +76,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
     }
     @OnClick(R.id.item_ll)
     void onclick(){
+        Log.e("kind","kind:"+itemEntity.getKind());
         Intent intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
         UiUtils.startActivity(intent);
     }

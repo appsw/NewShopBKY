@@ -1,7 +1,7 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -10,6 +10,6 @@ import rx.Observable;
 
 public interface GetADService {
 
-    @POST("/app/get_adSlot")
+    @GET("/app/get_adSlot")
     Observable<Advertisement> getAD ();
 }

@@ -7,6 +7,8 @@ import java.util.List;
  */
 
 public class CategoryGoods {
+//    public static int status;
+//    public static String Message;
     private int status;
     private String Message;
     private String url;
@@ -101,7 +103,16 @@ public class CategoryGoods {
         private int Id;                 //商品ID
         private int spCount;                 //
         private int peta_rn;            //
+        private int kind;            //种类
         private float minPrice;     //最低价格
+
+        public int getKind() {
+            return kind;
+        }
+
+        public void setKind(int kind) {
+            this.kind = kind;
+        }
 
         public String getDrugs_name() {
             return drugs_name;

@@ -6,9 +6,9 @@ import com.jess.arms.base.AppManager;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
@@ -106,16 +106,19 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                         new ErrorHandleSubscriber<CategoryGoods>(mErrorHandler) {
                     @Override
                     public void onNext(CategoryGoods users) {
-                        LogUtils.debugInfo("1111");
-                        if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
-                        preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                        GoodsList.addAll(users.getPage_data().getItems());
-                        if (pullToRefresh){
-                            LogUtils.debugInfo("222");
-                            mAdapter.notifyDataSetChanged();}
-                        else
-                            mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
-                    page++;
+                        if(users.getStatus()==1){
+                            if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                            preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
+                            GoodsList.addAll(users.getPage_data().getItems());
+                            if (pullToRefresh){
+                                mAdapter.notifyDataSetChanged();}
+                            else
+                                mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
+                                page++;
+                        }else{
+                            UiUtils.makeText(users.getMessage());
+                        }
+
                     }
                 });
     }

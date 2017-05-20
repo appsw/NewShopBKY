@@ -2,7 +2,7 @@ package bai.kang.yun.zxd.mvp.model.api.service;
 
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -12,5 +12,5 @@ import rx.Observable;
 public interface GetCategoryService {
 
     @GET("/goods/get_category_list/{id}")
-    Observable<ReturnCategory> getCategory (@Query("id") int id);
+    Observable<ReturnCategory> getCategory (@Path("id") int id);
 }

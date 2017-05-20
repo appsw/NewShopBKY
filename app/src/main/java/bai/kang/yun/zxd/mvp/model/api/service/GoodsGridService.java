@@ -1,7 +1,7 @@
 package bai.kang.yun.zxd.mvp.model.api.service;
 
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -12,7 +12,7 @@ public interface GoodsGridService {
 //    String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
 //
 //    @Headers({HEADER_API_VERSION})
-    @POST("/goods/get_recommend")
+    @GET("/goods/get_recommend")
     Observable<ReturnGoods> getGoodsGrid ();
 
 }
