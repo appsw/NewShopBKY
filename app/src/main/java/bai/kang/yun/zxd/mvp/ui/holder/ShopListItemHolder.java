@@ -15,6 +15,7 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import butterknife.BindView;
@@ -47,7 +48,7 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
     final String HOST="http://www.baikangyun.com";
-
+    ReturnShop.ItemEntity shop;
     public ShopListItemHolder(View itemView) {
         super(itemView);
         //可以在任何可以拿到Application的地方,拿到AppComponent,从而得到用Dagger管理的单例对象
@@ -57,6 +58,7 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
 
     @Override
     public void setData(ReturnShop.ItemEntity data, int position) {
+        shop=data;
         Observable.just(data.getName())
                 .subscribe(RxTextView.text(name));
         Observable.just(data.getArea_name())
@@ -74,6 +76,7 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
     }
     @OnClick(R.id.item_ll)
     void onclick(){
+        Transfer.chosegoods_for_open_goodsdetail_id=shop.getId();
         Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
         UiUtils.startActivity(intent);
     }

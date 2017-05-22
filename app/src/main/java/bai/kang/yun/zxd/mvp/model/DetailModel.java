@@ -11,6 +11,11 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
 
 
 /**
@@ -45,4 +50,17 @@ public class DetailModel extends BaseModel<ServiceManager, CacheManager> impleme
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnDetail> getGoodsDetail(int id) {
+        Observable<ReturnDetail> detail = mServiceManager.getGetGoodsDetailService().getGoodsDetail(id);
+
+        return mCacheManager.getCommonCache()
+                .getGoodsDetail(detail,new DynamicKey(id))
+                .flatMap(new Func1<Reply<ReturnDetail>, Observable<ReturnDetail>>() {
+                    @Override
+                    public Observable<ReturnDetail> call(Reply<ReturnDetail> mapReply) {
+                        return Observable.just(mapReply.getData());
+                    }
+                });
+    }
 }

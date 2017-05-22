@@ -4,24 +4,30 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jess.arms.utils.UiUtils;
+import com.jude.rollviewpager.RollPagerView;
 import com.tencent.connect.auth.QQAuth;
 import com.tencent.open.wpa.WPA;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerDetailComponent;
 import bai.kang.yun.zxd.di.module.DetailModule;
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.presenter.DetailPresenter;
+import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
@@ -49,6 +55,8 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     private TextView qq;
     private TextView call;
     private Dialog dialog;
+    private float price;
+    private int number=1;
 
     @BindView(R.id.textView)
     TextView tv_name;
@@ -61,6 +69,13 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
 
     @BindView(R.id.et_num)
     EditText et_num;
+
+    @BindView(R.id.rollViewpager)
+    RollPagerView rollPagerView;
+
+    @BindView(R.id.xq_webview)
+    WebView wv_detail;
+
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -79,17 +94,27 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
 
     @Override
     protected void initData() {
-
+        mPresenter.getDetail(Transfer.chosegoods_for_open_goodsdetail_id);
     }
     @OnClick(R.id.btn_reduce)
     void reduce(){
         // 减少
-
+        if(number<=1){
+            UiUtils.makeText("不能再少啦！");
+        }else {
+            number--;
+            setNum(number);
+        }
     }
     @OnClick(R.id.btn_add)
     void add(){
         //        增加
-
+        if(number>=99){
+            UiUtils.makeText("不能在多啦！");
+        }else {
+            number++;
+            setNum(number);
+        }
 
     }
     @OnClick(R.id.im_inshop)
@@ -182,5 +207,39 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         }
         dialog.dismiss();
 
+    }
+
+    @Override
+    public void setDetail(ReturnDetail detail) {
+        ReturnDetail.GoodsEntity goodsEntity=detail.getSingle().getGoods();
+        tv_name.setText(goodsEntity.getProductname());
+        tv_price.setText(goodsEntity.getSaleprice()+"");
+        price=goodsEntity.getSaleprice();
+        setSum();
+        setWeb(detail.getSingle().getInfo().getDescription());
+    }
+
+    @Override
+    public int getnum() {
+        return Integer.parseInt(et_num.getText().toString());
+    }
+
+    @Override
+    public void setSum() {
+        tv_sum.setText(getnum()*price+"");
+    }
+    public void setNum(int i){
+        et_num.setText(i+"");
+    }
+
+    @Override
+    public void setAdapter(DetailImgAdapter rolladapter) {
+        rollPagerView.setPlayDelay(3000);//*播放间隔
+        rollPagerView.setAnimationDurtion(500);//透明度
+        rollPagerView.setAdapter(rolladapter);//配置适配器
+    }
+    public void setWeb(String s){
+        Log.e("web",""+s);
+        wv_detail.loadDataWithBaseURL(null,s, "text/html", "utf-8", null);
     }
 }

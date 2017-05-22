@@ -13,4 +13,5 @@ public class Transfer {
     static public  String chosegoods_for_open_shoplist_zzh="国药准字1111111";
     static public  String chosegoods_for_open_shoplist_Manufacturers="北京同仁堂";
     static public  String chosegoods_for_open_shoplist_imurl="www";
+    static public  int chosegoods_for_open_goodsdetail_id=0;
 }

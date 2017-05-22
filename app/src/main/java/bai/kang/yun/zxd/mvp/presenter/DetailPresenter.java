@@ -5,12 +5,23 @@ import android.app.Application;
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
+import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -33,6 +44,8 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
+    private List<ReturnDetail.ImgEntity> list;
+    private DetailImgAdapter detailImgAdapter;
 
     @Inject
     public DetailPresenter(DetailContract.Model model, DetailContract.View rootView
@@ -43,6 +56,35 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
+        list=new ArrayList<>();
+        detailImgAdapter=new DetailImgAdapter(list);
+        mRootView.setAdapter(detailImgAdapter);
+    }
+    public void getDetail(int id){
+        mModel.getGoodsDetail(id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnDetail>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnDetail>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnDetail category) {
+                                if(category.getStatus()==1){
+                                    mRootView.setDetail(category);
+                                    if(category.getSingle().getImgList().size()==0){
+                                        list.addAll(category.getSingle().getImgList());
+                                    }else {
+                                        ReturnDetail.ImgEntity imgEntity=new ReturnDetail.ImgEntity();
+                                        imgEntity.setImg_url(category.getSingle().getGoods().getImageurl());
+                                        list.add(imgEntity);
+                                    }
+                                    detailImgAdapter.notifyDataSetChanged();
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
     }
 
     @Override

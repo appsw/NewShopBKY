@@ -9,6 +9,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopListService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
@@ -98,5 +99,10 @@ public class ServiceModule {
     @Provides
     GetShopListService provideGetShopListService(Retrofit retrofit) {
         return retrofit.create(GetShopListService.class);
+    }
+    @Singleton
+    @Provides
+    GetGoodsDetailService provideGetGoodsDetailService(Retrofit retrofit) {
+        return retrofit.create(GetGoodsDetailService.class);
     }
 }

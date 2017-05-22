@@ -74,7 +74,7 @@ public class CarPresenter extends BasePresenter<CarContract.Model, CarContract.V
     /** 获取购物车列表的数据（数据和网络请求也是非通用部分） */
     public void requestShoppingCartList(int id) {
         ShoppingCartBiz.delAllGoods();
-
+        testAddGood();
 //        mModel.ShoppingCartList(id)
         getCartsList()
                 .subscribeOn(Schedulers.io())
@@ -95,6 +95,18 @@ public class CarPresenter extends BasePresenter<CarContract.Model, CarContract.V
                             }
                         });
     }
+    /** 测试添加数据 ，添加的动作是通用的，但数据上只是添加ID而已，数据非通用 */
+    private void testAddGood() {
+        ShoppingCartBiz.addGoodToCart("279457f3-4692-43bf-9676-fa9ab9155c38", "6");
+        ShoppingCartBiz.addGoodToCart("95fbe11d-7303-4b9f-8ca4-537d06ce2f8a", "8");
+        ShoppingCartBiz.addGoodToCart("8c6e52fb-d57c-45ee-8f05-50905138801b", "9");
+        ShoppingCartBiz.addGoodToCart("7d6e52fb-d57c-45ee-8f05-50905138801d", "3");
+        ShoppingCartBiz.addGoodToCart("7d6e52fb-d57c-45ee-8f05-50905138801e", "3");
+        ShoppingCartBiz.addGoodToCart("7d6e52fb-d57c-45ee-8f05-50905138801f", "3");
+        ShoppingCartBiz.addGoodToCart("7d6e52fb-d57c-45ee-8f05-50905138801g", "3");
+        ShoppingCartBiz.addGoodToCart("7d6e52fb-d57c-45ee-8f05-50905138801h", "3");
+    }
+
 
     private void updateListView(List<ShoppingCartBean> stringStringMap) {
         myExpandableListAdapter.setList(stringStringMap);
