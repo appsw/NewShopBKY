@@ -25,6 +25,7 @@ import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerDetailComponent;
 import bai.kang.yun.zxd.di.module.DetailModule;
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.presenter.DetailPresenter;
 import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
@@ -57,6 +58,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     private Dialog dialog;
     private float price;
     private int number=1;
+    private ReturnDetail.GoodsEntity goodsEntity;
 
     @BindView(R.id.textView)
     TextView tv_name;
@@ -104,6 +106,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         }else {
             number--;
             setNum(number);
+            setSum();
         }
     }
     @OnClick(R.id.btn_add)
@@ -114,6 +117,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         }else {
             number++;
             setNum(number);
+            setSum();
         }
 
     }
@@ -121,6 +125,17 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     void startshop(){
         Intent intent=new Intent(DetailActivity.this,ShopDetailActivity.class);
         UiUtils.startActivity(intent);
+    }
+    @OnClick(R.id.addtocar)
+    void addtocar(){
+        CarGoods goods=new CarGoods();
+        goods.setGoodsID(goodsEntity.getId()+"");
+        goods.setNumber(number+"");
+        goods.setGoodsName(goodsEntity.getProductname());
+        goods.setPrice(goodsEntity.getSaleprice()+"");
+        goods.setFID(goodsEntity.getUser_id()+"");
+        goods.setFName(Transfer.chosegoods_for_open_goodsdetail_shop_name);
+        mPresenter.addToCar(goods);
     }
     @OnClick(R.id.im_link)
     void startlink(){
@@ -211,7 +226,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
 
     @Override
     public void setDetail(ReturnDetail detail) {
-        ReturnDetail.GoodsEntity goodsEntity=detail.getSingle().getGoods();
+         goodsEntity=detail.getSingle().getGoods();
         tv_name.setText(goodsEntity.getProductname());
         tv_price.setText(goodsEntity.getSaleprice()+"");
         price=goodsEntity.getSaleprice();
@@ -241,5 +256,11 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     public void setWeb(String s){
         Log.e("web",""+s);
         wv_detail.loadDataWithBaseURL(null,s, "text/html", "utf-8", null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        rollPagerView.removeAllViews();
+        super.onDestroy();
     }
 }

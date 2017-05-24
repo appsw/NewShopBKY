@@ -26,6 +26,7 @@ public class ServiceManager implements BaseServiceManager {
     private LoginService mLoginService;
     private GetShopListService mGetShopListService;
     private GetGoodsDetailService mGetGoodsDetailService;
+    private GetAddressService mGetAddressService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -38,7 +39,7 @@ public class ServiceManager implements BaseServiceManager {
                                   GetCategoryService getCategoryService,GetCategoryGoodsService getCategoryGoodsService,
                                   GetPhoneYzm getPhoneYzm,RegisterService registerService,
                                   LoginService loginService,GetShopListService getShopListService,
-                                  GetGoodsDetailService getGoodsDetailService){
+                                  GetGoodsDetailService getGoodsDetailService,GetAddressService getAddressService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -54,6 +55,7 @@ public class ServiceManager implements BaseServiceManager {
         this.mLoginService=loginService;
         this.mGetShopListService=getShopListService;
         this.mGetGoodsDetailService=getGoodsDetailService;
+        this.mGetAddressService=getAddressService;
     }
 
     public CommonService getCommonService() {
@@ -78,6 +80,8 @@ public class ServiceManager implements BaseServiceManager {
     public LoginService getLoginService(){return mLoginService;}
     public GetShopListService getShopListService(){return mGetShopListService;}
     public GetGoodsDetailService getGetGoodsDetailService(){return mGetGoodsDetailService;}
+    public GetAddressService getGetAddressService(){return mGetAddressService;}
+
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)
      */

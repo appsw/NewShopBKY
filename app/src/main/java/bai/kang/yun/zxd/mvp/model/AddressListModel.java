@@ -11,6 +11,13 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.AddressListContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
+
+import static android.R.attr.id;
 
 
 /**
@@ -45,4 +52,17 @@ public class AddressListModel extends BaseModel<ServiceManager, CacheManager> im
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnAddress> getAddress(int uid, String salt, int page) {
+        Observable<ReturnAddress> detail = mServiceManager.getGetAddressService().getAddress(uid,salt,page);
+
+        return mCacheManager.getCommonCache()
+                .getAddress(detail,new DynamicKey(id))
+                .flatMap(new Func1<Reply<ReturnAddress>, Observable<ReturnAddress>>() {
+                    @Override
+                    public Observable<ReturnAddress> call(Reply<ReturnAddress> mapReply) {
+                        return Observable.just(mapReply.getData());
+                    }
+                });
+    }
 }

@@ -2,6 +2,7 @@ package bai.kang.yun.zxd.mvp.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,24 @@ import java.util.List;
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.OnShoppingCartChangeListener;
 import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
-import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.ui.view.UIAlertView;
+import io.realm.Realm;
 
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
-    private List<ShoppingCartBean> mListGoods = new ArrayList<ShoppingCartBean>();
+    private List<CarShop> mListGoods = new ArrayList();
     private OnShoppingCartChangeListener mChangeListener;
     private boolean isSelectAll = false;
+     Realm realm=Realm.getDefaultInstance();
 
     public MyExpandableListAdapter(Context context) {
         mContext = context;
     }
 
-    public void setList(List<ShoppingCartBean> mListGoods) {
+    public void setList(List<CarShop> mListGoods) {
         this.mListGoods = mListGoods;
         setSettleInfo();
     }
@@ -136,7 +140,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        ShoppingCartBean.Goods goods = mListGoods.get(groupPosition).getGoods().get(childPosition);
+        CarGoods goods = mListGoods.get(groupPosition).getGoods().get(childPosition);
         boolean isChildSelected = mListGoods.get(groupPosition).getGoods().get(childPosition).isChildSelected();
         boolean isEditing = goods.isEditing();
         String priceNew = "¥" + goods.getPrice();
@@ -193,6 +197,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 case R.id.btnSettle:
                     if (ShoppingCartBiz.hasSelectedGoods(mListGoods)) {
                         UiUtils.makeText("11111");
+                       List<CarGoods> goodses= ShoppingCartBiz.getAllGoods();
+                        Log.e("goodses","==>"+goodses.size());
                     } else {
                         UiUtils.makeText("亲，先选择商品！");
                     }
@@ -201,9 +207,24 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 case R.id.tvEdit://切换界面，属于特殊处理，假如没打算切换界面，则不需要这块代码
                     int groupPosition2 = Integer.parseInt(String.valueOf(v.getTag()));
                     boolean isEditing = !(mListGoods.get(groupPosition2).isEditing());
-                    mListGoods.get(groupPosition2).setIsEditing(isEditing);
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            //先查找后得到User对象
+                            mListGoods.get(groupPosition2).setEditing(isEditing);
+                        }
+                    });
+
                     for (int i = 0; i < mListGoods.get(groupPosition2).getGoods().size(); i++) {
-                        mListGoods.get(groupPosition2).getGoods().get(i).setIsEditing(isEditing);
+                        int finalI = i;
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                //先查找后得到User对象
+                                mListGoods.get(groupPosition2).getGoods().get(finalI).setEditing(isEditing);
+                            }
+                        });
+
                     }
                     notifyDataSetChanged();
                     break;
@@ -237,11 +258,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     }
                     break;
                 case R.id.ivAdd:
-                    ShoppingCartBiz.addOrReduceGoodsNum(true, (ShoppingCartBean.Goods) v.getTag(), ((TextView) (((View) (v.getParent())).findViewById(R.id.tvNum2))));
+                    ShoppingCartBiz.addOrReduceGoodsNum(true, (CarGoods) v.getTag(), ((TextView) (((View) (v.getParent())).findViewById(R.id.tvNum2))));
                     setSettleInfo();
                     break;
                 case R.id.ivReduce:
-                    ShoppingCartBiz.addOrReduceGoodsNum(false, (ShoppingCartBean.Goods) v.getTag(), ((TextView) (((View) (v.getParent())).findViewById(R.id.tvNum2))));
+                    ShoppingCartBiz.addOrReduceGoodsNum(false, (CarGoods) v.getTag(), ((TextView) (((View) (v.getParent())).findViewById(R.id.tvNum2))));
                     setSettleInfo();
                     break;
                 case R.id.llGoodInfo:
@@ -282,9 +303,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
                                        
                                        public void doRight() {
-                                           String productID = mListGoods.get(groupPosition).getGoods().get(childPosition).getProductID();
-                                           ShoppingCartBiz.delGood(productID);
-                                           delGoods(groupPosition, childPosition);
+                                           String productID = mListGoods.get(groupPosition).getGoods().get(childPosition).getGoodsID();
+
+                                           delGoods(groupPosition, childPosition,productID);
+
                                            setSettleInfo();
                                            notifyDataSetChanged();
                                            delDialog.dismiss();
@@ -293,11 +315,21 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         );
     }
 
-    private void delGoods(int groupPosition, int childPosition) {
-        mListGoods.get(groupPosition).getGoods().remove(childPosition);
-        if (mListGoods.get(groupPosition).getGoods().size() == 0) {
-            mListGoods.remove(groupPosition);
-        }
+    private void delGoods(int groupPosition, int childPosition,String productID) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                boolean is=false;
+                mListGoods.get(groupPosition).getGoods().remove(childPosition);
+                if (mListGoods.get(groupPosition).getGoods().size() == 0) {
+                    mListGoods.remove(groupPosition);
+                    is=true;
+                }
+                ShoppingCartBiz.delGood(productID,is);
+            }
+        });
+
         notifyDataSetChanged();
     }
 

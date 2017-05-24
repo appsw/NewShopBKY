@@ -104,6 +104,9 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
                                     if (pullToRefresh) ShopList.clear();//如果是上拉刷新则清空列表
                                     preEndIndex = ShopList.size();//更新之前列表总长度,用于确定加载更多的起始位置
                                     ShopList.addAll(shops.getPage_data().getItems());
+                                    if(shops.getPage_data().getTotalPages()<=page) {
+                                        mRootView.endLoadMore();
+                                    }
                                     if (pullToRefresh){
                                         mAdapter.notifyDataSetChanged();}
                                     else

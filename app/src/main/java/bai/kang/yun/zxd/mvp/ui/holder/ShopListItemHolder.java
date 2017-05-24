@@ -77,6 +77,7 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
     @OnClick(R.id.item_ll)
     void onclick(){
         Transfer.chosegoods_for_open_goodsdetail_id=shop.getId();
+        Transfer.chosegoods_for_open_goodsdetail_shop_name=shop.getName();
         Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
         UiUtils.startActivity(intent);
     }

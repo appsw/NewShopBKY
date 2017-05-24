@@ -162,7 +162,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
                 @Override
                 public boolean hasLoadedAllItems() {
-                    return false;
+                    return !isLoadingMore;
                 }
             };
 

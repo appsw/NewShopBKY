@@ -186,7 +186,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
                 @Override
                 public boolean hasLoadedAllItems() {
-                    return false;
+                    return !isLoadingMore;
                 }
             };
 

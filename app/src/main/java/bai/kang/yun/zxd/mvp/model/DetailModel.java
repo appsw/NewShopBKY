@@ -11,7 +11,11 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.Reply;
 import rx.Observable;
@@ -62,5 +66,29 @@ public class DetailModel extends BaseModel<ServiceManager, CacheManager> impleme
                         return Observable.just(mapReply.getData());
                     }
                 });
+    }
+
+    @Override
+    public Observable addGoods(final CarGoods goods) {
+        Realm realm=Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<CarShop> carShop=realm.where(CarShop.class)
+                        .equalTo("merID", goods.getProductID()).findAll();
+                if(carShop.size()==0){
+                    CarShop shop = realm.createObject(CarShop.class);
+                    shop.setMerchantName(goods.getFName());
+                    shop.setMerID(goods.getFID());
+                    shop.getGoods().add(goods);
+                }else {
+                    CarShop shop=carShop.get(0);
+                    shop.getGoods().add(goods);
+
+                }
+
+            }
+        });
+        return realm.asObservable();
     }
 }

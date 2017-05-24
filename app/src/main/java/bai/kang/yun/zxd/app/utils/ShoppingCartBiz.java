@@ -7,23 +7,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public class ShoppingCartBiz {
 
+    static Realm realm=Realm.getDefaultInstance();
     /**
      * 选择全部，点下全部按钮，改变所有商品选中状态
      */
-    public static boolean selectAll(List<ShoppingCartBean> list, boolean isSelectAll, ImageView ivCheck) {
+    public static boolean selectAll(List<CarShop> list, boolean isSelectAll, ImageView ivCheck) {
         isSelectAll = !isSelectAll;
-        ShoppingCartBiz.checkItem(isSelectAll, ivCheck);
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setIsGroupSelected(isSelectAll);
-            for (int j = 0; j < list.get(i).getGoods().size(); j++) {
-                list.get(i).getGoods().get(j).setIsChildSelected(isSelectAll);
+        ShoppingCartBiz.checkItem( isSelectAll, ivCheck);
+
+        boolean finalIsSelectAll1 = isSelectAll;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+                for (int i = 0; i < shops.size(); i++) {
+                    CarShop carShop = shops.get(i);
+                    carShop.setGroupSelected(finalIsSelectAll1);
+                    boolean finalIsSelectAll = finalIsSelectAll1;
+                    for (int j = 0; j < list.get(i).getGoods().size(); j++) {
+                        CarGoods carGoods = list.get(i).getGoods().get(j);
+                        carGoods.setChildSelected(finalIsSelectAll);
+                    }
+                }
             }
-        }
+        });
+
+
+//            for (int j = 0; j < list.get(i).getGoods().size(); j++) {
+//                CarGoods carGoods=list.get(i).getGoods().get(j);
+//                carGoods.setChildSelected(isSelectAll);
+//            }
+
         return isSelectAll;
     }
 
@@ -33,7 +57,7 @@ public class ShoppingCartBiz {
      * @param list
      * @return
      */
-    private static boolean isSelectAllGroup(List<ShoppingCartBean> list) {
+    private static boolean isSelectAllGroup(List<CarShop> list) {
         for (int i = 0; i < list.size(); i++) {
             boolean isSelectGroup = list.get(i).isGroupSelected();
             if (!isSelectGroup) {
@@ -49,7 +73,7 @@ public class ShoppingCartBiz {
      * @param list
      * @return
      */
-    private static boolean isSelectAllChild(List<ShoppingCartBean.Goods> list) {
+    private static boolean isSelectAllChild(List<CarGoods> list) {
         for (int i = 0; i < list.size(); i++) {
             boolean isSelectGroup = list.get(i).isChildSelected();
             if (!isSelectGroup) {
@@ -68,25 +92,45 @@ public class ShoppingCartBiz {
      * @param childPosition
      * @return 是否选择全部
      */
-    public static boolean selectOne(List<ShoppingCartBean> list, int groudPosition, int childPosition) {
-        boolean isSelectAll;
+    public static boolean selectOne(List<CarShop> list, int groudPosition, int childPosition) {
+        final boolean[] isSelectAll = new boolean[1];
         boolean isSelectedOne = !(list.get(groudPosition).getGoods().get(childPosition).isChildSelected());
-        list.get(groudPosition).getGoods().get(childPosition).setIsChildSelected(isSelectedOne);//单个图标的处理
-        boolean isSelectCurrentGroup = isSelectAllChild(list.get(groudPosition).getGoods());
-        list.get(groudPosition).setIsGroupSelected(isSelectCurrentGroup);//组图标的处理
-        isSelectAll = isSelectAllGroup(list);
-        return isSelectAll;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+                shops.get(groudPosition).getGoods().get(childPosition).setChildSelected(isSelectedOne);//单个图标的处理
+                boolean isSelectCurrentGroup = isSelectAllChild(shops.get(groudPosition).getGoods());
+                shops.get(groudPosition).setGroupSelected(isSelectCurrentGroup);//组图标的处理
+                isSelectAll[0] = isSelectAllGroup(shops);
+            }
+        });
+
+
+
+
+        return isSelectAll[0];
     }
 
-    public static boolean selectGroup(List<ShoppingCartBean> list, int groudPosition) {
-        boolean isSelectAll;
+    public static boolean selectGroup(List<CarShop> list, int groudPosition) {
+        final boolean[] isSelectAll = new boolean[1];
         boolean isSelected = !(list.get(groudPosition).isGroupSelected());
-        list.get(groudPosition).setIsGroupSelected(isSelected);
-        for (int i = 0; i < list.get(groudPosition).getGoods().size(); i++) {
-            list.get(groudPosition).getGoods().get(i).setIsChildSelected(isSelected);
-        }
-        isSelectAll = isSelectAllGroup(list);
-        return isSelectAll;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+                shops.get(groudPosition).setGroupSelected(isSelected);
+                for (int i = 0; i < shops.get(groudPosition).getGoods().size(); i++) {
+                    shops.get(groudPosition).getGoods().get(i).setChildSelected(isSelected);
+                }
+                isSelectAll[0] = isSelectAllGroup(list);
+            }
+        });
+
+
+        return isSelectAll[0];
     }
 
     /**
@@ -112,7 +156,7 @@ public class ShoppingCartBiz {
      *
      * @return 0=选中的商品数量；1=选中的商品总价
      */
-    public static String[] getShoppingCount(List<ShoppingCartBean> listGoods) {
+    public static String[] getShoppingCount(List<CarShop> listGoods) {
         String[] infos = new String[2];
         String selectedCount = "0";
         String selectedMoney = "0";
@@ -134,7 +178,7 @@ public class ShoppingCartBiz {
     }
 
 
-    public static boolean hasSelectedGoods(List<ShoppingCartBean> listGoods) {
+    public static boolean hasSelectedGoods(List<CarShop> listGoods) {
         String count = getShoppingCount(listGoods)[0];
         if ("0".equals(count)) {
             return false;
@@ -156,18 +200,48 @@ public class ShoppingCartBiz {
      * 删除某个商品,即删除其ProductID
      *
      * @param productID 规格ID
+     *            is      删除店铺
      */
-    public static void delGood(String productID) {
-        ShoppingCartDao.getInstance().deleteShoppingInfo(productID);
+    public static void delGood(String productID,boolean is) {
+
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+                RealmResults<CarGoods> carGoods=realm.where(CarGoods.class).equalTo("goodsID",productID).findAll();
+                if(carGoods.size()==0){
+                    return;
+                }
+                String FID=carGoods.get(0).getFID();
+                carGoods.get(0).deleteFromRealm();
+                if(is){
+                    CarShop carShop=realm.where(CarShop.class).equalTo("merID",FID ).findFirst();
+                    carShop.deleteFromRealm();
+                }
+//            }
+//        });
+
     }
+
 
     /** 删除全部商品 */
     public static void delAllGoods() {
+
+        //先查找到数据
+        final RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+        final RealmResults<CarGoods> goodses = realm.where(CarGoods.class).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                shops.deleteAllFromRealm();
+                goodses.deleteAllFromRealm();
+
+            }
+        });
         ShoppingCartDao.getInstance().delAllGoods();
     }
 
     /** 增减数量，操作通用，数据不通用 */
-    public static void addOrReduceGoodsNum(boolean isPlus, ShoppingCartBean.Goods goods, TextView tvNum) {
+    public static void addOrReduceGoodsNum(boolean isPlus, CarGoods goods, TextView tvNum) {
         String currentNum = goods.getNumber().trim();
         String num = "1";
         if (isPlus) {
@@ -182,8 +256,16 @@ public class ShoppingCartBiz {
         }
         String productID = goods.getProductID();
         tvNum.setText(num);
-        goods.setNumber(num);
-        updateGoodsNumber(productID, num);
+        String finalNum = num;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                goods.setNumber(finalNum);
+            }
+        });
+
+//        updateGoodsNumber(productID, num);
     }
 
     /**
@@ -204,16 +286,23 @@ public class ShoppingCartBiz {
      * @return
      */
     public static int getGoodsCount() {
-        return ShoppingCartDao.getInstance().getGoodsCount();
+
+//        return ShoppingCartDao.getInstance().getGoodsCount();
+        return realm.where(CarShop.class).findAll().size();
     }
 
+
     /**
-     * 获取所有商品ID，用于向服务器请求数据（非通用部分）
+     * 获取所有商品，用于向服务器请求数据（非通用部分）
      *
      * @return
      */
-    public static List<String> getAllProductID() {
-        return ShoppingCartDao.getInstance().getProductList();
+    public static List<CarGoods> getAllGoods() {
+        List<CarGoods> goodses=new ArrayList<>();
+        RealmResults<CarGoods> userList = realm.where(CarGoods.class)
+                .equalTo("isChildSelected", true).findAll();
+        goodses.addAll(userList);
+        return goodses;
     }
 
     /** 由于这次服务端没有保存商品数量，需要此步骤来处理数量（非通用部分） */

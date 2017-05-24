@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BaseModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,10 +14,12 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.CarContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
-import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
-import io.rx_cache.Reply;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import rx.Observable;
-import rx.functions.Func1;
 
 
 /**
@@ -52,16 +55,28 @@ public class CarModel extends BaseModel<ServiceManager, CacheManager> implements
     }
 
     @Override
-    public Observable<List<ShoppingCartBean>> ShoppingCartList(int userid) {
-        Observable<List<ShoppingCartBean>> carlist = mServiceManager.getCarListService().getCarList(userid);
+    public Observable<List<CarShop>> ShoppingCartList() {
+        List<CarShop> carShops=new ArrayList<>();
+        Realm realm=Realm.getDefaultInstance();
+//        Observable<RealmResults> shops=realm.where(CarShop.class).findAll().asObservable();
 
-        return mCacheManager.getCommonCache()
-                .getCarList(userid)
-                .flatMap(new Func1<Reply<List<ShoppingCartBean>>, Observable<List<ShoppingCartBean>>>() {
-                    @Override
-                    public Observable<List<ShoppingCartBean>> call(Reply<List<ShoppingCartBean>> listReply) {
-                        return Observable.just(listReply.getData());
-                    }
-                });
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+                for(CarShop shop:shops){
+                    RealmResults<CarGoods> goods=realm.where(CarGoods.class).equalTo("FID", shop.getMerID())
+                            .findAll();
+                    RealmList<CarGoods> carGoods= new RealmList<>();
+                    carGoods.addAll(goods);
+                    shop.setGoods(carGoods);
+                    carShops.add(shop);
+                }
+            }
+        });
+
+
+        return Observable.just(carShops);
     }
 }

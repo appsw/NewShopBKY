@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -85,6 +86,19 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
                                 }
                             }
                         });
+    }
+    public void addToCar(CarGoods goods){
+        mModel.addGoods(goods)
+                .subscribeOn(/*Schedulers.io()*/AndroidSchedulers.mainThread())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriber(mErrorHandler) {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.showMessage("成功加入购物车！");
+                    }
+                });
+
     }
 
     @Override

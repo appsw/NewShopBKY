@@ -18,13 +18,10 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -110,6 +107,10 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                             if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
                             preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
                             GoodsList.addAll(users.getPage_data().getItems());
+
+                            if(users.getPage_data().getTotalPages()<=page) {
+                                mRootView.endLoadMore();
+                            }
                             if (pullToRefresh){
                                 mAdapter.notifyDataSetChanged();}
                             else
@@ -131,25 +132,6 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
         this.mAppManager = null;
         this.mImageLoader = null;
         this.mApplication = null;
-    }
-    public Observable<List<Goods>> getGoodsList(){
-
-
-        return Observable.create(new Observable.OnSubscribe<List<Goods>>() {
-            @Override
-            public void call(Subscriber<? super List<Goods>> subscriber) {
-                //Emit Data
-                List<Goods> goodses=new ArrayList();
-                for (int i=0;i<3;i++){
-                    Goods goods=new Goods();
-                    goods.setName(""+i);
-                    goods.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-                    goodses.add(goods);
-                    subscriber.onNext(goodses);
-                }
-                subscriber.onCompleted();
-            }
-        });
     }
 
 }

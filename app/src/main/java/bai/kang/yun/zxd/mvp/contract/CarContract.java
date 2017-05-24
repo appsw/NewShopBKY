@@ -7,7 +7,7 @@ import com.jess.arms.mvp.IModel;
 
 import java.util.List;
 
-import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import rx.Observable;
 
 /**
@@ -27,11 +27,11 @@ public interface CarContract {
     //对于经常使用的关于UI的方法可以定义到BaseView中,如显示隐藏进度条,和显示文字消息
     interface View extends BaseView {
         void setAdapter(BaseExpandableListAdapter adapter);
-        void expandAllGroup(List<ShoppingCartBean> mListGoods);
+        void expandAllGroup(List<CarShop> mListGoods);
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-        Observable<List<ShoppingCartBean>> ShoppingCartList(int id);
+        Observable<List<CarShop>> ShoppingCartList();
     }
 }

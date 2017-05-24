@@ -7,6 +7,7 @@ import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
@@ -49,6 +50,9 @@ public interface CommonCache {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ReturnDetail>> getGoodsDetail(Observable<ReturnDetail> scope, DynamicKey id);
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnAddress>> getAddress(Observable<ReturnAddress> scope, DynamicKey id);
+
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
 }

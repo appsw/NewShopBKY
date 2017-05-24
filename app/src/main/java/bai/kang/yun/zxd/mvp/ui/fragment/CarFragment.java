@@ -2,6 +2,7 @@ package bai.kang.yun.zxd.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,12 @@ import com.jess.arms.utils.UiUtils;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.app.utils.DBHelper;
 import bai.kang.yun.zxd.app.utils.OnShoppingCartChangeListener;
 import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
 import bai.kang.yun.zxd.di.component.DaggerCarComponent;
 import bai.kang.yun.zxd.di.module.CarModule;
 import bai.kang.yun.zxd.mvp.contract.CarContract;
-import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.presenter.CarPresenter;
 import bai.kang.yun.zxd.mvp.ui.adapter.MyExpandableListAdapter;
 import butterknife.BindView;
@@ -85,8 +85,8 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
 
     @Override
     protected void initData() {
-        DBHelper.init(UiUtils.getContext());
-        mPresenter.requestShoppingCartList(1);
+
+//        mPresenter.requestShoppingCartList();
     }
 
     /**
@@ -186,7 +186,8 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
      * 展开所有组
      */
     @Override
-    public void expandAllGroup(List<ShoppingCartBean> mListGoods) {
+    public void expandAllGroup(List<CarShop> mListGoods) {
+        Log.e("mListGoods.size",":"+mListGoods.size());
         for (int i = 0; i < mListGoods.size(); i++) {
             expandableListView.expandGroup(i);
         }
@@ -202,5 +203,11 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
             rlShoppingCartEmpty.setVisibility(View.GONE);
             rlBottomBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.requestShoppingCartList();
     }
 }
