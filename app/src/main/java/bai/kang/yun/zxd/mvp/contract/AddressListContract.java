@@ -6,6 +6,7 @@ import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
 import rx.Observable;
 
 /**
@@ -29,6 +30,8 @@ public interface AddressListContract {
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-        Observable<ReturnAddress> getAddress(int uid,String salt,int page);
+        Observable<ReturnAddress> getAddress(int uid,String salt,int page,boolean clean);
+        Observable<ReturnDeleteAdd> DeleteAdd(int uid, String salt, int id);
+        Observable<ReturnDeleteAdd> SetDefault(int uid, String salt, int id);
     }
 }

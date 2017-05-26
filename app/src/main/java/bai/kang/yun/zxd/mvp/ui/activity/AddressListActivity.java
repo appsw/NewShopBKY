@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +17,11 @@ import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerAddressListComponent;
 import bai.kang.yun.zxd.di.module.AddressListModule;
 import bai.kang.yun.zxd.mvp.contract.AddressListContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
 import bai.kang.yun.zxd.mvp.presenter.AddressListPresenter;
+import bai.kang.yun.zxd.mvp.ui.Listener.AddEditListener;
+import bai.kang.yun.zxd.mvp.ui.adapter.AddressListAdapter;
+import bai.kang.yun.zxd.mvp.ui.view.UIAlertView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
@@ -38,7 +43,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Created by Administrator on 2017/5/19 0019.
  */
 
-public class AddressListActivity extends WEActivity<AddressListPresenter> implements AddressListContract.View {
+public class AddressListActivity extends WEActivity<AddressListPresenter> implements AddressListContract.View,
+        OnClickListener {
 
 
     @BindView(R.id.register_back)
@@ -65,6 +71,7 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
     @Override
     protected void initData() {
         mPresenter.initData();
+        mPresenter.Request(false);
     }
 
 
@@ -109,11 +116,68 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        mPresenter.Request(true);
     }
 
     @Override
     public void setAdapter(BaseAdapter adapter) {
         listView.setAdapter(adapter);
+        ((AddressListAdapter)adapter).setAddEditListener(new AddEditListener() {
+            @Override
+            public void edit(int position) {
+                ReturnAddress.ItemsEntity address=((AddressListAdapter)adapter).getAddresses().get(position);
+                Intent intent=new Intent(AddressListActivity.this,AddressDetailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putBoolean("add",false);
+                bundle.putInt("id",address.getId());
+                bundle.putString("name",address.getReal_name());
+                bundle.putString("phone",address.getPhone());
+                bundle.putString("address",address.getAddress());
+                intent.putExtra("data",bundle);
+                startActivityForResult(intent,3);
+//                UiUtils.makeText("编辑第"+position+"个");
+            }
+
+            @Override
+            public void delect(int position) {
+                ReturnAddress.ItemsEntity address=((AddressListAdapter)adapter).getAddresses().get(position);
+                int id=address.getId();
+                final UIAlertView delDialog = new UIAlertView(AddressListActivity.this, "温馨提示", "确认删除该地址吗?",
+                        "取消", "确定");
+                delDialog.show();
+
+                delDialog.setClicklistener(new UIAlertView.ClickListenerInterface() {
+
+                    public void doLeft() {
+                                                   delDialog.dismiss();
+                                               }
+
+                    public void doRight() {
+                        mPresenter.delete(id);
+                        delDialog.dismiss();
+                    }}
+                );
+//                UiUtils.makeText("删除第"+position+"个");
+            }
+
+            @Override
+            public void chose(int position) {
+                ReturnAddress.ItemsEntity address=((AddressListAdapter)adapter).getAddresses().get(position);
+                int id=address.getId();
+                mPresenter.SetDefault(id);
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.address_delete_btn:
+                UiUtils.makeText("address_delete_btn");
+                break;
+            default:
+                UiUtils.makeText("其他地方");
+                break;
+        }
     }
 }

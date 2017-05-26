@@ -54,12 +54,14 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
     private boolean istype=true;
     SharedPreferences config;
     private Bundle bundle;
+    private int id=0;
     private String sheng_name;
     private int sheng_id;
     private String shi_name;
     private int shi_id;
     private String qu_name;
     private int qu_id;
+
     @BindView(R.id.consignee_name_edtv)
     EditText et_name;
     @BindView(R.id.consignee_mobile_edtv)
@@ -109,12 +111,13 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
         mPresenter.initSP(0,1);
     }
     public void setData(){
-        String name=bundle.getString("");
-        String mobile=bundle.getString("");
-        String address=bundle.getString("");
-        int Province_id=bundle.getInt("");
-        int City_id=bundle.getInt("");
-        int Area_id=bundle.getInt("");
+        String name=bundle.getString("name");
+        String mobile=bundle.getString("phone");
+        String address=bundle.getString("address");
+//        int Province_id=bundle.getInt("");
+//        int City_id=bundle.getInt("");
+//        int Area_id=bundle.getInt("");
+        id=bundle.getInt("id");
         et_name.setText(name);
         et_mobil.setText(mobile);
         et_address.setText(address);
@@ -139,7 +142,10 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
             UiUtils.makeText("请输入区/县");
         } else {
             SetAddress setAddress=new SetAddress();
-//            setAddress.setId(0);
+            if(isNew)
+                setAddress.setId(0);
+            else
+                setAddress.setId(id);
             setAddress.setReal_name(name);
             setAddress.setPhone(mobile);
             setAddress.setUser_id(config.getInt("id",0));
@@ -183,6 +189,10 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
     }
 
 
+    public void SetEdit(){
+        String add=sheng_name+shi_name+qu_name;
+        et_address.setText(add);
+    }
     @Override
     public void setAdapter(BaseAdapter adapter1, BaseAdapter adapter2, BaseAdapter adapter3) {
         sp_1.setAdapter(adapter1);
@@ -196,6 +206,9 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
                 mPresenter.initSP(entity.getRegionid(),2);
                 sheng_name=entity.getRegionname();
                 sheng_id=entity.getRegionid();
+                shi_name="";
+                qu_name="";
+                SetEdit();
             }
 
             @Override
@@ -211,6 +224,8 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
                 mPresenter.initSP(entity.getRegionid(),3);
                 shi_name=entity.getRegionname();
                 shi_id=entity.getRegionid();
+
+                SetEdit();
             }
 
             @Override
@@ -221,11 +236,12 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
         sp_3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                List<ReturnRegion.DataEntity> list=((SPAdapter)adapter1).getList();
+                List<ReturnRegion.DataEntity> list=((SPAdapter)adapter3).getList();
                 ReturnRegion.DataEntity entity=list.get(position);
 
                 qu_name=entity.getRegionname();
                 qu_id=entity.getRegionid();
+                SetEdit();
             }
 
             @Override

@@ -18,6 +18,7 @@ import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.DynamicKeyGroup;
+import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.LifeCache;
 import io.rx_cache.Reply;
@@ -51,10 +52,11 @@ public interface CommonCache {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ReturnDetail>> getGoodsDetail(Observable<ReturnDetail> scope, DynamicKey id);
-    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
-    Observable<Reply<ReturnAddress>> getAddress(Observable<ReturnAddress> scope, DynamicKey id);
 
-    @LifeCache(duration = 999, timeUnit = TimeUnit.DAYS)
+
+    Observable<Reply<ReturnAddress>> getAddress(Observable<ReturnAddress> scope, DynamicKey id, EvictDynamicKey key);
+
+
     Observable<Reply<ReturnRegion>> getRegion(Observable<ReturnRegion> scope, DynamicKey id);
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);

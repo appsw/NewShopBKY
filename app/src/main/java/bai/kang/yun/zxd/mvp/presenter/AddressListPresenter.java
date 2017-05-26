@@ -18,8 +18,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.AddressListContract;
-import bai.kang.yun.zxd.mvp.model.entity.Address;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
 import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.AddressListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -50,7 +50,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     private AddressListAdapter addressListAdapter;
-    private List<Address> addresses;
+    private List<ReturnAddress.ItemsEntity> addresses;
     SharedPreferences config;
 
     @Inject
@@ -70,15 +70,15 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
         addressListAdapter=new AddressListAdapter(mApplication,addresses);
         mRootView.setAdapter(addressListAdapter);
     }
-    public void Request(){
+    public void Request(boolean Clear){
         if(!config.getBoolean("isLog",false)){
             UiUtils.makeText("请先登录");
             Intent intent=new Intent(mApplication, LoginActivity.class);
             mRootView.launchActivity(intent);
             return;
         }
-
-        mModel.getAddress(config.getInt("id",0),config.getString("salt","0"),1)
+        addresses.clear();
+        mModel.getAddress(config.getInt("id",0),config.getString("salt","0"),1,Clear)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,15 +88,51 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                             @Override
                             public void onNext(ReturnAddress category) {
                                 if(category.getStatus()==1){
-
+                                    addresses.addAll(category.getPage_data().getItems());
+                                    addressListAdapter.notifyDataSetChanged();
                                 }else {
                                     UiUtils.makeText(category.getMessage());
                                 }
                             }
                         });
     }
-    public void upData(){
-
+    public void delete(int id){
+        mModel.DeleteAdd(config.getInt("id",0),config.getString("salt","0"),id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnDeleteAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnDeleteAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnDeleteAdd category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText(category.getMessage());
+                                    Request(true);
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
+    }
+    public void SetDefault(int id){
+        mModel.SetDefault(config.getInt("id",0),config.getString("salt","0"),id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnDeleteAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnDeleteAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnDeleteAdd category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText(category.getMessage());
+                                    Request(true);
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
     }
     public void add(){
 

@@ -12,7 +12,9 @@ import bai.kang.yun.zxd.mvp.contract.AddressListContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
 import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import rx.Observable;
 import rx.functions.Func1;
@@ -53,16 +55,30 @@ public class AddressListModel extends BaseModel<ServiceManager, CacheManager> im
     }
 
     @Override
-    public Observable<ReturnAddress> getAddress(int uid, String salt, int page) {
+    public Observable<ReturnAddress> getAddress(int uid, String salt, int page,boolean clean) {
         Observable<ReturnAddress> detail = mServiceManager.getGetAddressService().getAddress(uid,salt,page);
 
         return mCacheManager.getCommonCache()
-                .getAddress(detail,new DynamicKey(id))
+                .getAddress(detail,new DynamicKey(id),new EvictDynamicKey(clean))
                 .flatMap(new Func1<Reply<ReturnAddress>, Observable<ReturnAddress>>() {
                     @Override
                     public Observable<ReturnAddress> call(Reply<ReturnAddress> mapReply) {
                         return Observable.just(mapReply.getData());
                     }
                 });
+    }
+
+    @Override
+    public Observable<ReturnDeleteAdd> DeleteAdd(int uid, String salt, int id) {
+        Observable<ReturnDeleteAdd> detail = mServiceManager.getAddressDeleteService().delete(uid,salt,id);
+
+        return detail;
+    }
+
+    @Override
+    public Observable<ReturnDeleteAdd> SetDefault(int uid, String salt, int id) {
+        Observable<ReturnDeleteAdd> detail = mServiceManager.getSetDefaultAddService().set(uid,salt,id);
+
+        return detail;
     }
 }

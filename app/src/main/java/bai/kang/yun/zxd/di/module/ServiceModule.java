@@ -3,6 +3,7 @@ package bai.kang.yun.zxd.di.module;
 
 import javax.inject.Singleton;
 
+import bai.kang.yun.zxd.mvp.model.api.service.AddressDeleteService;
 import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
@@ -20,6 +21,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
+import bai.kang.yun.zxd.mvp.model.api.service.SetDefaultAddService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
 import dagger.Provides;
@@ -122,6 +124,16 @@ public class ServiceModule {
     @Provides
     GetRegionService provideGetRegionService(Retrofit retrofit) {
         return retrofit.create(GetRegionService.class);
+    }
+    @Singleton
+    @Provides
+    AddressDeleteService provideAddressDeleteService(Retrofit retrofit) {
+        return retrofit.create(AddressDeleteService.class);
+    }
+    @Singleton
+    @Provides
+    SetDefaultAddService provideSetDefaultAddService(Retrofit retrofit) {
+        return retrofit.create(SetDefaultAddService.class);
     }
 
 }

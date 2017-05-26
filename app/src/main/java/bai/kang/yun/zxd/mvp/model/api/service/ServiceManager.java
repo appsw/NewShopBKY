@@ -29,6 +29,8 @@ public class ServiceManager implements BaseServiceManager {
     private GetAddressService mGetAddressService;
     private SetAddressService mSetAddressService;
     private GetRegionService mGetRegionService;
+    private AddressDeleteService mAddressDeleteService;
+    private SetDefaultAddService mSetDefaultAddService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -42,7 +44,8 @@ public class ServiceManager implements BaseServiceManager {
                                   GetPhoneYzm getPhoneYzm,RegisterService registerService,
                                   LoginService loginService,GetShopListService getShopListService,
                                   GetGoodsDetailService getGoodsDetailService,GetAddressService getAddressService,
-                                  SetAddressService setAddressService,GetRegionService getRegionService){
+                                  SetAddressService setAddressService,GetRegionService getRegionService,
+                                  AddressDeleteService addressDeleteService,SetDefaultAddService setDefaultAddService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -61,6 +64,8 @@ public class ServiceManager implements BaseServiceManager {
         this.mGetAddressService=getAddressService;
         this.mSetAddressService=setAddressService;
         this.mGetRegionService=getRegionService;
+        this.mAddressDeleteService=addressDeleteService;
+        this.mSetDefaultAddService=setDefaultAddService;
     }
 
     public CommonService getCommonService() {
@@ -88,6 +93,9 @@ public class ServiceManager implements BaseServiceManager {
     public GetAddressService getGetAddressService(){return mGetAddressService;}
     public SetAddressService getSetAddressService(){return mSetAddressService;}
     public GetRegionService getGetRegionService(){return mGetRegionService;}
+    public AddressDeleteService getAddressDeleteService(){return mAddressDeleteService;}
+    public SetDefaultAddService getSetDefaultAddService(){return mSetDefaultAddService;}
+
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

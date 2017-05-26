@@ -120,7 +120,8 @@ public class AddressDetailPresenter extends BasePresenter<AddressDetailContract.
                             @Override
                             public void onNext(ReturnSetAdd category) {
                                 if(category.getStatus()==1){
-
+                                    UiUtils.makeText("保存成功");
+                                    mRootView.killMyself();
                                 }else {
                                     UiUtils.makeText(category.getMessage());
                                 }

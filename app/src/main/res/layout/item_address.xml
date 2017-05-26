@@ -66,7 +66,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|left"
             android:layout_marginLeft="@dimen/margin_space_half"
-            android:text="设为默认"
+            android:text="默认地址"
             style="@style/textStyle.Normal.black"/>
         <TextView
             android:id="@+id/address_delete_txtv"
