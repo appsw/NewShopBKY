@@ -1,11 +1,15 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.AddressListContract;
 import bai.kang.yun.zxd.mvp.model.entity.Address;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
+import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.AddressListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -46,6 +51,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
     private AppManager mAppManager;
     private AddressListAdapter addressListAdapter;
     private List<Address> addresses;
+    SharedPreferences config;
 
     @Inject
     public AddressListPresenter(AddressListContract.Model model, AddressListContract.View rootView
@@ -56,14 +62,23 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
+        config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
+
     }
     public void initData(){
         addresses=new ArrayList();
         addressListAdapter=new AddressListAdapter(mApplication,addresses);
         mRootView.setAdapter(addressListAdapter);
     }
-    public void Request(int uid, String salt, int page){
-        mModel.getAddress(uid,salt,page)
+    public void Request(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(mApplication, LoginActivity.class);
+            mRootView.launchActivity(intent);
+            return;
+        }
+
+        mModel.getAddress(config.getInt("id",0),config.getString("salt","0"),1)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,11 +87,11 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         new ErrorHandleSubscriber<ReturnAddress>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnAddress category) {
-//                                if(category.getStatus()==1){
-//
-//                                }else {
-//                                    UiUtils.makeText(category.getMessage());
-//                                }
+                                if(category.getStatus()==1){
+
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
                             }
                         });
     }

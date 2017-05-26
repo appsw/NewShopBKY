@@ -17,6 +17,7 @@ import bai.kang.yun.zxd.di.component.DaggerMeComponent;
 import bai.kang.yun.zxd.di.module.MeModule;
 import bai.kang.yun.zxd.mvp.contract.MeContract;
 import bai.kang.yun.zxd.mvp.presenter.MePresenter;
+import bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -134,5 +135,11 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
         Intent intent=new Intent(getActivity(), LoginActivity.class);
         UiUtils.startActivity(intent);
     }
+    @OnClick(R.id.person_receive_address_aview)
+    void newAdd(){
+        Intent intent=new Intent(getActivity(), AddressListActivity.class);
+        UiUtils.startActivity(intent);
+    }
+
 
 }

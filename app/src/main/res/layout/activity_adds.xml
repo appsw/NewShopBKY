@@ -1,160 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/green">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_row"
-        android:layout_marginTop="@dimen/margin_space"
-        android:background="@color/bg_view"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/consignee_name_txtv"
-            android:padding="@dimen/margin_space"
-            android:layout_width="80dip"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:text="收货人："
-            android:layout_alignParentLeft="true"
-            style="@style/textStyle.Normal.black"/>
-        <EditText
-            android:id="@+id/consignee_name_edtv"
-            android:layout_toRightOf="@id/consignee_name_txtv"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <RelativeLayout
+            android:id="@+id/personal_top_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_text"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_space"
-            android:gravity="center_vertical|right"
-            android:text=""
-            style="@style/edit_text"
-            />
-    </RelativeLayout>
-    <View  style="@style/separator_line"/>
+            android:layout_height="180px"
+            android:layout_alignParentTop="true"
+            android:background="@color/green"
+            android:paddingTop="22px">
+            <ImageView
+                android:id="@+id/register_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:src="@mipmap/android_list_idex_left" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_row"
-        android:background="@color/bg_view"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:text="编辑地址"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/consignee_mobile_txtv"
-            android:padding="@dimen/margin_space"
-            android:layout_width="80dip"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:text="联系方式："
-            android:layout_alignParentLeft="true"
-            style="@style/textStyle.Normal.black"/>
-        <EditText
-            android:id="@+id/consignee_mobile_edtv"
-            android:layout_toRightOf="@id/consignee_mobile_txtv"
+
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_text"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_space"
-            android:gravity="center_vertical|right"
-            android:text="1380138006"
-            style="@style/edit_text"/>
-    </RelativeLayout>
-    <View  style="@style/separator_line"/>
+            android:layout_height="@dimen/height_row"
+            android:layout_marginTop="@dimen/margin_space"
+            android:background="@color/bg_view"
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_row"
-        android:background="@color/bg_view"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/consignee_region_title_txtv"
-            android:padding="@dimen/margin_space"
-            android:layout_width="80dip"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:text="所在地区："
-            android:layout_alignParentLeft="true"
-            style="@style/textStyle.Normal.black"/>
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/consignee_arrow_imgv"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_space"
-            android:layout_centerVertical="true"
-            android:layout_width="40px"
-            android:layout_height="40px"
-            android:src="@drawable/ic_arrow"/>
+            <TextView
+                android:id="@+id/consignee_name_txtv"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="收货人："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+            <EditText
+                android:id="@+id/consignee_name_edtv"
+                android:layout_toRightOf="@id/consignee_name_txtv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_text"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_space"
+                android:gravity="center_vertical|right"
+                android:text=""
+                style="@style/edit_text"
+                />
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
 
-
-        <TextView
-            android:id="@+id/consignee_region_txtv"
-            android:layout_toLeftOf="@id/consignee_arrow_imgv"
-            android:layout_toRightOf="@id/consignee_region_title_txtv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical|right"
-            android:text=""
-            style="@style/textStyle.Normal.black"/>
-    </RelativeLayout>
-    <View  style="@style/separator_line"/>
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_row"
-        android:background="@color/bg_view"
-        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/consignee_mobile_txtv"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="联系方式："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+            <EditText
+                android:id="@+id/consignee_mobile_edtv"
+                android:layout_toRightOf="@id/consignee_mobile_txtv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_text"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_space"
+                android:gravity="center_vertical|right"
 
-        <TextView
-            android:id="@+id/consignee_address_txtv"
-            android:padding="@dimen/margin_space"
-            android:layout_width="80dip"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:text="详细地址："
-            android:layout_alignParentLeft="true"
-            style="@style/textStyle.Normal.black"/>
-        <EditText
-            android:id="@+id/consignee_address_edtv"
-            android:layout_toRightOf="@id/consignee_address_txtv"
+                style="@style/edit_text"/>
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_text"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_space"
-            android:gravity="center_vertical|right"
-            android:text=""
-            style="@style/edit_text"/>
-    </RelativeLayout>
-    <View  style="@style/separator_line"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_row"
-        android:background="@color/bg_view"
-        android:orientation="horizontal">
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/consignee_region_title_txtv1"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="所在省份："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+
+            <Spinner
+                android:id="@+id/sp_1"
+                android:spinnerMode="dialog"
+                android:layout_toRightOf="@id/consignee_region_title_txtv1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical|right"
+                style="@style/textStyle.Normal.black">
+
+            </Spinner>
+
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/consignee_region_title_txtv2"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="所在城市："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+
+            <Spinner
+                android:id="@+id/sp_2"
+                android:spinnerMode="dialog"
+                android:layout_toRightOf="@id/consignee_region_title_txtv2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical|right"
+                style="@style/textStyle.Normal.black">
+
+            </Spinner>
+
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/consignee_region_title_txtv3"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="所在区/县："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+
+            <Spinner
+                android:id="@+id/sp_3"
+                android:spinnerMode="dialog"
+                android:layout_toRightOf="@id/consignee_region_title_txtv3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical|right"
+                style="@style/textStyle.Normal.black">
+
+            </Spinner>
+
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/consignee_address_txtv"
+                android:padding="@dimen/margin_space"
+                android:layout_width="90dip"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="详细地址："
+                android:layout_alignParentLeft="true"
+                style="@style/textStyle.Normal.black"/>
+            <EditText
+                android:id="@+id/consignee_address_edtv"
+                android:layout_toRightOf="@id/consignee_address_txtv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_text"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_space"
+                android:gravity="center_vertical|right"
+                android:text=""
+                style="@style/edit_text"/>
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_row"
+            android:background="@color/bg_view"
+            android:orientation="horizontal">
 
 
-        <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:padding="12dp"
-            android:text="设为默认地址" />
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:padding="12dp"
+                android:text="设为默认地址" />
 
-    </RelativeLayout>
-    <View  style="@style/separator_line"/>
+        </RelativeLayout>
+        <View  style="@style/separator_line"/>
 
 
-    <Button
-        android:id="@+id/submit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button"
-        android:text="保存"
-        android:textColor="@color/white"
-        android:background="@drawable/button_selector"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/margin_space_big"
-        android:layout_marginRight="@dimen/margin_space_big"
-        android:layout_marginTop="@dimen/margin_space_big"/>
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:background="@drawable/button_selector"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/margin_space_big"
+            android:layout_marginRight="@dimen/margin_space_big"
+            android:layout_marginTop="@dimen/margin_space_big"/>
+    </LinearLayout>
+
 
 </LinearLayout>

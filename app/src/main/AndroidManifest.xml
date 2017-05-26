@@ -69,6 +69,12 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.ChatListActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.AddressDetailActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity">
+
+        </activity>
 
 
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">

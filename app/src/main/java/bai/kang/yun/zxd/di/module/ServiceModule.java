@@ -12,12 +12,14 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
+import bai.kang.yun.zxd.mvp.model.api.service.GetRegionService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopListService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
+import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
 import dagger.Provides;
@@ -111,4 +113,15 @@ public class ServiceModule {
     GetAddressService provideGetAddressService(Retrofit retrofit) {
         return retrofit.create(GetAddressService.class);
     }
+    @Singleton
+    @Provides
+    SetAddressService provideSetAddressService(Retrofit retrofit) {
+        return retrofit.create(SetAddressService.class);
+    }
+    @Singleton
+    @Provides
+    GetRegionService provideGetRegionService(Retrofit retrofit) {
+        return retrofit.create(GetRegionService.class);
+    }
+
 }

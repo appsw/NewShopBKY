@@ -11,6 +11,7 @@ import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnRegion;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.model.entity.Token;
@@ -53,6 +54,8 @@ public interface CommonCache {
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ReturnAddress>> getAddress(Observable<ReturnAddress> scope, DynamicKey id);
 
+    @LifeCache(duration = 999, timeUnit = TimeUnit.DAYS)
+    Observable<Reply<ReturnRegion>> getRegion(Observable<ReturnRegion> scope, DynamicKey id);
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
 }

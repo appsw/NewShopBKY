@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,8 +99,18 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
     @OnClick(R.id.add_address_btn)
     void add(){
         mPresenter.add();
+        Intent intent=new Intent(this,AddressDetailActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putBoolean("add",true);
+        intent.putExtra("data",bundle);
+        startActivityForResult(intent,3);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 
     @Override
     public void setAdapter(BaseAdapter adapter) {

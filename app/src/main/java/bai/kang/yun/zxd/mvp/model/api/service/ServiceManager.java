@@ -27,6 +27,8 @@ public class ServiceManager implements BaseServiceManager {
     private GetShopListService mGetShopListService;
     private GetGoodsDetailService mGetGoodsDetailService;
     private GetAddressService mGetAddressService;
+    private SetAddressService mSetAddressService;
+    private GetRegionService mGetRegionService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -39,7 +41,8 @@ public class ServiceManager implements BaseServiceManager {
                                   GetCategoryService getCategoryService,GetCategoryGoodsService getCategoryGoodsService,
                                   GetPhoneYzm getPhoneYzm,RegisterService registerService,
                                   LoginService loginService,GetShopListService getShopListService,
-                                  GetGoodsDetailService getGoodsDetailService,GetAddressService getAddressService){
+                                  GetGoodsDetailService getGoodsDetailService,GetAddressService getAddressService,
+                                  SetAddressService setAddressService,GetRegionService getRegionService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -56,6 +59,8 @@ public class ServiceManager implements BaseServiceManager {
         this.mGetShopListService=getShopListService;
         this.mGetGoodsDetailService=getGoodsDetailService;
         this.mGetAddressService=getAddressService;
+        this.mSetAddressService=setAddressService;
+        this.mGetRegionService=getRegionService;
     }
 
     public CommonService getCommonService() {
@@ -81,6 +86,8 @@ public class ServiceManager implements BaseServiceManager {
     public GetShopListService getShopListService(){return mGetShopListService;}
     public GetGoodsDetailService getGetGoodsDetailService(){return mGetGoodsDetailService;}
     public GetAddressService getGetAddressService(){return mGetAddressService;}
+    public SetAddressService getSetAddressService(){return mSetAddressService;}
+    public GetRegionService getGetRegionService(){return mGetRegionService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

@@ -44,8 +44,17 @@ public class ReturnUser {
 
     public static class SingleEntity{
         private String user_name;     //用户名
+        private String salt;          //用户token
         private String nick_name;          //用户昵称
         private int id;                 //用户id
+
+        public String getSalt() {
+            return salt;
+        }
+
+        public void setSalt(String salt) {
+            this.salt = salt;
+        }
 
         public String getUser_name() {
             return user_name;

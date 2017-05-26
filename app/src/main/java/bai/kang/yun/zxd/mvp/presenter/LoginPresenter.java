@@ -75,7 +75,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                                     if(category.getStatus()==1){
                                         UiUtils.makeText("登录成功");
                                         config.edit().putString("name",category.getSingle().getUser_name())
-                                        .putInt("id",category.getSingle().getId()).commit();
+                                                .putString("salt",category.getSingle().getSalt())
+                                                .putBoolean("isLog",true)
+                                                .putInt("id",category.getSingle().getId()).commit();
                                         mRootView.killMyself();
                                     }else {
                                         UiUtils.makeText(category.getMessage());
