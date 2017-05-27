@@ -14,7 +14,6 @@ import java.util.List;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
-import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
 import common.WEApplication;
 
 /**
@@ -72,7 +71,7 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
 //                .url(spCategory.getImage())
 //                .imageView(viewHolder.imageView)
 //                .build());
-        viewHolder.imageView.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.imageView.setImageResource(R.mipmap.yaowan);
         viewHolder.name.setText(spCategory.getName());
         return convertView;
     }

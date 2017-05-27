@@ -11,7 +11,7 @@
     <!-- 公共属性 -->
     <dimen name="person_head_relayout_padding">5dip</dimen>
     <dimen name="height_row">45dip</dimen>
-    <dimen name="height_button">40dip</dimen>
+    <dimen name="height_button">50dip</dimen>
     <dimen name="height_text">40dip</dimen>
     <dimen name="margin_space">10dip</dimen>
     <dimen name="margin_space_big">15dip</dimen>

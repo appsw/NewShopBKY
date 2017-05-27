@@ -75,7 +75,9 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.PersonalSettingActivity">
 
+        </activity>
 
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>

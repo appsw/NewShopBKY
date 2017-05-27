@@ -76,6 +76,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                                         UiUtils.makeText("登录成功");
                                         config.edit().putString("name",category.getSingle().getUser_name())
                                                 .putString("salt",category.getSingle().getSalt())
+                                                .putString("nick_name",category.getSingle().getNick_name())
+                                                .putString("mobile",category.getSingle().getMobile())
                                                 .putBoolean("isLog",true)
                                                 .putInt("id",category.getSingle().getId()).commit();
                                         mRootView.killMyself();

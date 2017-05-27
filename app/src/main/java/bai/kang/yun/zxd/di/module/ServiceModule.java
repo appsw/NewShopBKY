@@ -20,6 +20,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
+import bai.kang.yun.zxd.mvp.model.api.service.ResetPswdService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetDefaultAddService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
@@ -134,6 +135,11 @@ public class ServiceModule {
     @Provides
     SetDefaultAddService provideSetDefaultAddService(Retrofit retrofit) {
         return retrofit.create(SetDefaultAddService.class);
+    }
+    @Singleton
+    @Provides
+    ResetPswdService provideResetPswdService(Retrofit retrofit) {
+        return retrofit.create(ResetPswdService.class);
     }
 
 }

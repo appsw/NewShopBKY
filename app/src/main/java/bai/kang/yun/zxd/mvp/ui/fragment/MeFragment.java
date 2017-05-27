@@ -19,6 +19,7 @@ import bai.kang.yun.zxd.mvp.contract.MeContract;
 import bai.kang.yun.zxd.mvp.presenter.MePresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.PersonalSettingActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
@@ -71,7 +72,13 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
         super.onResume();
         config=getActivity().getApplication().getSharedPreferences("config", Context.MODE_PRIVATE);
         if(config!=null){
-            String name=config.getString("name","点击此处登录");
+            String name;
+            if(config.getBoolean("isLog",false)){
+                name=config.getString("name","点击此处登录");
+
+            }else {
+                name="点击此处登录";
+            }
             tv_name.setText(name);
         }
 
@@ -138,6 +145,11 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
     @OnClick(R.id.person_receive_address_aview)
     void newAdd(){
         Intent intent=new Intent(getActivity(), AddressListActivity.class);
+        UiUtils.startActivity(intent);
+    }
+    @OnClick(R.id.account_rlayout)
+    void personal(){
+        Intent intent=new Intent(getActivity(), PersonalSettingActivity.class);
         UiUtils.startActivity(intent);
     }
 

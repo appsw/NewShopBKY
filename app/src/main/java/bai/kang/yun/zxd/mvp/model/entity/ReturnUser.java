@@ -46,7 +46,16 @@ public class ReturnUser {
         private String user_name;     //用户名
         private String salt;          //用户token
         private String nick_name;          //用户昵称
+        private String mobile;          //用户手机号
         private int id;                 //用户id
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
 
         public String getSalt() {
             return salt;
