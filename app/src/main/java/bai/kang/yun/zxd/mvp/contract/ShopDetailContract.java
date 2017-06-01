@@ -4,6 +4,7 @@ import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
@@ -33,5 +34,6 @@ public interface ShopDetailContract {
     interface Model extends IModel {
         Observable<ReturnShopDetail> getShopDetail(int id);
         Observable<ReturnShopGoods> getShopGoods(int kind,int id);
+        Observable<ReturnShopCategory> getShopCategory(int id);
     }
 }

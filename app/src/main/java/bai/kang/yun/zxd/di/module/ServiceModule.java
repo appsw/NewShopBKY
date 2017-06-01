@@ -14,6 +14,8 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetRegionService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryGoodsService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopListService;
@@ -152,6 +154,16 @@ public class ServiceModule {
     @Provides
     GetShopGoodsService provideGetShopGoodsService(Retrofit retrofit) {
         return retrofit.create(GetShopGoodsService.class);
+    }
+    @Singleton
+    @Provides
+    GetShopCategoryService provideGetShopCategoryService(Retrofit retrofit) {
+        return retrofit.create(GetShopCategoryService.class);
+    }
+    @Singleton
+    @Provides
+    GetShopCategoryGoodsService provideGetShopCategoryGoodsService(Retrofit retrofit) {
+        return retrofit.create(GetShopCategoryGoodsService.class);
     }
 
 }

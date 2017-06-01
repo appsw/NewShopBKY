@@ -189,9 +189,9 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp">
 
                 <android.support.v7.widget.RecyclerView
@@ -201,7 +201,13 @@
                     android:scrollbars="vertical"
                     tools:listitem="@layout/item_shop_goodslist"
                     />
-            </LinearLayout>
+                <GridLayout
+                    android:id="@+id/shop_goodscategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </GridLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import io.rx_cache.DynamicKey;
@@ -81,6 +82,23 @@ public class ShopDetailModel extends BaseModel<ServiceManager, CacheManager> imp
                 .flatMap(new Func1<Reply<ReturnShopGoods>, Observable<ReturnShopGoods>>() {
                     @Override
                     public Observable<ReturnShopGoods> call(Reply<ReturnShopGoods> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ReturnShopCategory> getShopCategory(int id) {
+        Observable<ReturnShopCategory> shops = mServiceManager.
+                getGetShopCategoryService().getShopCategory(id);
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getShopCategory(shops
+                        ,new DynamicKey(id)
+                )
+                .flatMap(new Func1<Reply<ReturnShopCategory>, Observable<ReturnShopCategory>>() {
+                    @Override
+                    public Observable<ReturnShopCategory> call(Reply<ReturnShopCategory> listReply) {
                         return Observable.just(listReply.getData());
                     }
                 });

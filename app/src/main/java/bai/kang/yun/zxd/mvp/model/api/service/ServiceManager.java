@@ -34,6 +34,8 @@ public class ServiceManager implements BaseServiceManager {
     private ResetPswdService mResetPswdService;
     private GetShopDetailService mGetShopDetailService;
     private GetShopGoodsService mGetShopGoodsService;
+    private GetShopCategoryService mGetShopCategoryService;
+    private GetShopCategoryGoodsService mGetShopCategoryGoodsService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -50,7 +52,8 @@ public class ServiceManager implements BaseServiceManager {
                                   SetAddressService setAddressService,GetRegionService getRegionService,
                                   AddressDeleteService addressDeleteService,SetDefaultAddService setDefaultAddService,
                                   ResetPswdService resetPswdService,GetShopDetailService getShopDetailService,
-                                  GetShopGoodsService getShopGoodsService){
+                                  GetShopGoodsService getShopGoodsService,GetShopCategoryService getShopCategoryService,
+                                  GetShopCategoryGoodsService getShopCategoryGoodsService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -74,6 +77,8 @@ public class ServiceManager implements BaseServiceManager {
         this.mResetPswdService=resetPswdService;
         this.mGetShopDetailService=getShopDetailService;
         this.mGetShopGoodsService=getShopGoodsService;
+        this.mGetShopCategoryService=getShopCategoryService;
+        this.mGetShopCategoryGoodsService=getShopCategoryGoodsService;
     }
 
     public CommonService getCommonService() {
@@ -106,6 +111,8 @@ public class ServiceManager implements BaseServiceManager {
     public ResetPswdService getResetPswdService(){return mResetPswdService;}
     public GetShopDetailService getGetShopDetailService(){return mGetShopDetailService;}
     public GetShopGoodsService getGetShopGoodsService(){return mGetShopGoodsService;}
+    public GetShopCategoryService getGetShopCategoryService(){return mGetShopCategoryService;}
+    public GetShopCategoryGoodsService getGetShopCategoryGoodsService(){return mGetShopCategoryGoodsService;}
 
 
     /**

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -52,6 +53,8 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     @BindView(R.id.shop_item_category) TextView tv_category;
     @BindView(R.id.head_mimgv) SPMoreImageView image;
     @BindView(R.id.shop_goodslist) RecyclerView list;
+    @BindView(R.id.shop_goodscategory)
+    GridView gridView;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
 
     @Override

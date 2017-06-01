@@ -13,6 +13,7 @@ import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnRegion;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
@@ -67,4 +68,7 @@ public interface CommonCache {
     Observable<Reply<ReturnRegion>> getRegion(Observable<ReturnRegion> scope, DynamicKey id);
 
     Observable<Reply<Advertisement>> getAD(Observable<Advertisement> scope);
+    //    店铺分类
+    Observable<Reply<ReturnShopCategory>> getShopCategory(Observable<ReturnShopCategory> scope, DynamicKey id);
+
 }
