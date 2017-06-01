@@ -2,9 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/green"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<LinearLayout
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/personal_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="180px"
+        android:layout_alignParentTop="true"
+        android:background="@color/green"
+        android:paddingTop="22px">
+        <ImageView
+            android:id="@+id/register_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/android_list_idex_left" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:text="店铺详情"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,7 +64,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dip"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/person_default_head" />
+                        android:src="@mipmap/shoplogo" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -47,22 +80,12 @@
 
                         <TextView
                             android:id="@+id/shop_name"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="百康云大药房"
-                            android:textSize="22sp" />
-
-                        <TextView
-
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="货到付款"
-                            android:textColor="@color/colorAccent"
                             android:textSize="18sp" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -107,47 +130,57 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:background="@drawable/b_input"
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/shop_item_home"
+                            android:id="@+id/shop_item_tuijian"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/b_input"
                             android:gravity="center"
-                            android:text="店铺主页"
+                            android:text="店铺推荐"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
-
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray"
+                            />
                         <TextView
-                            android:id="@+id/shop_item_call"
+                            android:id="@+id/shop_item_rexiao"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/b_input"
                             android:gravity="center"
-                            android:text="拨打电话"
+                            android:text="店铺热销"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
-
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray"
+                            />
                         <TextView
                             android:id="@+id/shop_item_zz"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/b_input"
+
                             android:gravity="center"
                             android:text="资质证明"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
-
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray"
+                            />
                         <TextView
                             android:id="@+id/shop_item_category"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/b_input"
                             android:gravity="center"
                             android:text="商品分类"
                             android:textColor="@color/black"
@@ -158,7 +191,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/shop_goodslist"
@@ -170,6 +204,8 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+</LinearLayout>
+
 
 
 </LinearLayout>

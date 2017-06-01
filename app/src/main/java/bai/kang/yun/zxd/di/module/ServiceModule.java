@@ -14,6 +14,8 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetRegionService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetShopDetailService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetShopGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopListService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
@@ -140,6 +142,16 @@ public class ServiceModule {
     @Provides
     ResetPswdService provideResetPswdService(Retrofit retrofit) {
         return retrofit.create(ResetPswdService.class);
+    }
+    @Singleton
+    @Provides
+    GetShopDetailService provideGetShopDetailService(Retrofit retrofit) {
+        return retrofit.create(GetShopDetailService.class);
+    }
+    @Singleton
+    @Provides
+    GetShopGoodsService provideGetShopGoodsService(Retrofit retrofit) {
+        return retrofit.create(GetShopGoodsService.class);
     }
 
 }

@@ -4,7 +4,10 @@ import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
+import rx.Observable;
 
 /**
  * 通过Template生成对应页面的MVP和Dagger代码,请注意输入框中输入的名字必须相同
@@ -28,6 +31,7 @@ public interface ShopDetailContract {
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-
+        Observable<ReturnShopDetail> getShopDetail(int id);
+        Observable<ReturnShopGoods> getShopGoods(int kind,int id);
     }
 }

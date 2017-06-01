@@ -13,6 +13,8 @@ import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnRegion;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShop;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import bai.kang.yun.zxd.mvp.model.entity.Token;
 import bai.kang.yun.zxd.mvp.model.entity.User;
@@ -53,6 +55,11 @@ public interface CommonCache {
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ReturnDetail>> getGoodsDetail(Observable<ReturnDetail> scope, DynamicKey id);
 
+    @LifeCache(duration =2 , timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnShopDetail>> getShopDetail(Observable<ReturnShopDetail> scope, DynamicKey id);
+
+    @LifeCache(duration =2 , timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnShopGoods>> getShopGoods(Observable<ReturnShopGoods> scope, DynamicKeyGroup id);
 
     Observable<Reply<ReturnAddress>> getAddress(Observable<ReturnAddress> scope, DynamicKey id, EvictDynamicKey key);
 

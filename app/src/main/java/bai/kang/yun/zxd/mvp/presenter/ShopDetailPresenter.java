@@ -9,6 +9,7 @@ import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
@@ -17,14 +18,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
-import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListForShopAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,7 +51,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
-    private List<Goods> GoodsList = new ArrayList<>();
+    private List<ReturnShopGoods.DataEntity> GoodsList = new ArrayList();
     private DefaultAdapter mAdapter;
 
     @Inject
@@ -66,27 +66,48 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
         mAdapter=new GoodsListForShopAdapter(GoodsList);
         mRootView.setAdapter(mAdapter);
     }
-    public void getShop(){
-        Shop shop=new Shop();
-        shop.setName("1111");
-        shop.setAdd("济南济南");
-        shop.setImgUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-        mRootView.setShop(shop);
+    public void getShop(int id){
+        mModel.getShopDetail(id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnShopDetail>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnShopDetail>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnShopDetail users) {
+                                ReturnShopDetail.SingleEntity singleEntity=users.getSingle();
+                                Shop shop=new Shop();
+                                shop.setName(singleEntity.getName());
+                                shop.setAdd(singleEntity.getReg_address());
+                                shop.setImgUrl(singleEntity.getLogo());
+                                mRootView.setShop(shop);
+                            }
+
+                        });
+
     }
-    public void getShopGoods(){
-        getGoodsList()
+    public void getShopGoods(int kind,int id){
+        GoodsList.clear();
+        mModel.getShopGoods(kind,id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
 
                 .observeOn(AndroidSchedulers.mainThread())
 
-                .compose(RxUtils.<List<Goods>>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<ReturnShopGoods>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<List<Goods>>(mErrorHandler) {
+                        new ErrorHandleSubscriber<ReturnShopGoods>(mErrorHandler) {
                             @Override
-                            public void onNext(List<Goods> users) {
-                                GoodsList.addAll(users);
-                                mAdapter.notifyDataSetChanged();}
+                            public void onNext(ReturnShopGoods goods) {
+                                if(goods.getStatus()==1){
+                                GoodsList.addAll(goods.getData());
+                                mAdapter.notifyDataSetChanged();
+                                }else{
+                                    UiUtils.makeText(goods.getMessage());
+                                }
+
+                            }
 
                         });
     }
@@ -109,24 +130,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
         this.mImageLoader = null;
         this.mApplication = null;
     }
-    public Observable<List<Goods>> getGoodsList(){
 
 
-        return Observable.create(new Observable.OnSubscribe<List<Goods>>() {
-            @Override
-            public void call(Subscriber<? super List<Goods>> subscriber) {
-                //Emit Data
-                List<Goods> goodses=new ArrayList();
-                for (int i=0;i<3;i++){
-                    Goods goods=new Goods();
-                    goods.setName(""+i);
-                    goods.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-                    goodses.add(goods);
-                    subscriber.onNext(goodses);
-                }
-                subscriber.onCompleted();
-            }
-        });
-    }
 
 }

@@ -32,6 +32,8 @@ public class ServiceManager implements BaseServiceManager {
     private AddressDeleteService mAddressDeleteService;
     private SetDefaultAddService mSetDefaultAddService;
     private ResetPswdService mResetPswdService;
+    private GetShopDetailService mGetShopDetailService;
+    private GetShopGoodsService mGetShopGoodsService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -47,7 +49,8 @@ public class ServiceManager implements BaseServiceManager {
                                   GetGoodsDetailService getGoodsDetailService,GetAddressService getAddressService,
                                   SetAddressService setAddressService,GetRegionService getRegionService,
                                   AddressDeleteService addressDeleteService,SetDefaultAddService setDefaultAddService,
-                                  ResetPswdService resetPswdService){
+                                  ResetPswdService resetPswdService,GetShopDetailService getShopDetailService,
+                                  GetShopGoodsService getShopGoodsService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -69,6 +72,8 @@ public class ServiceManager implements BaseServiceManager {
         this.mAddressDeleteService=addressDeleteService;
         this.mSetDefaultAddService=setDefaultAddService;
         this.mResetPswdService=resetPswdService;
+        this.mGetShopDetailService=getShopDetailService;
+        this.mGetShopGoodsService=getShopGoodsService;
     }
 
     public CommonService getCommonService() {
@@ -99,6 +104,9 @@ public class ServiceManager implements BaseServiceManager {
     public AddressDeleteService getAddressDeleteService(){return mAddressDeleteService;}
     public SetDefaultAddService getSetDefaultAddService(){return mSetDefaultAddService;}
     public ResetPswdService getResetPswdService(){return mResetPswdService;}
+    public GetShopDetailService getGetShopDetailService(){return mGetShopDetailService;}
+    public GetShopGoodsService getGetShopGoodsService(){return mGetShopGoodsService;}
+
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.SPMoreImageView;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerShopDetailComponent;
 import bai.kang.yun.zxd.di.module.ShopDetailModule;
 import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
@@ -46,8 +48,6 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
 
     @BindView(R.id.shop_name) TextView tv_name;
     @BindView(R.id.shop_add) TextView tv_add;
-    @BindView(R.id.shop_item_home) TextView tv_home;
-    @BindView(R.id.shop_item_call) TextView tv_call;
     @BindView(R.id.shop_item_zz) TextView tv_zz;
     @BindView(R.id.shop_item_category) TextView tv_category;
     @BindView(R.id.head_mimgv) SPMoreImageView image;
@@ -72,13 +72,17 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
 
   @Override
     protected void initData() {
-        mPresenter.getShop();
-      mPresenter.getShopGoods();
+        mPresenter.getShop(Transfer.choseshop_for_open_shopdetail_id);
+      mPresenter.getShopGoods(1,Transfer.choseshop_for_open_shopdetail_id);
 
     }
-    @OnClick(R.id.shop_item_call)
-    void call(){
-        mPresenter.call("18764018870");
+    @OnClick(R.id.shop_item_rexiao)
+    void rexiao(){
+        mPresenter.getShopGoods(1,Transfer.choseshop_for_open_shopdetail_id);
+    }
+    @OnClick(R.id.shop_item_tuijian)
+    void tuijian(){
+        mPresenter.getShopGoods(2,Transfer.choseshop_for_open_shopdetail_id);
     }
 
     @Override
@@ -129,11 +133,15 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
                 .subscribe(RxTextView.text(tv_name));
         Observable.just(shop.getAdd())
                 .subscribe(RxTextView.text(tv_add));
-        mImageLoader.loadImage(mApplication, GlideImageConfig
-                .builder()
-                .url(shop.getImgUrl())
-                .imageView(image)
-                .build());
+        if(shop.getImgUrl()!=null){
+            mImageLoader.loadImage(mApplication, GlideImageConfig
+                    .builder()
+                    .url("http://www.baikangyun.com"+shop.getImgUrl())
+                    .imageView(image)
+                    .build());
+            Log.e("url","http://www.baikangyun.com"+shop.getImgUrl());
+        }
+
     }
     @Override
     protected void onDestroy() {

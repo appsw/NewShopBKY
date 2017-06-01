@@ -69,7 +69,7 @@
         <View  style="@style/separator_line"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -177,6 +177,6 @@
                 tools:listitem="@layout/item_goodsgrid"
                 />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

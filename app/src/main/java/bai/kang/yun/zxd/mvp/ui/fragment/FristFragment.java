@@ -185,6 +185,7 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         rollPagerView.setAdapter(rolladapter);//配置适配器
         gridView.setAdapter(simpleAdapter);
         recyclerView_tj.setAdapter(defaultadapter);
+        recyclerView_tj.setNestedScrollingEnabled(false);
         UiUtils.configRecycleView(recyclerView_tj, new GridLayoutManager(getActivity(), 2));
         recyclerView_tj.addItemDecoration(new SpaceItemDecoration(5));
     }

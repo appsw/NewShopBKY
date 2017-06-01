@@ -11,6 +11,13 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.DynamicKeyGroup;
+import io.rx_cache.Reply;
+import rx.Observable;
+import rx.functions.Func1;
 
 
 /**
@@ -45,4 +52,37 @@ public class ShopDetailModel extends BaseModel<ServiceManager, CacheManager> imp
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnShopDetail> getShopDetail(int id) {
+        Observable<ReturnShopDetail> shops = mServiceManager.
+                getGetShopDetailService().getShopDetail(id);
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getShopDetail(shops
+                        ,new DynamicKey(id)
+                        )
+                .flatMap(new Func1<Reply<ReturnShopDetail>, Observable<ReturnShopDetail>>() {
+                    @Override
+                    public Observable<ReturnShopDetail> call(Reply<ReturnShopDetail> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ReturnShopGoods> getShopGoods(int kind, int id) {
+        Observable<ReturnShopGoods> shops = mServiceManager.
+                getGetShopGoodsService().getShopgoods(kind,id);
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getShopGoods(shops
+                        ,new DynamicKeyGroup(kind,id)
+                )
+                .flatMap(new Func1<Reply<ReturnShopGoods>, Observable<ReturnShopGoods>>() {
+                    @Override
+                    public Observable<ReturnShopGoods> call(Reply<ReturnShopGoods> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
 }

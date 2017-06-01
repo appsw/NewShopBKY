@@ -15,4 +15,5 @@ public class Transfer {
     static public  String chosegoods_for_open_shoplist_imurl="www";
     static public  int chosegoods_for_open_goodsdetail_id=0;
     static public  String chosegoods_for_open_goodsdetail_shop_name="";
+    static public  int choseshop_for_open_shopdetail_id=0;
 }
