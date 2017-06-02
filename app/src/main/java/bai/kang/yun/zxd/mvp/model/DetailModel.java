@@ -75,15 +75,23 @@ public class DetailModel extends BaseModel<ServiceManager, CacheManager> impleme
             @Override
             public void execute(Realm realm) {
                 RealmResults<CarShop> carShop=realm.where(CarShop.class)
-                        .equalTo("merID", goods.getProductID()).findAll();
+                        .equalTo("merID", goods.getFID()).findAll();
                 if(carShop.size()==0){
                     CarShop shop = realm.createObject(CarShop.class);
                     shop.setMerchantName(goods.getFName());
                     shop.setMerID(goods.getFID());
                     shop.getGoods().add(goods);
                 }else {
-                    CarShop shop=carShop.get(0);
-                    shop.getGoods().add(goods);
+                    RealmResults<CarGoods> carGoods=realm.where(CarGoods.class)
+                            .equalTo("goodsID", goods.getGoodsID()).findAll();
+                    if(carGoods.size()==0){
+                        CarShop shop=carShop.get(0);
+                        shop.getGoods().add(goods);
+                    }else {
+                        CarGoods goods1=carGoods.get(0);
+                        goods1.setNumber((Integer.parseInt(goods1.getNumber())+Integer.parseInt(goods.getNumber()))+"");
+                    }
+
 
                 }
 

@@ -1,5 +1,7 @@
 package bai.kang.yun.zxd.mvp.model.entity;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/6/1 0001.
  */
@@ -8,7 +10,7 @@ public class ReturnShopCategory {
     private int status;
     private String Message;
     private String url;
-    private ReturnAddress.DataEntity data;
+    private List<DataEntity> data;
 
     public int getStatus() {
         return status;
@@ -34,11 +36,11 @@ public class ReturnShopCategory {
         this.url = url;
     }
 
-    public ReturnAddress.DataEntity getData() {
+    public List<DataEntity> getData() {
         return data;
     }
 
-    public void setData(ReturnAddress.DataEntity data) {
+    public void setData(List<DataEntity> data) {
         this.data = data;
     }
 

@@ -59,6 +59,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     private float price;
     private int number=1;
     private ReturnDetail.GoodsEntity goodsEntity;
+    private String HOST="http://www.baikangyun.com";
 
     @BindView(R.id.textView)
     TextView tv_name;
@@ -112,7 +113,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     @OnClick(R.id.btn_add)
     void add(){
         //        增加
-        if(number>=99){
+        if(number>=999){
             UiUtils.makeText("不能在多啦！");
         }else {
             number++;
@@ -135,6 +136,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         goods.setPrice(goodsEntity.getSaleprice()+"");
         goods.setFID(goodsEntity.getUser_id()+"");
         goods.setFName(Transfer.chosegoods_for_open_goodsdetail_shop_name);
+        goods.setGoodsLogo(HOST+goodsEntity.getImageurl());
         mPresenter.addToCar(goods);
     }
     @OnClick(R.id.im_link)

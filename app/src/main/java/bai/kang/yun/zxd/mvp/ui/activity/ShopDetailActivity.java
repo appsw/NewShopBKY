@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -87,6 +88,10 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     void tuijian(){
         mPresenter.getShopGoods(2,Transfer.choseshop_for_open_shopdetail_id);
     }
+    @OnClick(R.id.shop_item_category)
+    void category(){
+        mPresenter.getShopCategory(Transfer.choseshop_for_open_shopdetail_id);
+    }
 
     @Override
     public void showLoading() {
@@ -123,8 +128,9 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     }
 
     @Override
-    public void setAdapter(DefaultAdapter adapter) {
+    public void setAdapter(DefaultAdapter adapter, BaseAdapter baseAdapter) {
         list.setAdapter(adapter);
+        gridView.setAdapter(baseAdapter);
         initRecycleView();
     }
 
@@ -146,6 +152,25 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
         }
 
     }
+
+    @Override
+    public void setListView(boolean is) {
+        if(is){
+            list.setVisibility(View.VISIBLE);
+        }else {
+            list.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void setGridView(boolean is) {
+        if(is){
+            gridView.setVisibility(View.VISIBLE);
+        }else {
+            gridView.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         DefaultAdapter.releaseAllHolder(list);//super.onDestroy()之后会unbind,所有view被置为null,所以必须在之前调用

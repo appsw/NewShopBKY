@@ -201,12 +201,12 @@
                     android:scrollbars="vertical"
                     tools:listitem="@layout/item_shop_goodslist"
                     />
-                <GridLayout
+                <GridView
                     android:id="@+id/shop_goodscategory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </GridLayout>
+                </GridView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

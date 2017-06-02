@@ -74,6 +74,7 @@ public class FristListAdapter extends BaseAdapter {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Transfer.chosegoods=list.get(position).getId();
+                        Transfer.chosegoods_for_open_shoplist_type=Transfer.GOODS_CATEGORY;
                         Intent intent =new Intent(context, GoodsListActivity.class);
                         UiUtils.startActivity(intent);
 

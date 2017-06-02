@@ -18,10 +18,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.ShopDetailContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListForShopAdapter;
+import bai.kang.yun.zxd.mvp.ui.adapter.ShopCategoryAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -52,7 +54,9 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     private List<ReturnShopGoods.DataEntity> GoodsList = new ArrayList();
+    private List<ReturnShopCategory.DataEntity> CategoryList = new ArrayList();
     private DefaultAdapter mAdapter;
+    private ShopCategoryAdapter shopCategoryAdapter;
 
     @Inject
     public ShopDetailPresenter(ShopDetailContract.Model model, ShopDetailContract.View rootView
@@ -64,7 +68,8 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
         mAdapter=new GoodsListForShopAdapter(GoodsList);
-        mRootView.setAdapter(mAdapter);
+        shopCategoryAdapter=new ShopCategoryAdapter(application,CategoryList);
+        mRootView.setAdapter(mAdapter,shopCategoryAdapter);
     }
     public void getShop(int id){
         mModel.getShopDetail(id)
@@ -89,6 +94,8 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
     }
     public void getShopGoods(int kind,int id){
         GoodsList.clear();
+        mRootView.setListView(true);
+        mRootView.setGridView(false);
         mModel.getShopGoods(kind,id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -103,6 +110,31 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                                 if(goods.getStatus()==1){
                                 GoodsList.addAll(goods.getData());
                                 mAdapter.notifyDataSetChanged();
+                                }else{
+                                    UiUtils.makeText(goods.getMessage());
+                                }
+
+                            }
+
+                        });
+    }
+    public void getShopCategory(int id){
+        mRootView.setListView(false);
+        mRootView.setGridView(true);
+        mModel.getShopCategory(id)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+
+                .observeOn(AndroidSchedulers.mainThread())
+
+                .compose(RxUtils.<ReturnShopCategory>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnShopCategory>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnShopCategory goods) {
+                                if(goods.getStatus()==1){
+                                    CategoryList.addAll(goods.getData());
+                                    shopCategoryAdapter.notifyDataSetChanged();
                                 }else{
                                     UiUtils.makeText(goods.getMessage());
                                 }

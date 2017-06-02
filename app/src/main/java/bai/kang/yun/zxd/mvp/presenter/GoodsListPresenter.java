@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ShopCategoryGoods;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -124,7 +125,73 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                 });
     }
 
+    public void ShopGoods(final int id,final int kind,final boolean pullToRefresh) {
 
+        //请求外部存储权限用于适配android6.0的权限管理机制
+        PermissionUtil.externalStorage(() -> {
+            //request permission success, do something.
+        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
+
+        if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
+        //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
+
+        boolean isEvictCache = pullToRefresh;//是否驱逐缓存,为ture即不使用缓存,每次上拉刷新即需要最新数据,则不使用缓存
+
+        if (pullToRefresh && isFirst) {//默认在第一次上拉刷新时使用缓存
+            isFirst = false;
+            isEvictCache = false;
+        }
+
+        mModel.getShopGoodslist(id,kind,page,isEvictCache)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .doOnSubscribe(() -> {
+                    if (pullToRefresh)
+                        mRootView.showLoading();//显mRootView.showLoadi示上拉刷新的进度条
+                    else
+                        mRootView.startLoadMore();//显示下拉加载更多的进度条
+                }).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> {
+                    if (pullToRefresh)
+                        mRootView.hideLoading();//隐藏上拉刷新的进度条
+                    else
+                        mRootView.endLoadMore();//隐藏下拉加载更多的进度条
+                })
+                .compose(RxUtils.<ShopCategoryGoods>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ShopCategoryGoods>(mErrorHandler) {
+                            @Override
+                            public void onNext(ShopCategoryGoods users) {
+                                if(users.getStatus()==1){
+                                    if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                                    preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
+                                    for(ShopCategoryGoods.ItemEntity itemEntity:users.getPage_data().getItems()){
+                                        CategoryGoods.ItemEntity itemEntity1=new CategoryGoods.ItemEntity();
+                                        itemEntity1.setId(itemEntity.getId());
+                                        itemEntity1.setDrugs_name(itemEntity.getProductName());
+                                        itemEntity1.setImg_title(itemEntity.getImageUrl());
+                                        itemEntity1.setMinPrice(itemEntity.getSalePrice());
+                                        itemEntity1.setGuige(itemEntity.getUnit());
+                                        GoodsList.add(itemEntity1);
+                                    }
+//                                    GoodsList.addAll(users.getPage_data().getItems());
+
+                                    if(users.getPage_data().getTotalPages()<=page) {
+                                        mRootView.endLoadMore();
+                                    }
+                                    if (pullToRefresh){
+                                        mAdapter.notifyDataSetChanged();}
+                                    else
+                                        mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
+                                    page++;
+                                }else{
+                                    UiUtils.makeText(users.getMessage());
+                                }
+
+                            }
+                        });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

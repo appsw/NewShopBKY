@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
+import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.ShopListActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,8 +83,11 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
         Transfer.chosegoods_for_open_shoplist_zzh=itemEntity.getPizhunwenhao();
         Transfer.chosegoods_for_open_shoplist_Manufacturers=itemEntity.getManufacturers();
         Transfer.chosegoods_for_open_shoplist_imurl=HOST+itemEntity.getImg_title();
-
-        Intent intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
+        Intent intent = null;
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY)
+            intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
+        else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY)
+            intent=new Intent(UiUtils.getContext(), DetailActivity.class);
         UiUtils.startActivity(intent);
     }
 

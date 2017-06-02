@@ -12,6 +12,7 @@ import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ShopCategoryGoods;
 import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
@@ -63,6 +64,23 @@ public class GoodsListModel extends BaseModel<ServiceManager, CacheManager> impl
                 .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
                     @Override
                     public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ShopCategoryGoods> getShopGoodslist(int id,int kind, int page, boolean updata) {
+        Observable<ShopCategoryGoods> Goods = mServiceManager.
+                getGetShopCategoryGoodsService().getShopCategoryGoods(id,kind,page);
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getShopCategoryGoods(Goods
+                        ,new DynamicKeyGroup(id,page)
+                        ,new EvictDynamicKey(updata))
+                .flatMap(new Func1<Reply<ShopCategoryGoods>, Observable<ShopCategoryGoods>>() {
+                    @Override
+                    public Observable<ShopCategoryGoods> call(Reply<ShopCategoryGoods> listReply) {
                         return Observable.just(listReply.getData());
                     }
                 });

@@ -6,6 +6,7 @@ import com.jess.arms.mvp.IModel;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ShopCategoryGoods;
 import rx.Observable;
 
 /**
@@ -34,5 +35,7 @@ public interface GoodsListContract {
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
         Observable<CategoryGoods> getGoodslist(int id, int page, boolean updata);
+        Observable<ShopCategoryGoods> getShopGoodslist(int id,int kind, int page, boolean updata);
+
     }
 }

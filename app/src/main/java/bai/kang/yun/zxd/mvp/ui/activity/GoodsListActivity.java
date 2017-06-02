@@ -74,7 +74,12 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     @Override
     protected void initData() {
         Log.e("id","id:"+ Transfer.chosegoods);
-        mPresenter.requestUsers(Transfer.chosegoods,true);
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+            mPresenter.requestUsers(Transfer.chosegoods,true);
+        }else {
+            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }
+
     }
 
 
@@ -112,7 +117,11 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
     @Override
     public void onRefresh() {
-        mPresenter.requestUsers(Transfer.chosegoods,true);
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+            mPresenter.requestUsers(Transfer.chosegoods,true);
+        }else {
+            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }
     }
 
     /**
@@ -152,7 +161,11 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    mPresenter.requestUsers(Transfer.chosegoods,false);
+                    if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+                        mPresenter.requestUsers(Transfer.chosegoods,false);
+                    }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+                        mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+                    }
                 }
 
                 @Override
