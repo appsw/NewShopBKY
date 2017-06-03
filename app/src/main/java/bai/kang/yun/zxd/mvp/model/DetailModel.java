@@ -74,20 +74,25 @@ public class DetailModel extends BaseModel<ServiceManager, CacheManager> impleme
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+//                查询店铺是否存在
                 RealmResults<CarShop> carShop=realm.where(CarShop.class)
                         .equalTo("merID", goods.getFID()).findAll();
                 if(carShop.size()==0){
+//                    查到的个数为0店铺不存在，新建店铺插入商品
                     CarShop shop = realm.createObject(CarShop.class);
                     shop.setMerchantName(goods.getFName());
                     shop.setMerID(goods.getFID());
                     shop.getGoods().add(goods);
                 }else {
+//                    店铺已存在，查询当前商品是否存在
                     RealmResults<CarGoods> carGoods=realm.where(CarGoods.class)
                             .equalTo("goodsID", goods.getGoodsID()).findAll();
                     if(carGoods.size()==0){
+//                        商品不存在，直接插入商品
                         CarShop shop=carShop.get(0);
                         shop.getGoods().add(goods);
                     }else {
+//                        商品存在添加商品个数
                         CarGoods goods1=carGoods.get(0);
                         goods1.setNumber((Integer.parseInt(goods1.getNumber())+Integer.parseInt(goods.getNumber()))+"");
                     }
