@@ -1,6 +1,8 @@
 package common;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.di.module.GlobeConfigModule;
@@ -49,6 +51,12 @@ public class WEApplication extends BaseApplication {
 
         if (BuildConfig.LOG_DEBUG) {//Timber日志打印
             Timber.plant(new Timber.DebugTree());
+        }
+//        android 7.0以上调用相机的问题
+        if (Build.VERSION.SDK_INT >21) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            builder.detectFileUriExposure();
         }
 
         installLeakCanary();//leakCanary内存泄露检查

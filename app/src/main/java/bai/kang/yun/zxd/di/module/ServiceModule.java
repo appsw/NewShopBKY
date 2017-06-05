@@ -27,6 +27,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.ResetPswdService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetDefaultAddService;
+import bai.kang.yun.zxd.mvp.model.api.service.SetUserHeadPicService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
 import dagger.Provides;
@@ -164,6 +165,11 @@ public class ServiceModule {
     @Provides
     GetShopCategoryGoodsService provideGetShopCategoryGoodsService(Retrofit retrofit) {
         return retrofit.create(GetShopCategoryGoodsService.class);
+    }
+    @Singleton
+    @Provides
+    SetUserHeadPicService provideSetUserHeadPicService(Retrofit retrofit) {
+        return retrofit.create(SetUserHeadPicService.class);
     }
 
 }

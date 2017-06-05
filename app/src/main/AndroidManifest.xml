@@ -20,6 +20,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--摄像头-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <!--环信用到的权限-->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -31,6 +34,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name="common.WEApplication"
         android:allowBackup="true"
@@ -122,7 +126,16 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="fb1f080a0e87149d90e8426aa2b41c6a"/>
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="bai.kang.yun.zxd.provider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
+
 
 </manifest>

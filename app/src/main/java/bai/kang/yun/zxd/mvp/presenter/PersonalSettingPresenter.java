@@ -11,10 +11,13 @@ import com.jess.arms.utils.RxUtils;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.PersonalSettingContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -54,6 +57,25 @@ public class PersonalSettingPresenter extends BasePresenter<PersonalSettingContr
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
         config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
+    }
+    public void uploadHeadPic(File file){
+        mModel.uploadFile(config.getInt("id",0),config.getString("salt","0"),file)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnSetAdd category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText(category.getMessage());
+
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
     }
     public void ReSetPswd(String pswd,String newpswd){
         mModel.ReSetPswd(config.getInt("id",0),config.getString("salt","0"),newpswd)

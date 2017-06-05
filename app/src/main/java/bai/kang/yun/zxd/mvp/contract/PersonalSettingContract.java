@@ -3,7 +3,10 @@ package bai.kang.yun.zxd.mvp.contract;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
+import java.io.File;
+
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import rx.Observable;
 
 /**
@@ -28,5 +31,6 @@ public interface PersonalSettingContract {
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
         Observable<ReturnDeleteAdd> ReSetPswd(int uid, String salt, String pswd);
+        Observable<ReturnSetAdd> uploadFile(int uid, String salt, File file);
     }
 }

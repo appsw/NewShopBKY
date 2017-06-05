@@ -36,6 +36,7 @@ public class ServiceManager implements BaseServiceManager {
     private GetShopGoodsService mGetShopGoodsService;
     private GetShopCategoryService mGetShopCategoryService;
     private GetShopCategoryGoodsService mGetShopCategoryGoodsService;
+    private SetUserHeadPicService mSetUserHeadPicService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -53,7 +54,7 @@ public class ServiceManager implements BaseServiceManager {
                                   AddressDeleteService addressDeleteService,SetDefaultAddService setDefaultAddService,
                                   ResetPswdService resetPswdService,GetShopDetailService getShopDetailService,
                                   GetShopGoodsService getShopGoodsService,GetShopCategoryService getShopCategoryService,
-                                  GetShopCategoryGoodsService getShopCategoryGoodsService){
+                                  GetShopCategoryGoodsService getShopCategoryGoodsService,SetUserHeadPicService setUserHeadPicService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -79,6 +80,7 @@ public class ServiceManager implements BaseServiceManager {
         this.mGetShopGoodsService=getShopGoodsService;
         this.mGetShopCategoryService=getShopCategoryService;
         this.mGetShopCategoryGoodsService=getShopCategoryGoodsService;
+        this.mSetUserHeadPicService=setUserHeadPicService;
     }
 
     public CommonService getCommonService() {
@@ -113,7 +115,7 @@ public class ServiceManager implements BaseServiceManager {
     public GetShopGoodsService getGetShopGoodsService(){return mGetShopGoodsService;}
     public GetShopCategoryService getGetShopCategoryService(){return mGetShopCategoryService;}
     public GetShopCategoryGoodsService getGetShopCategoryGoodsService(){return mGetShopCategoryGoodsService;}
-
+    public SetUserHeadPicService getSetUserHeadPicService(){return mSetUserHeadPicService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

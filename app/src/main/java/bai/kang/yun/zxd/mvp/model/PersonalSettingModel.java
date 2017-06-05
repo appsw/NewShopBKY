@@ -6,15 +6,19 @@ import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BaseModel;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.PersonalSettingContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
-
-import static android.R.attr.id;
 
 
 /**
@@ -52,6 +56,19 @@ public class PersonalSettingModel extends BaseModel<ServiceManager, CacheManager
     @Override
     public Observable<ReturnDeleteAdd> ReSetPswd(int uid, String salt, String pswd) {
         Observable<ReturnDeleteAdd> detail = mServiceManager.getResetPswdService().set(uid,salt,pswd);
+
+        return detail;
+    }
+
+    @Override
+    public Observable<ReturnSetAdd> uploadFile(int uid, String salt, File file) {
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part MultipartFile =
+                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+        Observable<ReturnSetAdd> detail = mServiceManager.getSetUserHeadPicService().uploadFile(uid,salt,MultipartFile);
 
         return detail;
     }
