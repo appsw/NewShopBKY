@@ -26,6 +26,8 @@ public class MyOrderListAdapter extends BaseAdapter{
     private List<Goods> goodses;
     private MyOrderGoodsListAdapter myOrderGoodsListAdapter;
     private LayoutInflater mInflater;
+
+
     public MyOrderListAdapter(Context context, List<Order> list){
         this.context=context;
         this.orders=list;

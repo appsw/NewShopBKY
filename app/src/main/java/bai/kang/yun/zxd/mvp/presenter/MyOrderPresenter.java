@@ -44,6 +44,9 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
     }
+    public void getOrderList(int status){
+//        mModel.getOrderList()
+    }
 
     @Override
     public void onDestroy() {

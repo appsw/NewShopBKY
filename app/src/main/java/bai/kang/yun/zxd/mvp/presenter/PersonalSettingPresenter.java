@@ -69,8 +69,10 @@ public class PersonalSettingPresenter extends BasePresenter<PersonalSettingContr
                             @Override
                             public void onNext(ReturnSetAdd category) {
                                 if(category.getStatus()==1){
-                                    UiUtils.makeText(category.getMessage());
-
+//                                    UiUtils.makeText(category.getMessage());
+                                    config.edit().putBoolean("isHead",true)
+                                            .putString("headUrl",category.getMessage())
+                                            .commit();
                                 }else {
                                     UiUtils.makeText(category.getMessage());
                                 }

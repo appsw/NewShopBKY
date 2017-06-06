@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import rx.Observable;
 
 
 /**
@@ -45,4 +47,10 @@ public class MyOrderModel extends BaseModel<ServiceManager, CacheManager> implem
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<ReturnOrderList> getOrderList(int uid, String salt, int status, int page) {
+        Observable<ReturnOrderList> listObservable=mServiceManager.getGetOrderService().getCategory(uid,salt,status,page);
+
+        return listObservable;
+    }
 }

@@ -12,6 +12,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetRegionService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryGoodsService;
@@ -170,6 +171,11 @@ public class ServiceModule {
     @Provides
     SetUserHeadPicService provideSetUserHeadPicService(Retrofit retrofit) {
         return retrofit.create(SetUserHeadPicService.class);
+    }
+    @Singleton
+    @Provides
+    GetOrderService provideGetOrderService(Retrofit retrofit) {
+        return retrofit.create(GetOrderService.class);
     }
 
 }

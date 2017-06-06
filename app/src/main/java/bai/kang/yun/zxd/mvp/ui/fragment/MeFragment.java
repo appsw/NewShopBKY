@@ -10,9 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jess.arms.utils.UiUtils;
+import com.jess.arms.widget.imageloader.ImageLoader;
+import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.SPMoreImageView;
 import bai.kang.yun.zxd.di.component.DaggerMeComponent;
 import bai.kang.yun.zxd.di.module.MeModule;
 import bai.kang.yun.zxd.mvp.contract.MeContract;
@@ -24,6 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
 import common.WEFragment;
+import rx.Observable;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -44,6 +49,10 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
 
     @BindView(R.id.nickname_txtv)
     TextView tv_name;
+    @BindView(R.id.head_mimgv)
+    SPMoreImageView im_head;
+    private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
+
     SharedPreferences config;
     public static MeFragment newInstance() {
         MeFragment fragment = new MeFragment();
@@ -58,7 +67,7 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
                 .meModule(new MeModule(this))//请将MeModule()第一个首字母改为小写
                 .build()
                 .inject(this);
-
+        mImageLoader=appComponent.imageLoader();
     }
 
     @Override
@@ -73,13 +82,23 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
         config=getActivity().getApplication().getSharedPreferences("config", Context.MODE_PRIVATE);
         if(config!=null){
             String name;
+            String im_url;
             if(config.getBoolean("isLog",false)){
                 name=config.getString("name","点击此处登录");
-
+                if(config.getBoolean("isHead",false)){
+                    im_url=config.getString("headUrl",null);
+                    mImageLoader.loadImage(getActivity().getApplication(), GlideImageConfig
+                            .builder()
+                            .url(im_url)
+                            .imageView(im_head)
+                            .build());
+                }
             }else {
                 name="点击此处登录";
             }
-            tv_name.setText(name);
+            Observable.just(name)
+                    .subscribe(RxTextView.text(tv_name));
+
         }
 
     }

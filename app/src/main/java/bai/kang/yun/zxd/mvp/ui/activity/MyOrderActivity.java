@@ -2,18 +2,25 @@ package bai.kang.yun.zxd.mvp.ui.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.jess.arms.utils.UiUtils;
+import com.paginate.Paginate;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerMyOrderComponent;
 import bai.kang.yun.zxd.di.module.MyOrderModule;
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.presenter.MyOrderPresenter;
+import butterknife.BindView;
 import common.AppComponent;
 import common.WEActivity;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -31,9 +38,16 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Created by Administrator on 2017/5/2 0002.
  */
 
-public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyOrderContract.View {
+public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyOrderContract.View,
+        SwipeRefreshLayout.OnRefreshListener{
 
 
+    @BindView(R.id.id_swipe_ly)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.myorder_goods)
+    ListView listview;
+    private boolean isLoadingMore;
+    private Paginate mPaginate;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMyOrderComponent
@@ -51,18 +65,21 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
 
     @Override
     protected void initData() {
-
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mPresenter.getOrderList(0);
     }
 
 
     @Override
     public void showLoading() {
-
+        Observable.just(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> mSwipeRefreshLayout.setRefreshing(true));
     }
 
     @Override
     public void hideLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -83,4 +100,51 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     }
 
 
+    @Override
+    public void onRefresh() {
+        mPresenter.getOrderList(0);
+    }
+    /**
+     * 初始化Paginate,用于加载更多
+     */
+    private void initPaginate() {
+        if (mPaginate == null) {
+            Paginate.Callbacks callbacks = new Paginate.Callbacks() {
+                @Override
+                public void onLoadMore() {
+                    mPresenter.getOrderList(0);
+                }
+
+                @Override
+                public boolean isLoading() {
+                    return isLoadingMore;
+                }
+
+                @Override
+                public boolean hasLoadedAllItems() {
+                    return !isLoadingMore;
+                }
+            };
+
+            mPaginate = Paginate.with(listview, callbacks)
+                    .setLoadingTriggerThreshold(0)
+                    .build();
+            mPaginate.setHasMoreDataToLoad(false);
+        }
+    }
+
+    @Override
+    public void setAdapter(BaseAdapter adapter) {
+
+    }
+
+    @Override
+    public void startLoadMore() {
+        isLoadingMore = true;
+    }
+
+    @Override
+    public void endLoadMore() {
+        isLoadingMore = false;
+    }
 }
