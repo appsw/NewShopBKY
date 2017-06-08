@@ -11,6 +11,7 @@ import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ShoppingCartBean;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
@@ -304,6 +305,35 @@ public class ShoppingCartBiz {
         goodses.addAll(userList);
         return goodses;
     }
+    /**
+     * 获取所有选中商品，用于向服务器请求数据（非通用部分）
+     *
+     * @return
+     */
+    public static List<CarShop> getAllSelectedGoods() {
+        List<CarShop> Shops=new ArrayList<>();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //先查找后得到User对象
+                RealmResults<CarShop> shops = realm.where(CarShop.class).findAll();
+                for(CarShop shop:shops){
+                    RealmResults<CarGoods> goods=realm.where(CarGoods.class).equalTo("FID", shop.getMerID())
+                            .equalTo("isChildSelected", true)
+                            .findAll();
+                    if(goods.size()!=0){
+                        RealmList<CarGoods> carGoods= new RealmList<>();
+                        carGoods.addAll(goods);
+                        shop.setGoods(carGoods);
+                        Shops.add(shop);
+                    }
+                }
+            }
+        });
+
+        return Shops;
+    }
+
 
     /** 由于这次服务端没有保存商品数量，需要此步骤来处理数量（非通用部分） */
     public static void updateShopList(List<ShoppingCartBean> list) {

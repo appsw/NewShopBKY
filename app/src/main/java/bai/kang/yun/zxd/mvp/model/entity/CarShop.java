@@ -24,7 +24,7 @@ public class CarShop extends RealmObject {
 
     private boolean isAllGoodsInvalid;
 
-    private RealmList<CarGoods> goods;
+    public RealmList<CarGoods> goods;
 
     public boolean isEditing() {
         return isEditing;

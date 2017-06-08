@@ -157,7 +157,7 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
             else
                 setAddress.setIsdefault(0);
             setAddress.setAddress(address);
-            mPresenter.save(setAddress.getMapParams());
+            mPresenter.save(setAddress);
         }
     }
 

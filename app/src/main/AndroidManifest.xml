@@ -82,15 +82,18 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.PersonalSettingActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MakeOrderActivity">
+
+        </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.StartActivity">
+
+        </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MainActivity">
-
         </activity>
         <!--QQ-->
         <activity android:name="com.tencent.connect.common.AssistActivity"

@@ -115,8 +115,8 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                             }
                         });
     }
-    public void SetDefault(int id){
-        mModel.SetDefault(config.getInt("id",0),config.getString("salt","0"),id)
+    public void SetDefault(ReturnAddress.ItemsEntity address){
+        mModel.SetDefault(config.getInt("id",0),config.getString("salt","0"),address.getId())
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
@@ -133,6 +133,10 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                                 }
                             }
                         });
+//
+        config.edit().putBoolean("isAdd",true).putString("add_name",address.getReal_name())
+                .putString("add_tel",address.getPhone()).putString("add_deils",address.getAddress())
+                .putInt("add_id",address.getId()).commit();
     }
     public void add(){
 

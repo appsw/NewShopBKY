@@ -1,8 +1,8 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jess.arms.utils.UiUtils;
+import com.jess.arms.widget.imageloader.ImageLoader;
+import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,11 @@ import bai.kang.yun.zxd.app.utils.OnShoppingCartChangeListener;
 import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
 import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
+import bai.kang.yun.zxd.mvp.ui.activity.MakeOrderActivity;
 import bai.kang.yun.zxd.mvp.ui.view.UIAlertView;
+import common.WEApplication;
 import io.realm.Realm;
+
 
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
@@ -32,9 +37,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private OnShoppingCartChangeListener mChangeListener;
     private boolean isSelectAll = false;
      Realm realm=Realm.getDefaultInstance();
+    private ImageLoader imageLoader;
 
     public MyExpandableListAdapter(Context context) {
         mContext = context;
+        imageLoader=((WEApplication)context.getApplicationContext()).getAppComponent().imageLoader();
     }
 
     public void setList(List<CarShop> mListGoods) {
@@ -130,6 +137,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             holder.llGoodInfo = (LinearLayout) convertView.findViewById(R.id.llGoodInfo);
             holder.ivAdd = (ImageView) convertView.findViewById(R.id.ivAdd);
             holder.ivReduce = (ImageView) convertView.findViewById(R.id.ivReduce);
+            holder.iv_goodslogo = (ImageView) convertView.findViewById(R.id.ivGoods);
             holder.tvGoodsParam = (TextView) convertView.findViewById(R.id.tvGoodsParam);
             holder.tvPriceNew = (TextView) convertView.findViewById(R.id.tvPriceNew);
             holder.tvPriceOld = (TextView) convertView.findViewById(R.id.tvPriceOld);
@@ -156,6 +164,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         holder.tvNum.setText("X " + num);
         holder.tvNum2.setText(num);
         holder.tvGoodsParam.setText(pdtDesc);
+        imageLoader.loadImage(mContext, GlideImageConfig
+                .builder()
+                .url(goods.getGoodsLogo())
+                .imageView(holder.iv_goodslogo)
+                .build());
 
         holder.ivAdd.setTag(goods);
         holder.ivReduce.setTag(goods);
@@ -197,8 +210,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 case R.id.btnSettle:
                     if (ShoppingCartBiz.hasSelectedGoods(mListGoods)) {
                         UiUtils.makeText("11111");
-                       List<CarGoods> goodses= ShoppingCartBiz.getAllGoods();
-                        Log.e("goodses","==>"+goodses.size());
+//                       List<CarGoods> goodses= ShoppingCartBiz.getAllGoods();
+//                        Log.e("goodses","==>"+goodses.size());
+                        mContext.startActivity(new Intent(mContext, MakeOrderActivity.class));
                     } else {
                         UiUtils.makeText("亲，先选择商品！");
                     }
@@ -346,6 +360,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         TextView tvGoodsParam;
         /** 选中 */
         ImageView ivCheckGood;
+        /** 商品图片 */
+        ImageView iv_goodslogo;
         /** 非编辑状态 */
         LinearLayout llGoodInfo;
         /** 编辑状态 */

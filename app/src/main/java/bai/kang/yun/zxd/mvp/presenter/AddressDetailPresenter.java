@@ -13,13 +13,13 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.AddressDetailContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnRegion;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
+import bai.kang.yun.zxd.mvp.model.entity.SetAddress;
 import bai.kang.yun.zxd.mvp.ui.adapter.SPAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -108,9 +108,9 @@ public class AddressDetailPresenter extends BasePresenter<AddressDetailContract.
                         });
     }
 
-    public void save(Map<String,String> map){
+    public void save(SetAddress setAddress){
 
-        mModel.setAdd(config.getInt("id",0),config.getString("salt","0"),map)
+        mModel.setAdd(config.getInt("id",0),config.getString("salt","0"),setAddress.getMapParams())
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,6 +127,11 @@ public class AddressDetailPresenter extends BasePresenter<AddressDetailContract.
                                 }
                             }
                         });
+        if(setAddress.getIsdefault()==1){
+            config.edit().putBoolean("isAdd",true).putString("add_name",setAddress.getReal_name())
+                    .putString("add_tel",setAddress.getPhone()).putString("add_deils",setAddress.getAddress())
+                    .putInt("add_id",setAddress.getId()).commit();
+        }
     }
     @Override
     public void onDestroy() {

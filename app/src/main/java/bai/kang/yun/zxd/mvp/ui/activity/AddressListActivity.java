@@ -163,8 +163,8 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
             @Override
             public void chose(int position) {
                 ReturnAddress.ItemsEntity address=((AddressListAdapter)adapter).getAddresses().get(position);
-                int id=address.getId();
-                mPresenter.SetDefault(id);
+
+                mPresenter.SetDefault(address);
             }
         });
     }

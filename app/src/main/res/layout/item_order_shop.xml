@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray">
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px">
+
+        <ImageView
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:src="@mipmap/ic_fu" />
+
+        <TextView
+            android:id="@+id/tv_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="百康云大药房"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray">
+    </View>
+    <ListView
+        android:id="@+id/list_goods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        tools:listitem="@layout/item_myorder_goodslist">
+
+    </ListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="配送方式："
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/tv_posttype"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="申通快递"
+            android:textSize="18sp"
+            android:gravity="center|right"
+            android:paddingRight="120px"
+            />
+        <ImageView
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:gravity="left"
+            android:src="@drawable/ic_arrow"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:gravity="right">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="合计（含运费）："
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/tv_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/light_red"
+            android:text="￥17.5"
+            android:textSize="20sp"
+            android:gravity="center|right"
+            android:paddingRight="120px"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray">
+    </View>
+</LinearLayout>
