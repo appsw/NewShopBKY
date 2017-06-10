@@ -3,7 +3,7 @@ package common;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-
+import android.support.multidex.*;
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.di.module.GlobeConfigModule;
 import com.jess.arms.http.GlobeHttpHandler;
@@ -70,6 +70,12 @@ public class WEApplication extends BaseApplication {
             this.mAppComponent = null;
         if (mRefWatcher != null)
             this.mRefWatcher = null;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     /**

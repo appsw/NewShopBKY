@@ -1,6 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,11 @@ public class MakeOrderListAdapter extends BaseAdapter {
         }
         Observable.just(carShop.getMerchantName()).subscribe(RxTextView.text(viewHolder.ShopName));
         Observable.just(sum+"").subscribe(RxTextView.text(viewHolder.sum));
+        int weight=0;
+        for(CarGoods carGoods:goodses){
+            weight+=carGoods.getWeight();
+        }
+        Log.e("weight",""+weight);
         return convertView;
     }
     private class ViewHolder{

@@ -29,7 +29,8 @@ public class CarGoods extends RealmObject {
     private boolean isChildSelected;
     /** 规格ID */
     private String productID;
-
+    /** 商品重量 */
+    private int weight;
     /** 店铺ID */
     private String FID;
     /** 店铺名 */
@@ -45,6 +46,14 @@ public class CarGoods extends RealmObject {
 
     /** 临时解决方案，为了避免尾部重绘两次，增加一个虚ITEM，不显示，但是没有子项的组项，会有一条黑线，所以需要做特殊处理 */
     private boolean isLastTempItem;
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
     public String getFID() {
         return FID;

@@ -134,6 +134,8 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         goods.setNumber(number+"");
         goods.setGoodsName(goodsEntity.getProductname());
         goods.setPrice(goodsEntity.getSaleprice()+"");
+        goods.setMkPrice(goodsEntity.getMarket_price()+"");
+        goods.setWeight(goodsEntity.getWeight());
         goods.setFID(goodsEntity.getUser_id()+"");
         goods.setFName(Transfer.chosegoods_for_open_goodsdetail_shop_name);
         goods.setGoodsLogo(HOST+goodsEntity.getImageurl());

@@ -18,7 +18,6 @@ public class CarShop extends RealmObject {
 
     /** 店铺ID */
     private String merID;
-
     /** 是否失效列表 */
     private boolean isInvalidList;
 

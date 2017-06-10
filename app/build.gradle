@@ -13,6 +13,8 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
+        multiDexKeepFile file('multiDexKeep.txt')
         applicationId "bai.kang.yun.zxd"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -25,8 +27,8 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -86,4 +88,6 @@ dependencies {
     // 搜索功能
     compile 'com.amap.api:search:latest.integration'
     compile files('libs/mta-sdk-1.6.2.jar')
+    //分包
+    compile 'com.android.support:multidex:1.0.0'
 }

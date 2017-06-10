@@ -6,12 +6,15 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.jess.arms.utils.UiUtils;
+
+import java.util.List;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerAddressListComponent;
@@ -53,6 +56,7 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
     ListView listView;
     @BindView(R.id.add_address_btn)
     Button btn_add;
+    private int type;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerAddressListComponent
@@ -65,6 +69,7 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
 
     @Override
     protected View initView() {
+        type=getIntent().getIntExtra("type",0);
         return LayoutInflater.from(this).inflate(R.layout.activity_addresslist, null, false);
     }
 
@@ -72,6 +77,24 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
     protected void initData() {
         mPresenter.initData();
         mPresenter.Request(false);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(type==1){
+                    AddressListAdapter addressListAdapter= (AddressListAdapter) listView.getAdapter();
+                    List<ReturnAddress.ItemsEntity> addresses=addressListAdapter.getAddresses();
+                    ReturnAddress.ItemsEntity itemsEntity=addresses.get(position);
+                    Intent intent=new Intent();
+                    intent.putExtra("name",itemsEntity.getReal_name());
+                    intent.putExtra("id",itemsEntity.getId());
+                    intent.putExtra("tel",itemsEntity.getPhone());
+                    intent.putExtra("add",itemsEntity.getAddress());
+                    setResult(1,intent);
+                    killMyself();
+                }else
+                    return ;
+            }
+        });
     }
 
 

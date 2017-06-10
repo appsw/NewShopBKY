@@ -84,6 +84,24 @@ public class ReturnDetail {
         private int user_id;                    //商户id
         private int salestatus;             //销售状态
         private float saleprice;                //售价
+        private int weight;                     //重量
+        private float market_price;                //市场价
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public void setWeight(int weight) {
+            this.weight = weight;
+        }
+
+        public float getMarket_price() {
+            return market_price;
+        }
+
+        public void setMarket_price(float market_price) {
+            this.market_price = market_price;
+        }
 
         public String getProductname() {
             return productname;

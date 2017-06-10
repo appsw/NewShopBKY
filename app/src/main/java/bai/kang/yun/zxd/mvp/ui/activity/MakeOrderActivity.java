@@ -52,6 +52,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     TextView tv_tel;
     @BindView(R.id.tv_add)
     TextView tv_add;
+    private int Add_Id;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMakeOrderComponent
@@ -65,7 +66,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.GetAdd();
+
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     @Override
     protected void initData() {
         mPresenter.GetGoodsList();
-
+        mPresenter.GetAdd();
     }
 
 
@@ -109,6 +110,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     @OnClick(R.id.im_choseadd)
     void chose(){
         Intent intent=new Intent(this,AddressListActivity.class);
+        intent.putExtra("type",1);
         startActivityForResult(intent,1);
     }
 
@@ -117,6 +119,12 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
+                if(data==null)
+                    return;
+                Add_Id=data.getIntExtra("id",0);
+                Observable.just(data.getStringExtra("name")).subscribe(RxTextView.text(tv_name));
+                Observable.just(data.getStringExtra("tel")).subscribe(RxTextView.text(tv_tel));
+                Observable.just(data.getStringExtra("add")).subscribe(RxTextView.text(tv_add));
 
                 break;
             default:

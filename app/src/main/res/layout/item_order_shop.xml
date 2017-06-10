@@ -33,14 +33,14 @@
         android:layout_height="1dp"
         android:background="@color/gray">
     </View>
-    <ListView
+    <bai.kang.yun.zxd.app.utils.MyListView
         android:id="@+id/list_goods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
         tools:listitem="@layout/item_myorder_goodslist">
 
-    </ListView>
+    </bai.kang.yun.zxd.app.utils.MyListView>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
