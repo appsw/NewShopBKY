@@ -2,6 +2,7 @@ package bai.kang.yun.zxd.mvp.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import bai.kang.yun.zxd.app.utils.OnShoppingCartChangeListener;
 import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
 import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
+import bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.MakeOrderActivity;
 import bai.kang.yun.zxd.mvp.ui.view.UIAlertView;
 import common.WEApplication;
@@ -38,9 +41,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private boolean isSelectAll = false;
      Realm realm=Realm.getDefaultInstance();
     private ImageLoader imageLoader;
+    private SharedPreferences config;
 
     public MyExpandableListAdapter(Context context) {
         mContext = context;
+        config=context.getSharedPreferences("config", Context.MODE_PRIVATE);
         imageLoader=((WEApplication)context.getApplicationContext()).getAppComponent().imageLoader();
     }
 
@@ -209,10 +214,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                     break;
                 case R.id.btnSettle:
                     if (ShoppingCartBiz.hasSelectedGoods(mListGoods)) {
-                        UiUtils.makeText("11111");
-//                       List<CarGoods> goodses= ShoppingCartBiz.getAllGoods();
-//                        Log.e("goodses","==>"+goodses.size());
-                        mContext.startActivity(new Intent(mContext, MakeOrderActivity.class));
+                        if(config.getBoolean("isLog",false))
+                            if(config.getBoolean("isAdd",false))
+                                mContext.startActivity(new Intent(mContext, MakeOrderActivity.class));
+                            else
+                                mContext.startActivity(new Intent(mContext, AddressListActivity.class));
+                        else
+                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
                     } else {
                         UiUtils.makeText("亲，先选择商品！");
                     }

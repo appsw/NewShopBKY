@@ -48,7 +48,7 @@
     </View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120px">
+        android:layout_height="200px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -56,21 +56,18 @@
             android:textSize="18sp"
             android:gravity="center"
             />
-        <TextView
+        <Spinner
             android:id="@+id/tv_posttype"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="申通快递"
-            android:textSize="18sp"
-            android:gravity="center|right"
-            android:paddingRight="120px"
-            />
-        <ImageView
-            android:layout_width="120px"
-            android:layout_height="120px"
-            android:gravity="left"
-            android:src="@drawable/ic_arrow"/>
+            android:spinnerMode="dialog"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical|right"
+            style="@style/textStyle.Normal.black">
+
+        </Spinner>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"

@@ -52,7 +52,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     TextView tv_tel;
     @BindView(R.id.tv_add)
     TextView tv_add;
-    private int Add_Id;
+    public static int Add_Id;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMakeOrderComponent
@@ -66,7 +66,6 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -76,7 +75,6 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
 
     @Override
     protected void initData() {
-        mPresenter.GetGoodsList();
         mPresenter.GetAdd();
     }
 
@@ -125,7 +123,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
                 Observable.just(data.getStringExtra("name")).subscribe(RxTextView.text(tv_name));
                 Observable.just(data.getStringExtra("tel")).subscribe(RxTextView.text(tv_tel));
                 Observable.just(data.getStringExtra("add")).subscribe(RxTextView.text(tv_add));
-
+                mPresenter.GetGoodsList();
                 break;
             default:
                 break;
@@ -140,8 +138,10 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
 
     @Override
     public void SetAdd(Address address) {
+        Add_Id=address.getId();
         Observable.just(address.getName()).subscribe(RxTextView.text(tv_name));
         Observable.just(address.getNumber_phone()).subscribe(RxTextView.text(tv_tel));
         Observable.just(address.getAdd_deils()).subscribe(RxTextView.text(tv_add));
+        mPresenter.GetGoodsList();
     }
 }

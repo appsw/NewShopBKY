@@ -1,6 +1,5 @@
 package bai.kang.yun.zxd.mvp.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +16,6 @@ import com.paginate.Paginate;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import bai.kang.yun.zxd.R;
-import bai.kang.yun.zxd.app.utils.ActivityManger;
 import bai.kang.yun.zxd.di.component.DaggerMainComponent;
 import bai.kang.yun.zxd.di.module.MainModule;
 import bai.kang.yun.zxd.mvp.contract.MainContract;
@@ -95,7 +93,6 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
     @Override
     protected View initView() {
-        ActivityManger.addAvtivity(this);
         return LayoutInflater.from(this).inflate(R.layout.activity_main, null, false);
     }
 
@@ -146,7 +143,6 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
     @Override
     protected void onDestroy() {
-        ActivityManger.removeAvtivity(this);
         super.onDestroy();
         this.mRxPermissions = null;
         this.mPaginate = null;

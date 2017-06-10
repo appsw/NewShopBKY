@@ -20,7 +20,7 @@ import bai.kang.yun.zxd.mvp.contract.AddressDetailContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnRegion;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import bai.kang.yun.zxd.mvp.model.entity.SetAddress;
-import bai.kang.yun.zxd.mvp.ui.adapter.SPAdapter;
+import bai.kang.yun.zxd.mvp.ui.adapter.AddSpAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -52,9 +52,9 @@ public class AddressDetailPresenter extends BasePresenter<AddressDetailContract.
     List<ReturnRegion.DataEntity> list1=new ArrayList<>();
     List<ReturnRegion.DataEntity> list2=new ArrayList<>();
     List<ReturnRegion.DataEntity> list3=new ArrayList<>();
-    SPAdapter spAdapter1;
-    SPAdapter spAdapter2;
-    SPAdapter spAdapter3;
+    AddSpAdapter spAdapter1;
+    AddSpAdapter spAdapter2;
+    AddSpAdapter spAdapter3;
 
     @Inject
     public AddressDetailPresenter(AddressDetailContract.Model model, AddressDetailContract.View rootView
@@ -66,9 +66,9 @@ public class AddressDetailPresenter extends BasePresenter<AddressDetailContract.
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
         config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
-        spAdapter1=new SPAdapter(application,list1);
-        spAdapter2=new SPAdapter(application,list2);
-        spAdapter3=new SPAdapter(application,list3);
+        spAdapter1=new AddSpAdapter(application,list1);
+        spAdapter2=new AddSpAdapter(application,list2);
+        spAdapter3=new AddSpAdapter(application,list3);
         mRootView.setAdapter(spAdapter1,spAdapter2,spAdapter3);
     }
     public void initSP(int id,int ji){

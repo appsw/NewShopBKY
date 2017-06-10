@@ -1,8 +1,13 @@
 package common;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.mvp.Presenter;
 import com.umeng.analytics.MobclickAgent;
+
+import bai.kang.yun.zxd.app.utils.ActivityManger;
 
 /**
  * Created by jess on 8/5/16 13:13
@@ -10,6 +15,14 @@ import com.umeng.analytics.MobclickAgent;
  */
 public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
     protected WEApplication mWeApplication;
+
+    @Nullable
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ActivityManger.addAvtivity(this);
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     protected void ComponentInject() {
         mWeApplication = (WEApplication) getApplication();
@@ -23,6 +36,7 @@ public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityManger.removeAvtivity(this);
         this.mWeApplication = null;
         MobclickAgent.onPause(this);
     }
@@ -31,5 +45,6 @@ public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+
     }
 }

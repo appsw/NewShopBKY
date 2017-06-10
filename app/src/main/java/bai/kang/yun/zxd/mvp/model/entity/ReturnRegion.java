@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Administrator on 2017/5/25 0025.
  */
 
-public class ReturnRegion {
+public class ReturnRegion  {
     private int status;
     private String Message;
     List<DataEntity> data;
