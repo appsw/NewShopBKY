@@ -1,14 +1,13 @@
 package bai.kang.yun.zxd.mvp.model.entity;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/6/6 0006.
  */
 
 public class ReturnOrderList {
-//    {"status":1,"Message":null,"url":null,"Single":null,"data":null,
-// "page_data":{"CurrentPage":1,"TotalPages":1,"TotalItems":1,"ItemsPerPage":10,
-// "Items":[{"peta_rn":1,"id":70,"order_no":"BKYS_201706060920314139",
-// "trade_no":"","user_id":226}],"Context":null}}
+
     private int status;
     private String Message;
     private PageEntiy page_data;
@@ -42,13 +41,187 @@ public class ReturnOrderList {
         private int TotalPages;
         private int TotalItems;
         private int ItemsPerPage;
+        private List<ItemEntiy> Items;
 
+        public int getCurrentPage() {
+            return CurrentPage;
+        }
+
+        public void setCurrentPage(int currentPage) {
+            CurrentPage = currentPage;
+        }
+
+        public int getTotalPages() {
+            return TotalPages;
+        }
+
+        public void setTotalPages(int totalPages) {
+            TotalPages = totalPages;
+        }
+
+        public int getTotalItems() {
+            return TotalItems;
+        }
+
+        public void setTotalItems(int totalItems) {
+            TotalItems = totalItems;
+        }
+
+        public int getItemsPerPage() {
+            return ItemsPerPage;
+        }
+
+        public void setItemsPerPage(int itemsPerPage) {
+            ItemsPerPage = itemsPerPage;
+        }
+
+        public List<ItemEntiy> getItems() {
+            return Items;
+        }
+
+        public void setItems(List<ItemEntiy> items) {
+            Items = items;
+        }
     }
     public static class ItemEntiy{
-        private int peta_rn;
-        private int id;
-        private int user_id;
-        private int trade_no;
 
+        private int OrderId;
+        private int Status;
+        private int ExpressStatus;
+        private float RealAmount;
+        private String OrderNo;
+        private String Shop_Name;
+        private List<GoodsEntiy> GoodsList;
+
+        public int getOrderId() {
+            return OrderId;
+        }
+
+        public void setOrderId(int orderId) {
+            OrderId = orderId;
+        }
+
+        public int getStatus() {
+            return Status;
+        }
+
+        public void setStatus(int status) {
+            Status = status;
+        }
+
+        public int getExpressStatus() {
+            return ExpressStatus;
+        }
+
+        public void setExpressStatus(int expressStatus) {
+            ExpressStatus = expressStatus;
+        }
+
+        public float getRealAmount() {
+            return RealAmount;
+        }
+
+        public void setRealAmount(int realAmount) {
+            RealAmount = realAmount;
+        }
+
+        public String getOrderNo() {
+            return OrderNo;
+        }
+
+        public void setOrderNo(String orderNo) {
+            OrderNo = orderNo;
+        }
+
+        public String getShop_Name() {
+            return Shop_Name;
+        }
+
+        public void setShop_Name(String shop_Name) {
+            Shop_Name = shop_Name;
+        }
+
+        public List<GoodsEntiy> getGoodsList() {
+            return GoodsList;
+        }
+
+        public void setGoodsList(List<GoodsEntiy> goodsList) {
+            GoodsList = goodsList;
+        }
+    }
+    public static class GoodsEntiy{
+
+        private int Order_Id;
+        private int Buy_Count;
+        private int Is_ChuFang;
+        private float SellPrice;
+        private String ProductName;
+        private String ImageUrl;
+        private String Guige;
+        private String PiZhunwenhao;
+
+        public int getOrder_Id() {
+            return Order_Id;
+        }
+
+        public void setOrder_Id(int order_Id) {
+            Order_Id = order_Id;
+        }
+
+        public int getBuy_Count() {
+            return Buy_Count;
+        }
+
+        public void setBuy_Count(int buy_Count) {
+            Buy_Count = buy_Count;
+        }
+
+        public int getIs_ChuFang() {
+            return Is_ChuFang;
+        }
+
+        public void setIs_ChuFang(int is_ChuFang) {
+            Is_ChuFang = is_ChuFang;
+        }
+
+        public float getSellPrice() {
+            return SellPrice;
+        }
+
+        public void setSellPrice(float sellPrice) {
+            SellPrice = sellPrice;
+        }
+
+        public String getProductName() {
+            return ProductName;
+        }
+
+        public void setProductName(String productName) {
+            ProductName = productName;
+        }
+
+        public String getImageUrl() {
+            return ImageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            ImageUrl = imageUrl;
+        }
+
+        public String getGuige() {
+            return Guige;
+        }
+
+        public void setGuige(String guige) {
+            Guige = guige;
+        }
+
+        public String getPiZhunwenhao() {
+            return PiZhunwenhao;
+        }
+
+        public void setPiZhunwenhao(String piZhunwenhao) {
+            PiZhunwenhao = piZhunwenhao;
+        }
     }
 }

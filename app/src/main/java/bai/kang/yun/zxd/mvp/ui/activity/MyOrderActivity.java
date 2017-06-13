@@ -66,7 +66,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     @Override
     protected void initData() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mPresenter.getOrderList(0);
+        mPresenter.getOrderList(1);
     }
 
 
@@ -135,7 +135,8 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
 
     @Override
     public void setAdapter(BaseAdapter adapter) {
-
+        listview.setAdapter(adapter);
+        initPaginate();
     }
 
     @Override

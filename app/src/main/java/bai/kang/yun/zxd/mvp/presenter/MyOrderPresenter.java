@@ -1,16 +1,29 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -33,6 +46,9 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
+    private SharedPreferences config;
+    private MyOrderListAdapter myOrderListAdapter;
+    private List<ReturnOrderList.ItemEntiy> orders=new ArrayList<>();
 
     @Inject
     public MyOrderPresenter(MyOrderContract.Model model, MyOrderContract.View rootView
@@ -43,9 +59,27 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
+        config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
+        myOrderListAdapter=new MyOrderListAdapter(application,orders);
+        mRootView.setAdapter(myOrderListAdapter);
     }
     public void getOrderList(int status){
-//        mModel.getOrderList()
+        orders.clear();
+        mModel.getOrderList(config.getInt("id",0),config.getString("salt","0"),status,1)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnOrderList>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnOrderList>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnOrderList shops) {
+                        if(shops.getStatus()==1){
+                            orders.addAll(shops.getPage_data().getItems());
+                            myOrderListAdapter.notifyDataSetChanged();
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
     }
 
     @Override

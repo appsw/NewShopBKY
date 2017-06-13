@@ -3,7 +3,9 @@ package bai.kang.yun.zxd.mvp.presenter;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.Spinner;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
@@ -11,6 +13,8 @@ import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxUtils;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +26,10 @@ import bai.kang.yun.zxd.mvp.contract.MakeOrderContract;
 import bai.kang.yun.zxd.mvp.model.entity.Address;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ReturenExpress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnMakeOrder;
 import bai.kang.yun.zxd.mvp.ui.activity.MakeOrderActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.MakeOrderListAdapter;
+import bai.kang.yun.zxd.mvp.ui.adapter.ShopExperssAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
@@ -52,6 +58,7 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     private MakeOrderListAdapter makeOrderListAdapter;
+
     List<CarShop> mListGoods = new ArrayList<CarShop>();
     private SharedPreferences config;
     private int Add_Id;
@@ -79,14 +86,29 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
         }
 
     }
+    public void MakeOrder(JSONArray jsonArray){
+        mModel.MakeOrder(config.getInt("id",0),config.getString("salt","0"), /*jsonArray.toString()*/Base64.encodeToString(jsonArray.toString().getBytes(),Base64.DEFAULT))
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnMakeOrder>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnMakeOrder>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnMakeOrder shops) {
+                        if(shops.getStatus()==1){
 
-    public List<ReturenExpress.DataEntity> GetShopExperss(int shopid,int weight){
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+    }
+
+    public void GetShopExperss(int shopid, int weight, Spinner spinner){
         int Add_Id;
         if(MakeOrderActivity.Add_Id==0)
             Add_Id=config.getInt("add_id",0);
         else
             Add_Id=MakeOrderActivity.Add_Id;
-        List<ReturenExpress.DataEntity> dataEntities=new ArrayList<>();
         mModel.GetShopExpress(config.getInt("id",0),config.getString("salt","0"),207,weight,Add_Id )
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -96,12 +118,13 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
                     @Override
                     public void onNext(ReturenExpress shops) {
                         if(shops.getStatus()==1){
-                            dataEntities.addAll(shops.getData());
+                            ShopExperssAdapter shopExperssAdapter=new ShopExperssAdapter(mApplication,shops.getData());
+                            spinner.setAdapter(shopExperssAdapter);
+                            shopExperssAdapter.notifyDataSetChanged();
                         }else
                             UiUtils.makeText(shops.getMessage());
                     }
                 });
-        return dataEntities;
     }
     public void GetGoodsList(){
         this.Add_Id=Add_Id;

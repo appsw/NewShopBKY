@@ -51,7 +51,9 @@ public abstract class SPAdapter<T> extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
         }
-        SetData(list,position,viewHolder.tv_name);
+        if(list.size()!=0){
+            SetData(list,position,viewHolder.tv_name);
+        }
         return convertView;
     }
     private class ViewHolder{

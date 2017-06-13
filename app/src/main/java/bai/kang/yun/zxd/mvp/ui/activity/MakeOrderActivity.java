@@ -12,12 +12,22 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jess.arms.utils.UiUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerMakeOrderComponent;
 import bai.kang.yun.zxd.di.module.MakeOrderModule;
 import bai.kang.yun.zxd.mvp.contract.MakeOrderContract;
 import bai.kang.yun.zxd.mvp.model.entity.Address;
+import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.presenter.MakeOrderPresenter;
+import bai.kang.yun.zxd.mvp.ui.Listener.ExperssChengeListener;
+import bai.kang.yun.zxd.mvp.ui.adapter.MakeOrderListAdapter;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
@@ -52,7 +62,10 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     TextView tv_tel;
     @BindView(R.id.tv_add)
     TextView tv_add;
+    @BindView(R.id.tv_sum)
+    TextView tv_sum;
     public static int Add_Id;
+    MakeOrderListAdapter mAdapter;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMakeOrderComponent
@@ -130,10 +143,20 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
         }
     }
 
+    public  void setSum(float sum){
+        tv_sum.setText(sum+"");
+    }
 
     @Override
     public void SetAdapter(BaseAdapter baseAdapter) {
         listView.setAdapter(baseAdapter);
+        mAdapter =(MakeOrderListAdapter)baseAdapter;
+        ((MakeOrderListAdapter)baseAdapter).setOnChengeListener(new ExperssChengeListener() {
+            @Override
+            public void Chenge(float sum) {
+                setSum(sum);
+            }
+        });
     }
 
     @Override
@@ -143,5 +166,40 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
         Observable.just(address.getNumber_phone()).subscribe(RxTextView.text(tv_tel));
         Observable.just(address.getAdd_deils()).subscribe(RxTextView.text(tv_add));
         mPresenter.GetGoodsList();
+    }
+    @OnClick(R.id.btn_sub)
+    public void MakeOrder(){
+        try {
+        JSONArray jsonArray=new JSONArray();
+        List<CarShop> carShops=mAdapter.getList();
+        for(CarShop carShop:carShops){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("ShopId",Integer.parseInt(carShop.getMerID()));
+            jsonObject.put("TrafficId",carShop.getTrafficId());
+            jsonObject.put("DeliverId",Add_Id);
+            if(true){
+                jsonObject.put("IsInvoice",0);
+                jsonObject.put("InvoiceType",0);
+                jsonObject.put("InvoiceName","");
+                jsonObject.put("InvoiceCode","");
+            }
+            jsonObject.put("HasChufang",0);
+            jsonObject.put("Weight_Total",carShop.getWeight());
+            JSONArray jsonArray1=new JSONArray();
+            for(CarGoods carGoods:carShop.getGoods()){
+                JSONObject jsonObject1=new JSONObject();
+                jsonObject1.put("ProductId",Integer.parseInt(carGoods.getGoodsID()));
+                jsonObject1.put("BuyCount",Integer.parseInt(carGoods.getNumber()));
+                jsonArray1.put(jsonObject1);
+            }
+            jsonObject.put("GoodsList",jsonArray1);
+            jsonArray.put(jsonObject);
+        }
+            mPresenter.MakeOrder(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

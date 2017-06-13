@@ -23,6 +23,7 @@ import bai.kang.yun.zxd.mvp.contract.MeContract;
 import bai.kang.yun.zxd.mvp.presenter.MePresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.AddressListActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.MyOrderActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.PersonalSettingActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -171,6 +172,10 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
         Intent intent=new Intent(getActivity(), PersonalSettingActivity.class);
         UiUtils.startActivity(intent);
     }
-
+    @OnClick(R.id.person_order_all_container)
+    void order(){
+        Intent intent=new Intent(getActivity(), MyOrderActivity.class);
+        UiUtils.startActivity(intent);
+    }
 
 }

@@ -39,6 +39,7 @@ public class ServiceManager implements BaseServiceManager {
     private SetUserHeadPicService mSetUserHeadPicService;
     private GetOrderService mGetOrderService;
     private GetExpressListService mGetExpressListService;
+    private MakeOrderService mMakeOrderService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -57,7 +58,8 @@ public class ServiceManager implements BaseServiceManager {
                                   ResetPswdService resetPswdService,GetShopDetailService getShopDetailService,
                                   GetShopGoodsService getShopGoodsService,GetShopCategoryService getShopCategoryService,
                                   GetShopCategoryGoodsService getShopCategoryGoodsService,SetUserHeadPicService setUserHeadPicService,
-                                  GetOrderService getOrderService,GetExpressListService getExpressListService){
+                                  GetOrderService getOrderService,GetExpressListService getExpressListService,
+                                  MakeOrderService makeOrderService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -86,6 +88,7 @@ public class ServiceManager implements BaseServiceManager {
         this.mSetUserHeadPicService=setUserHeadPicService;
         this.mGetOrderService=getOrderService;
         this.mGetExpressListService=getExpressListService;
+        this.mMakeOrderService=makeOrderService;
     }
 
     public CommonService getCommonService() {
@@ -123,6 +126,7 @@ public class ServiceManager implements BaseServiceManager {
     public SetUserHeadPicService getSetUserHeadPicService(){return mSetUserHeadPicService;}
     public GetOrderService getGetOrderService(){return  mGetOrderService;}
     public GetExpressListService getExpressListService(){return mGetExpressListService;}
+    public MakeOrderService getMakeOrderService(){return mMakeOrderService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

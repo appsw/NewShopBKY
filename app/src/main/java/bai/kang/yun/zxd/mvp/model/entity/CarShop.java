@@ -12,10 +12,14 @@ public class CarShop extends RealmObject {
     private boolean isEditing;
     /** 组是否被选中 */
     private boolean isGroupSelected;
-
     /** 店铺名称 */
     private String merchantName;
-
+    /** 店铺订单总价格 */
+    private float shopSum;
+    /** 店铺订单配送ID */
+    private int TrafficId ;
+    /** 店铺订单总重量*/
+    private int Weight;
     /** 店铺ID */
     private String merID;
     /** 是否失效列表 */
@@ -24,6 +28,30 @@ public class CarShop extends RealmObject {
     private boolean isAllGoodsInvalid;
 
     public RealmList<CarGoods> goods;
+
+    public int getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(int weight) {
+        Weight = weight;
+    }
+
+    public int getTrafficId() {
+        return TrafficId;
+    }
+
+    public void setTrafficId(int trafficId) {
+        TrafficId = trafficId;
+    }
+
+    public float getShopSum() {
+        return shopSum;
+    }
+
+    public void setShopSum(float shopSum) {
+        this.shopSum = shopSum;
+    }
 
     public boolean isEditing() {
         return isEditing;

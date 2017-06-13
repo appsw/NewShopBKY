@@ -46,6 +46,9 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.UserActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MyOrderActivity">
+
+        </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.DetailActivity">
 
         </activity>

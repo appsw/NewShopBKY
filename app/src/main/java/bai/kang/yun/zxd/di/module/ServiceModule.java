@@ -25,6 +25,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
+import bai.kang.yun.zxd.mvp.model.api.service.MakeOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.ResetPswdService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
@@ -182,6 +183,11 @@ public class ServiceModule {
     @Provides
     GetExpressListService provideGetExpressListService(Retrofit retrofit) {
         return retrofit.create(GetExpressListService.class);
+    }
+    @Singleton
+    @Provides
+    MakeOrderService provideMakeOrderService(Retrofit retrofit) {
+        return retrofit.create(MakeOrderService.class);
     }
 
 }

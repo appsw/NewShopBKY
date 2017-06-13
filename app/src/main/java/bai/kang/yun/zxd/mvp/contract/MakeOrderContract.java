@@ -10,6 +10,7 @@ import java.util.List;
 import bai.kang.yun.zxd.mvp.model.entity.Address;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ReturenExpress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnMakeOrder;
 import rx.Observable;
 
 /**
@@ -37,5 +38,6 @@ public interface MakeOrderContract {
         Observable<List<CarShop>> SelectGoodsList();
         Observable<ReturenExpress> GetShopExpress(int id, String salt,int storeId,
                                                    int weight,int deliver_id);
+        Observable<ReturnMakeOrder> MakeOrder(int id, String salt, String orderInfo);
     }
 }

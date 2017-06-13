@@ -13,8 +13,7 @@ import rx.Observable;
 public interface LoginService {
     @FormUrlEncoded
     @POST("/user/user_login")
-    Observable<ReturnUser> login (
-                                        @Field("user_name") String user_name,
-                                        @Field("password") String password);
+    Observable<ReturnUser> login (@Field("user_name") String user_name,
+                                  @Field("password") String password);
 
 }

@@ -4,16 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<include
-    layout="@layout/item_makeorder_adders">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/green">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <include
+            layout="@layout/item_makeorder_adders">
 
-</include>
-<ListView
-    android:id="@+id/list_orderlist"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:listitem="@layout/item_order_shop">
+        </include>
+        <ListView
+                android:id="@+id/list_orderlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_order_shop">
+        </ListView>
 
-</ListView>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:gravity="right|bottom">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="应付款："/>
+        <TextView
+            android:id="@+id/tv_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="￥555"/>
+        <Button
+            android:id="@+id/btn_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交订单"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@color/select_light_red"/>
+    </LinearLayout>
 </LinearLayout>

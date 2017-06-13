@@ -16,6 +16,7 @@ import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.model.entity.ReturenExpress;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnMakeOrder;
 import rx.Observable;
 
 
@@ -61,6 +62,12 @@ public class MakeOrderModel extends BaseModel<ServiceManager, CacheManager> impl
     public Observable<ReturenExpress> GetShopExpress(int id, String salt,int storeId,
                                                      int weight,int deliver_id) {
         Observable<ReturenExpress> observable=mServiceManager.getExpressListService().getExpress(id,salt,storeId,weight,deliver_id);
+        return observable;
+    }
+
+    @Override
+    public Observable<ReturnMakeOrder> MakeOrder(int id, String salt, String orderInfo) {
+        Observable<ReturnMakeOrder> observable=mServiceManager.getMakeOrderService().makeorder(id,salt,orderInfo);
         return observable;
     }
 }
