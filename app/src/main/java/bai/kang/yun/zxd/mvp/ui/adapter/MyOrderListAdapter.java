@@ -14,6 +14,7 @@ import java.util.List;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import bai.kang.yun.zxd.mvp.ui.Listener.MyOrderListener;
 import bai.kang.yun.zxd.mvp.ui.view.Search_View;
 
 /**
@@ -26,12 +27,16 @@ public class MyOrderListAdapter extends BaseAdapter{
     private List<ReturnOrderList.GoodsEntiy> goodses;
     private MyOrderGoodsListAdapter myOrderGoodsListAdapter;
     private LayoutInflater mInflater;
+    private MyOrderListener myOrderListener;
 
 
     public MyOrderListAdapter(Context context, List<ReturnOrderList.ItemEntiy> list){
         this.context=context;
         this.orders=list;
         this.mInflater = LayoutInflater.from(context);
+    }
+    public void setOrderListener(MyOrderListener myOrderListener){
+        this.myOrderListener=myOrderListener;
     }
     @Override
     public int getCount() {
@@ -74,6 +79,8 @@ public class MyOrderListAdapter extends BaseAdapter{
         viewHolder.btn_zf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(myOrderListener!=null)
+                    myOrderListener.pay(order.getOrderId());
                 UiUtils.makeText("支付"+order.getOrderNo()+"总价为"+order.getRealAmount());
             }
         });

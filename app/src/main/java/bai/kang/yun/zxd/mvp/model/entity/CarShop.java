@@ -20,6 +20,8 @@ public class CarShop extends RealmObject {
     private int TrafficId ;
     /** 店铺订单总重量*/
     private int Weight;
+    /** 店铺订单是否含有处方药*/
+    private int is_chufangi;
     /** 店铺ID */
     private String merID;
     /** 是否失效列表 */
@@ -28,6 +30,14 @@ public class CarShop extends RealmObject {
     private boolean isAllGoodsInvalid;
 
     public RealmList<CarGoods> goods;
+
+    public int getIs_chufangi() {
+        return is_chufangi;
+    }
+
+    public void setIs_chufangi(int is_chufangi) {
+        this.is_chufangi = is_chufangi;
+    }
 
     public int getWeight() {
         return Weight;

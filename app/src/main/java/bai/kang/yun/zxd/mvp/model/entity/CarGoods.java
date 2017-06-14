@@ -31,6 +31,8 @@ public class CarGoods extends RealmObject {
     private String productID;
     /** 商品重量 */
     private int weight;
+    /** 是否是处方药 */
+    private int is_chufangi;
     /** 店铺ID */
     private String FID;
     /** 店铺名 */
@@ -46,6 +48,14 @@ public class CarGoods extends RealmObject {
 
     /** 临时解决方案，为了避免尾部重绘两次，增加一个虚ITEM，不显示，但是没有子项的组项，会有一条黑线，所以需要做特殊处理 */
     private boolean isLastTempItem;
+
+    public int getIs_chufangi() {
+        return is_chufangi;
+    }
+
+    public void setIs_chufangi(int is_chufangi) {
+        this.is_chufangi = is_chufangi;
+    }
 
     public int getWeight() {
         return weight;

@@ -12,6 +12,7 @@ import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnPayUrl;
 import rx.Observable;
 
 
@@ -52,5 +53,11 @@ public class MyOrderModel extends BaseModel<ServiceManager, CacheManager> implem
         Observable<ReturnOrderList> listObservable=mServiceManager.getGetOrderService().getCategory(uid,salt,status,page);
 
         return listObservable;
+    }
+
+    @Override
+    public Observable<ReturnPayUrl> getPayUrl(int uid, String salt, String type, int orderid) {
+        Observable<ReturnPayUrl> getUrl=mServiceManager.getGetAlipayUrlService().geturl(uid,salt,type,orderid);
+        return getUrl;
     }
 }

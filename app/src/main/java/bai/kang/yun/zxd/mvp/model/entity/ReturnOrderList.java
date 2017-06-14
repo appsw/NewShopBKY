@@ -91,7 +91,33 @@ public class ReturnOrderList {
         private float RealAmount;
         private String OrderNo;
         private String Shop_Name;
+        private boolean  HasChufang;
+        private boolean  IsChuFang;
         private List<GoodsEntiy> GoodsList;
+
+        public float getRealAmount() {
+            return RealAmount;
+        }
+
+        public void setRealAmount(float realAmount) {
+            RealAmount = realAmount;
+        }
+
+        public boolean isHasChufang() {
+            return HasChufang;
+        }
+
+        public void setHasChufang(boolean hasChufang) {
+            HasChufang = hasChufang;
+        }
+
+        public boolean isChuFang() {
+            return IsChuFang;
+        }
+
+        public void setChuFang(boolean chuFang) {
+            IsChuFang = chuFang;
+        }
 
         public int getOrderId() {
             return OrderId;
@@ -117,13 +143,6 @@ public class ReturnOrderList {
             ExpressStatus = expressStatus;
         }
 
-        public float getRealAmount() {
-            return RealAmount;
-        }
-
-        public void setRealAmount(int realAmount) {
-            RealAmount = realAmount;
-        }
 
         public String getOrderNo() {
             return OrderNo;

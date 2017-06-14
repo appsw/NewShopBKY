@@ -82,10 +82,28 @@ public class ReturnDetail {
         private String imageurl;            //图片地址
         private int id;                     //商品id
         private int user_id;                    //商户id
+        private int shop_id;                    //店铺id
         private int salestatus;             //销售状态
         private float saleprice;                //售价
         private int weight;                     //重量
+        private int is_chufangi;                //是否处方药
         private float market_price;                //市场价
+
+        public int getShop_id() {
+            return shop_id;
+        }
+
+        public void setShop_id(int shop_id) {
+            this.shop_id = shop_id;
+        }
+
+        public int getIs_chufangi() {
+            return is_chufangi;
+        }
+
+        public void setIs_chufangi(int is_chufangi) {
+            this.is_chufangi = is_chufangi;
+        }
 
         public int getWeight() {
             return weight;

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnPayUrl;
 import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -62,6 +63,32 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
         config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
         myOrderListAdapter=new MyOrderListAdapter(application,orders);
         mRootView.setAdapter(myOrderListAdapter);
+    }
+    public void getUrl(String type,int orderId){
+
+        mModel.getPayUrl(config.getInt("id",0),config.getString("salt","0"),type,orderId)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnPayUrl>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnPayUrl>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnPayUrl shops) {
+                        if(shops.getStatus()==1){
+                            if(shops.getSingle().getRetcode().equals("SUCCESS")){
+                                if(shops.getSingle().getTrxstatus().equals("0000")){
+                                    mRootView.Alipay(shops.getSingle().getPayinfo());
+                                }else {
+                                    UiUtils.makeText(shops.getSingle().getTrxstatus());
+                                }
+                            }else {
+                                UiUtils.makeText(shops.getSingle().getRetcode());
+                            }
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+
     }
     public void getOrderList(int status){
         orders.clear();

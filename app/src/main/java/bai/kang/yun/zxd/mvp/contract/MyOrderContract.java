@@ -6,6 +6,7 @@ import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnPayUrl;
 import rx.Observable;
 
 /**
@@ -27,10 +28,12 @@ public interface MyOrderContract {
         void setAdapter(BaseAdapter adapter);
         void startLoadMore();
         void endLoadMore();
+        void Alipay(String url);
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
         Observable<ReturnOrderList> getOrderList(int uid, String salt, int status, int page);
+        Observable<ReturnPayUrl> getPayUrl(int uid, String salt, String type, int orderid);
     }
 }

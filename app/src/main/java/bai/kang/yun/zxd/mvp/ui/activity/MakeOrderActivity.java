@@ -183,7 +183,7 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
                 jsonObject.put("InvoiceName","");
                 jsonObject.put("InvoiceCode","");
             }
-            jsonObject.put("HasChufang",0);
+            jsonObject.put("HasChufang",carShop.getIs_chufangi());
             jsonObject.put("Weight_Total",carShop.getWeight());
             JSONArray jsonArray1=new JSONArray();
             for(CarGoods carGoods:carShop.getGoods()){

@@ -16,6 +16,8 @@ import bai.kang.yun.zxd.di.component.DaggerMyOrderComponent;
 import bai.kang.yun.zxd.di.module.MyOrderModule;
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.presenter.MyOrderPresenter;
+import bai.kang.yun.zxd.mvp.ui.Listener.MyOrderListener;
+import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
 import butterknife.BindView;
 import common.AppComponent;
 import common.WEActivity;
@@ -48,6 +50,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     ListView listview;
     private boolean isLoadingMore;
     private Paginate mPaginate;
+    private int type;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMyOrderComponent
@@ -60,13 +63,14 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
 
     @Override
     protected View initView() {
+        type=getIntent().getIntExtra("type",0);
         return LayoutInflater.from(this).inflate(R.layout.activity_myorder, null, false);
     }
 
     @Override
     protected void initData() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mPresenter.getOrderList(1);
+        mPresenter.getOrderList(type);
     }
 
 
@@ -137,6 +141,13 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     public void setAdapter(BaseAdapter adapter) {
         listview.setAdapter(adapter);
         initPaginate();
+        ((MyOrderListAdapter)adapter).setOrderListener(new MyOrderListener() {
+            @Override
+            public void pay(int id) {
+                mPresenter.getUrl("A01",id);
+
+            }
+        });
     }
 
     @Override
@@ -147,5 +158,14 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     @Override
     public void endLoadMore() {
         isLoadingMore = false;
+    }
+
+    @Override
+    public void Alipay(String url) {
+        if(url==null)
+            return;
+        Intent intent=new Intent(this,WebViewActivity.class);
+        intent.putExtra("url",url);
+        startActivityForResult(intent,1);
     }
 }

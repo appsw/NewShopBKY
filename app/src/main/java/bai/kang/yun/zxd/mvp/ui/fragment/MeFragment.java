@@ -175,7 +175,32 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
     @OnClick(R.id.person_order_all_container)
     void order(){
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
-        UiUtils.startActivity(intent);
+        intent.putExtra("type",0);
+        getActivity().startActivityForResult(intent,1);
+    }
+    @OnClick(R.id.im_fk)
+    void order_fk(){
+        Intent intent=new Intent(getActivity(), MyOrderActivity.class);
+        intent.putExtra("type",1);
+        getActivity().startActivityForResult(intent,1);
+    }
+    @OnClick(R.id.im_sh)
+    void order_sh(){
+        Intent intent=new Intent(getActivity(), MyOrderActivity.class);
+        intent.putExtra("type",3);
+        getActivity().startActivityForResult(intent,1);
+    }
+    @OnClick(R.id.im_pj)
+    void order_pj(){
+        Intent intent=new Intent(getActivity(), MyOrderActivity.class);
+        intent.putExtra("type",4);
+        getActivity().startActivityForResult(intent,1);
+    }
+    @OnClick(R.id.im_fh)
+    void order_fh(){
+        Intent intent=new Intent(getActivity(), MyOrderActivity.class);
+        intent.putExtra("type",2);
+        getActivity().startActivityForResult(intent,1);
     }
 
 }

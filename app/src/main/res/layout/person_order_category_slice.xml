@@ -89,7 +89,7 @@
           	android:gravity="center_horizontal|center_vertical">
           
            <ImageView
-			   android:id="@+id/im_th"
+			   android:id="@+id/im_fh"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:src="@drawable/personal_order_returned_icon"/>
@@ -97,7 +97,7 @@
            <TextView
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="退/换货"
+		        android:text="待发货"
 			    style="@style/textStyle.Normal.black"/>
         </LinearLayout>
 		

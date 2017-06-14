@@ -321,6 +321,12 @@ public class ShoppingCartBiz {
                     RealmResults<CarGoods> goods=realm.where(CarGoods.class).equalTo("FID", shop.getMerID())
                             .equalTo("isChildSelected", true)
                             .findAll();
+                    RealmResults<CarGoods> goods1=realm.where(CarGoods.class).equalTo("FID", shop.getMerID())
+                            .equalTo("isChildSelected", true)
+                            .equalTo("is_chufangi", 1)
+                            .findAll();
+                    if(goods1.size()!=0)
+                        shop.setIs_chufangi(1);
                     if(goods.size()!=0){
                         RealmList<CarGoods> carGoods= new RealmList<>();
                         carGoods.addAll(goods);
