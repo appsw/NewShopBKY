@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/green"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <FrameLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="60dp" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="#000000" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="@color/green" />
+
+            <ImageView
+                android:id="@+id/register_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:src="@mipmap/android_list_idex_left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="上传处方"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tv_updata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:text="提交"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:padding="5dp"/>
+
+
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30px"
+            android:background="@color/silver"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="350px"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:text="商家："/>
+                <TextView
+                    android:id="@+id/tv_shopname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:text="山东百康云大药房"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:text="单号："/>
+                <TextView
+                    android:id="@+id/tv_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:text="12312312321"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30px"
+            android:background="@color/silver"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150px">
+                <TextView
+                    android:id="@+id/tv_image"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="拍照上传处方"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/tv_text"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="登记处方信息"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

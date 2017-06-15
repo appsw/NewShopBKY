@@ -147,6 +147,14 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
                 mPresenter.getUrl("A01",id);
 
             }
+
+            @Override
+            public void updata(int id,String name) {
+                Intent intent=new Intent(MyOrderActivity.this,UpChuFangActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("name",name);
+                startActivityForResult(intent,1);
+            }
         });
     }
 

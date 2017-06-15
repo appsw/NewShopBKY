@@ -63,6 +63,7 @@ public class MyOrderListAdapter extends BaseAdapter{
             viewHolder.preact=(TextView) convertView.findViewById(R.id.allpreact);
             viewHolder.goodslist= (Search_View) convertView.findViewById(R.id.goods_list);
             viewHolder.btn_zf= (Button) convertView.findViewById(R.id.btn_zf);
+            viewHolder.btn_sc= (Button) convertView.findViewById(R.id.btn_sc);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
@@ -74,14 +75,31 @@ public class MyOrderListAdapter extends BaseAdapter{
         viewHolder.preact.setText(order.getRealAmount()+"");
         myOrderGoodsListAdapter=new MyOrderGoodsListAdapter( UiUtils.getContext(),goodses);
         viewHolder.goodslist.setAdapter(myOrderGoodsListAdapter);
+
         if(order.getStatus()==1)
-            viewHolder.btn_zf.setVisibility(View.VISIBLE);
+            if(order.isHasChufang()){
+                if(order.isChuFang()){
+                    viewHolder.btn_zf.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.btn_sc.setVisibility(View.VISIBLE);
+                }
+            }else {
+                viewHolder.btn_zf.setVisibility(View.VISIBLE);
+            }
+
         viewHolder.btn_zf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(myOrderListener!=null)
                     myOrderListener.pay(order.getOrderId());
-                UiUtils.makeText("支付"+order.getOrderNo()+"总价为"+order.getRealAmount());
+
+            }
+        });
+        viewHolder.btn_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myOrderListener!=null)
+                    myOrderListener.updata(order.getOrderId(),order.getShop_Name());
             }
         });
         return convertView;
@@ -91,5 +109,6 @@ public class MyOrderListAdapter extends BaseAdapter{
         TextView preact;
         Search_View goodslist;
         Button btn_zf;
+        Button btn_sc;
     }
 }
