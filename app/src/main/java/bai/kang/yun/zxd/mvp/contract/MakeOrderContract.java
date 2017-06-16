@@ -31,6 +31,7 @@ public interface MakeOrderContract {
     interface View extends BaseView {
         void SetAdapter(BaseAdapter baseAdapter);
         void SetAdd(Address address);
+        void GoPay();
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存

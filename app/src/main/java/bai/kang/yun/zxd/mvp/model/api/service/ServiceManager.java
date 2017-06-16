@@ -41,6 +41,10 @@ public class ServiceManager implements BaseServiceManager {
     private GetExpressListService mGetExpressListService;
     private MakeOrderService mMakeOrderService;
     private GetAlipayUrlService mGetAlipayUrlService;
+    private SetImgChuFangService mSetImgChuFangService;
+    private SetTextChuFangService mSetTextChuFangService;
+    private DelectOrderService mDelectOrderService;
+    private CancelOrderService mCancelOrderService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -60,7 +64,9 @@ public class ServiceManager implements BaseServiceManager {
                                   GetShopGoodsService getShopGoodsService,GetShopCategoryService getShopCategoryService,
                                   GetShopCategoryGoodsService getShopCategoryGoodsService,SetUserHeadPicService setUserHeadPicService,
                                   GetOrderService getOrderService,GetExpressListService getExpressListService,
-                                  MakeOrderService makeOrderService,GetAlipayUrlService getAlipayUrlService){
+                                  MakeOrderService makeOrderService,GetAlipayUrlService getAlipayUrlService,
+                                  SetImgChuFangService setImgChuFangService,SetTextChuFangService setTextChuFangService,
+                                  DelectOrderService delectOrderService,CancelOrderService cancelOrderService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -91,6 +97,10 @@ public class ServiceManager implements BaseServiceManager {
         this.mGetExpressListService=getExpressListService;
         this.mMakeOrderService=makeOrderService;
         this.mGetAlipayUrlService=getAlipayUrlService;
+        this.mSetImgChuFangService=setImgChuFangService;
+        this.mSetTextChuFangService=setTextChuFangService;
+        this.mDelectOrderService=delectOrderService;
+        this.mCancelOrderService=cancelOrderService;
     }
 
     public CommonService getCommonService() {
@@ -130,6 +140,10 @@ public class ServiceManager implements BaseServiceManager {
     public GetExpressListService getExpressListService(){return mGetExpressListService;}
     public MakeOrderService getMakeOrderService(){return mMakeOrderService;}
     public GetAlipayUrlService getGetAlipayUrlService(){return mGetAlipayUrlService;}
+    public SetImgChuFangService getSetImgChuFangService(){return mSetImgChuFangService;};
+    public SetTextChuFangService getSetTextChuFangService(){return mSetTextChuFangService;};
+    public DelectOrderService getDelectOrderService(){return mDelectOrderService;}
+    public CancelOrderService getCancelOrderService(){return mCancelOrderService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

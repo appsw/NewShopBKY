@@ -59,6 +59,8 @@ public class ChuFangImageFragment extends BaseFragment implements View.OnClickLi
     private final int CROP_SMALL_PICTURE=3;
     private Bitmap mBitmap;
     private Uri  tempUri;
+    private boolean isImg;
+    private File file;
     public static ChuFangImageFragment newInstance() {
         ChuFangImageFragment fragment = new ChuFangImageFragment();
         return fragment;
@@ -246,6 +248,7 @@ public class ChuFangImageFragment extends BaseFragment implements View.OnClickLi
             mBitmap = extras.getParcelable("data");
 //            mBitmap = CommonUtil.toRoundBitmap(mBitmap, tempUri);//因项目需求，把图片转成圆形
             im_im.setImageBitmap(mBitmap);//头像设置为新的图片
+            isImg=true;
             uploadPic(mBitmap);//上传图片到服务器
         }
     }
@@ -260,7 +263,7 @@ public class ChuFangImageFragment extends BaseFragment implements View.OnClickLi
                 .valueOf(System.currentTimeMillis()));
         Log.e("imagePath", imagePath+"");
         if(imagePath != null){
-            File file = new File(imagePath);
+            file = new File(imagePath);
 //            在这里把file上传服务器
 //            mPresenter.uploadHeadPic(file);
 //            presenter.uploadHeadPic(((AppContext) getActivity().getApplication()).getBean().getCompanyCode(),file);//这里是P层把图片上传到服务器。
@@ -306,6 +309,12 @@ public class ChuFangImageFragment extends BaseFragment implements View.OnClickLi
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    public boolean getIs(){
+        return isImg;
+    }
+    public File getImgFile(){
+        return file;
     }
 
 }

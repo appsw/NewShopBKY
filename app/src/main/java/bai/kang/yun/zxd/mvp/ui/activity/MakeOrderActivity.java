@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.ShoppingCartBiz;
 import bai.kang.yun.zxd.di.component.DaggerMakeOrderComponent;
 import bai.kang.yun.zxd.di.module.MakeOrderModule;
 import bai.kang.yun.zxd.mvp.contract.MakeOrderContract;
@@ -28,6 +29,7 @@ import bai.kang.yun.zxd.mvp.model.entity.CarShop;
 import bai.kang.yun.zxd.mvp.presenter.MakeOrderPresenter;
 import bai.kang.yun.zxd.mvp.ui.Listener.ExperssChengeListener;
 import bai.kang.yun.zxd.mvp.ui.adapter.MakeOrderListAdapter;
+import bai.kang.yun.zxd.mvp.ui.dialog.LoadingDialog;
 import butterknife.BindView;
 import butterknife.OnClick;
 import common.AppComponent;
@@ -64,8 +66,11 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
     TextView tv_add;
     @BindView(R.id.tv_sum)
     TextView tv_sum;
+
+
     public static int Add_Id;
     MakeOrderListAdapter mAdapter;
+    LoadingDialog dialog;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMakeOrderComponent
@@ -88,18 +93,19 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
 
     @Override
     protected void initData() {
+        dialog=new LoadingDialog(this,"玩命加载中...");
         mPresenter.GetAdd();
     }
 
 
     @Override
     public void showLoading() {
-
+        dialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        dialog.close();
     }
 
     @Override
@@ -167,6 +173,16 @@ public class MakeOrderActivity extends WEActivity<MakeOrderPresenter> implements
         Observable.just(address.getAdd_deils()).subscribe(RxTextView.text(tv_add));
         mPresenter.GetGoodsList();
     }
+
+    @Override
+    public void GoPay() {
+        Intent intent=new Intent(this, MyOrderActivity.class);
+        intent.putExtra("type",1);
+        startActivityForResult(intent,1);
+        ShoppingCartBiz.delAllGoods();
+        finish();
+    }
+
     @OnClick(R.id.btn_sub)
     public void MakeOrder(){
         try {

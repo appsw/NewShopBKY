@@ -6,11 +6,18 @@ import com.google.gson.Gson;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BaseModel;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.UpChuFangContract;
 import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import rx.Observable;
 
 
 /**
@@ -36,6 +43,25 @@ public class UpChuFangModel extends BaseModel<ServiceManager, CacheManager> impl
         super(serviceManager, cacheManager);
         this.mGson = gson;
         this.mApplication = application;
+    }
+    @Override
+    public Observable<ReturnSetAdd> SetImgChuFang(int uid, String salt, int id, File file) {
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part MultipartFile =
+                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+        Observable<ReturnSetAdd> detail = mServiceManager.getSetImgChuFangService().SetImgChuFang(uid,salt,id,MultipartFile);
+
+        return detail;
+    }
+
+    @Override
+    public Observable<ReturnSetAdd> SetTextChuFang(int uid, String salt, int id, String chufang) {
+        Observable<ReturnSetAdd> detail = mServiceManager.getSetTextChuFangService().SetTextChuFang(uid,salt,id,chufang);
+
+        return detail;
     }
 
     @Override

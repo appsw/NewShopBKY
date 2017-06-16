@@ -7,10 +7,20 @@
         android:layout_height="120px"
         android:padding="5dp">
         <TextView
+            android:layout_gravity="center"
             android:id="@+id/order_shopname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="百康云大药房"
+            android:textSize="19sp"/>
+
+        <TextView
+            android:layout_marginLeft="450px"
+            android:layout_gravity="center"
+            android:id="@+id/order_delect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
             android:textSize="19sp"/>
     </LinearLayout>
     <bai.kang.yun.zxd.mvp.ui.view.Search_View
@@ -55,5 +65,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="付款"/>
+        <Button
+            android:padding="2dp"
+            android:visibility="gone"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_cancel"
+            android:layout_gravity="right"
+            android:background="@color/beige"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消订单"/>
     </LinearLayout>
 </LinearLayout>

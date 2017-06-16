@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.utils.UiUtils;
 
+import org.json.JSONObject;
+
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.di.component.DaggerUpChuFangComponent;
 import bai.kang.yun.zxd.di.module.UpChuFangModule;
@@ -19,6 +21,7 @@ import bai.kang.yun.zxd.mvp.presenter.UpChuFangPresenter;
 import bai.kang.yun.zxd.mvp.ui.fragment.ChuFangImageFragment;
 import bai.kang.yun.zxd.mvp.ui.fragment.ChuFangTextFragment;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEActivity;
 
@@ -51,6 +54,9 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
     TextView tv_image;
     @BindView(R.id.tv_text)
     TextView tv_text;
+    private boolean type;//ture 图片
+    private int id;
+    private String name;
     // 底部标签切换的Fragment
     private BaseFragment textFragment,currentFragment,imageFragment;
     @Override
@@ -70,6 +76,8 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
 
     @Override
     protected void initData() {
+        id=getIntent().getIntExtra("id",0);
+        name=getIntent().getStringExtra("name");
         tv_image.setOnClickListener(this);
         tv_text.setOnClickListener(this);
         initTab();
@@ -125,6 +133,7 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
      * 初始化底部标签
      */
     public void initTab() {
+        type=true;
         if (imageFragment == null) {
             imageFragment= ChuFangImageFragment.newInstance();
         }
@@ -148,6 +157,7 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
      * 点击第一个tab
      */
     private void clickTab1Layout() {
+        type=true;
         if (imageFragment == null) {
             imageFragment =  ChuFangImageFragment.newInstance();
         }
@@ -165,6 +175,7 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
      * 点击第二个tab
      */
     private void clickTab2Layout() {
+        type=false;
         if (textFragment == null) {
             textFragment = ChuFangTextFragment.newInstance();
         }
@@ -198,5 +209,25 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
 
         currentFragment = fragment;
     }
-
+    @OnClick(R.id.tv_updata)
+    public void upDate(){
+        if(type){
+            SetImg();
+        }else {
+            SetText();
+        }
+    }
+    private void SetImg(){
+        ChuFangImageFragment chuFangImageFragment=(ChuFangImageFragment)imageFragment;
+        if(chuFangImageFragment.getIs()){
+            mPresenter.SetImg(id,chuFangImageFragment.getImgFile());
+        }
+    }
+    private void SetText(){
+        ChuFangTextFragment chuFangTextFragment= (ChuFangTextFragment) textFragment;
+        JSONObject jsonObject=chuFangTextFragment.getData();
+        if(jsonObject!=null){
+            mPresenter.SetText(id,jsonObject.toString());
+        }
+    }
 }

@@ -87,6 +87,7 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
 
     }
     public void MakeOrder(JSONArray jsonArray){
+        mRootView.showLoading();
         mModel.MakeOrder(config.getInt("id",0),config.getString("salt","0"), /*jsonArray.toString()*/Base64.encodeToString(jsonArray.toString().getBytes(),Base64.DEFAULT))
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -95,8 +96,10 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
                 .subscribe(new ErrorHandleSubscriber<ReturnMakeOrder>(mErrorHandler) {
                     @Override
                     public void onNext(ReturnMakeOrder shops) {
+                        mRootView.hideLoading();
                         if(shops.getStatus()==1){
-
+                            mRootView.GoPay();
+                            UiUtils.makeText("请继续完成支付！");
                         }else
                             UiUtils.makeText(shops.getMessage());
                     }

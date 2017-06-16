@@ -92,4 +92,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     //微信
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+//    loding
+    compile 'com.wang.avi:library:2.1.3'
 }

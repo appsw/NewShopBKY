@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnPayUrl;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -50,7 +51,8 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
     private SharedPreferences config;
     private MyOrderListAdapter myOrderListAdapter;
     private List<ReturnOrderList.ItemEntiy> orders=new ArrayList<>();
-
+    private int preEndIndex;
+    private int page = 1;
     @Inject
     public MyOrderPresenter(MyOrderContract.Model model, MyOrderContract.View rootView
             , RxErrorHandler handler, Application application
@@ -64,8 +66,9 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
         myOrderListAdapter=new MyOrderListAdapter(application,orders);
         mRootView.setAdapter(myOrderListAdapter);
     }
-    public void getUrl(String type,int orderId){
 
+    public void getUrl(String type,int orderId){
+        mRootView.ShowLoading(true);
         mModel.getPayUrl(config.getInt("id",0),config.getString("salt","0"),type,orderId)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -74,6 +77,7 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
                 .subscribe(new ErrorHandleSubscriber<ReturnPayUrl>(mErrorHandler) {
                     @Override
                     public void onNext(ReturnPayUrl shops) {
+                        mRootView.ShowLoading(false);
                         if(shops.getStatus()==1){
                             if(shops.getSingle().getRetcode().equals("SUCCESS")){
                                 if(shops.getSingle().getTrxstatus().equals("0000")){
@@ -90,19 +94,75 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
                 });
 
     }
-    public void getOrderList(int status){
-        orders.clear();
+    public void getOrderList(int status,boolean is){
+        if (is) page = 1;//上拉刷新默认只请求第一页
+
+        mRootView.ShowLoading(true);
         mModel.getOrderList(config.getInt("id",0),config.getString("salt","0"),status,1)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .doOnSubscribe(() -> {
+                    if (is)
+                        mRootView.showLoading();//显mRootView.showLoadi示上拉刷新的进度条
+                    else
+                        mRootView.startLoadMore();//显示下拉加载更多的进度条
+                }).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> {
+                if (is)
+                    mRootView.hideLoading();//隐藏上拉刷新的进度条
+                else
+                    mRootView.endLoadMore();//隐藏下拉加载更多的进度条
+                })
                 .compose(RxUtils.<ReturnOrderList>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(new ErrorHandleSubscriber<ReturnOrderList>(mErrorHandler) {
                     @Override
                     public void onNext(ReturnOrderList shops) {
+                        mRootView.ShowLoading(false);
                         if(shops.getStatus()==1){
+                            if (is) orders.clear();//如果是上拉刷新则清空列表
                             orders.addAll(shops.getPage_data().getItems());
                             myOrderListAdapter.notifyDataSetChanged();
+                            if(shops.getPage_data().getTotalPages()<=page) {
+                                mRootView.endLoadMore();
+                            }
+                            page++;
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+    }
+    public void DelectOrder(int orderId){
+        mRootView.ShowLoading(true);
+        mModel.DelectOrder(config.getInt("id",0),config.getString("salt","0"),orderId)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnSetAdd shops) {
+                        mRootView.ShowLoading(false);
+                        if(shops.getStatus()==1){
+                            mRootView.Refresh();
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+    }
+    public void CancelOrder(int orderId){
+        mRootView.ShowLoading(true);
+        mModel.CancelOrder(config.getInt("id",0),config.getString("salt","0"),orderId)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnSetAdd shops) {
+                        mRootView.ShowLoading(false);
+                        if(shops.getStatus()==1){
+                            mRootView.Refresh();
                         }else
                             UiUtils.makeText(shops.getMessage());
                     }

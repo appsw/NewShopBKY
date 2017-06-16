@@ -61,9 +61,11 @@ public class MyOrderListAdapter extends BaseAdapter{
             viewHolder=new ViewHolder();
             viewHolder.name=(TextView) convertView.findViewById(R.id.order_shopname);
             viewHolder.preact=(TextView) convertView.findViewById(R.id.allpreact);
+            viewHolder.delect=(TextView) convertView.findViewById(R.id.order_delect);
             viewHolder.goodslist= (Search_View) convertView.findViewById(R.id.goods_list);
             viewHolder.btn_zf= (Button) convertView.findViewById(R.id.btn_zf);
             viewHolder.btn_sc= (Button) convertView.findViewById(R.id.btn_sc);
+            viewHolder.btn_cancel= (Button) convertView.findViewById(R.id.btn_cancel);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
@@ -79,12 +81,18 @@ public class MyOrderListAdapter extends BaseAdapter{
         if(order.getStatus()==1)
             if(order.isHasChufang()){
                 if(order.isChuFang()){
+                    viewHolder.btn_sc.setVisibility(View.GONE);
                     viewHolder.btn_zf.setVisibility(View.VISIBLE);
+                    viewHolder.btn_cancel.setVisibility(View.VISIBLE);
                 }else{
+                    viewHolder.btn_zf.setVisibility(View.GONE);
+                    viewHolder.btn_cancel.setVisibility(View.GONE);
                     viewHolder.btn_sc.setVisibility(View.VISIBLE);
                 }
             }else {
+                viewHolder.btn_sc.setVisibility(View.GONE);
                 viewHolder.btn_zf.setVisibility(View.VISIBLE);
+                viewHolder.btn_cancel.setVisibility(View.VISIBLE);
             }
 
         viewHolder.btn_zf.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +110,31 @@ public class MyOrderListAdapter extends BaseAdapter{
                     myOrderListener.updata(order.getOrderId(),order.getShop_Name());
             }
         });
+        viewHolder.delect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myOrderListener!=null){
+                    myOrderListener.delect(order.getOrderId());
+                }
+            }
+        });
+        viewHolder.btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myOrderListener!=null){
+                    myOrderListener.cancel(order.getOrderId());
+                }
+            }
+        });
         return convertView;
     }
     private class ViewHolder{
         TextView name;
+        TextView delect;
         TextView preact;
         Search_View goodslist;
         Button btn_zf;
         Button btn_sc;
+        Button btn_cancel;
     }
 }

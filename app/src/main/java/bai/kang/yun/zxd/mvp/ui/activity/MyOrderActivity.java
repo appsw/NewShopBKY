@@ -18,6 +18,7 @@ import bai.kang.yun.zxd.mvp.contract.MyOrderContract;
 import bai.kang.yun.zxd.mvp.presenter.MyOrderPresenter;
 import bai.kang.yun.zxd.mvp.ui.Listener.MyOrderListener;
 import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
+import bai.kang.yun.zxd.mvp.ui.dialog.LoadingDialog;
 import butterknife.BindView;
 import common.AppComponent;
 import common.WEActivity;
@@ -48,6 +49,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.myorder_goods)
     ListView listview;
+    LoadingDialog loadingDialog;
     private boolean isLoadingMore;
     private Paginate mPaginate;
     private int type;
@@ -63,6 +65,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
 
     @Override
     protected View initView() {
+        loadingDialog=new LoadingDialog(this,"正在玩命加载中...");
         type=getIntent().getIntExtra("type",0);
         return LayoutInflater.from(this).inflate(R.layout.activity_myorder, null, false);
     }
@@ -70,9 +73,14 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     @Override
     protected void initData() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mPresenter.getOrderList(type);
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getOrderList(type,true);
+    }
 
     @Override
     public void showLoading() {
@@ -106,7 +114,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
 
     @Override
     public void onRefresh() {
-        mPresenter.getOrderList(0);
+        mPresenter.getOrderList(type,true);
     }
     /**
      * 初始化Paginate,用于加载更多
@@ -116,7 +124,7 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    mPresenter.getOrderList(0);
+                    mPresenter.getOrderList(type,false);
                 }
 
                 @Override
@@ -155,6 +163,16 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
                 intent.putExtra("name",name);
                 startActivityForResult(intent,1);
             }
+
+            @Override
+            public void delect(int id) {
+                mPresenter.DelectOrder(id);
+            }
+
+            @Override
+            public void cancel(int id) {
+                mPresenter.CancelOrder(id);
+            }
         });
     }
 
@@ -175,5 +193,18 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
         Intent intent=new Intent(this,WebViewActivity.class);
         intent.putExtra("url",url);
         startActivityForResult(intent,1);
+    }
+
+    @Override
+    public void ShowLoading(boolean is) {
+        if(is)
+            loadingDialog.show();
+        else
+            loadingDialog.close();
+    }
+
+    @Override
+    public void Refresh() {
+        onResume();
     }
 }

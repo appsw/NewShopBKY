@@ -1,16 +1,27 @@
 package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.jess.arms.base.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxUtils;
+import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.UpChuFangContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -33,6 +44,7 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
+    private SharedPreferences config;
 
     @Inject
     public UpChuFangPresenter(UpChuFangContract.Model model, UpChuFangContract.View rootView
@@ -43,6 +55,47 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
         this.mApplication = application;
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
+        config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
+    }
+    public void SetImg( int id, File file){
+        mModel.SetImgChuFang(config.getInt("id",0),config.getString("salt","0"),id,file)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnSetAdd category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText("处方单上传成功，请继续支付！");
+                                    mRootView.killMyself();
+
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
+    }
+    public void SetText( int id, String file){
+        mModel.SetTextChuFang(config.getInt("id",0),config.getString("salt","0"),id,file)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnSetAdd category) {
+                                if(category.getStatus()==1){
+                                    UiUtils.makeText("处方单上传成功，请继续支付！");
+                                    mRootView.killMyself();
+
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
     }
 
     @Override

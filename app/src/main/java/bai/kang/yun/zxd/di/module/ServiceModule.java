@@ -5,8 +5,10 @@ import javax.inject.Singleton;
 
 import bai.kang.yun.zxd.mvp.model.api.service.AddressDeleteService;
 import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
+import bai.kang.yun.zxd.mvp.model.api.service.CancelOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
+import bai.kang.yun.zxd.mvp.model.api.service.DelectOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAlipayUrlService;
@@ -31,6 +33,8 @@ import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.ResetPswdService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetDefaultAddService;
+import bai.kang.yun.zxd.mvp.model.api.service.SetImgChuFangService;
+import bai.kang.yun.zxd.mvp.model.api.service.SetTextChuFangService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetUserHeadPicService;
 import bai.kang.yun.zxd.mvp.model.api.service.UserService;
 import dagger.Module;
@@ -195,5 +199,26 @@ public class ServiceModule {
     GetAlipayUrlService provideGetAlipayUrlService(Retrofit retrofit) {
         return retrofit.create(GetAlipayUrlService.class);
     }
+    @Singleton
+    @Provides
+    SetImgChuFangService provideSetImgChuFangService(Retrofit retrofit) {
+        return retrofit.create(SetImgChuFangService.class);
+    }
+    @Singleton
+    @Provides
+    SetTextChuFangService provideSetTextChuFangService(Retrofit retrofit) {
+        return retrofit.create(SetTextChuFangService.class);
+    }
+    @Singleton
+    @Provides
+    DelectOrderService provideDelectOrderService(Retrofit retrofit) {
+        return retrofit.create(DelectOrderService.class);
+    }
+    @Singleton
+    @Provides
+    CancelOrderService provideCancelOrderService(Retrofit retrofit) {
+        return retrofit.create(CancelOrderService.class);
+    }
+
 
 }

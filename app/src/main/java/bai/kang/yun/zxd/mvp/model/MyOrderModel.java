@@ -13,6 +13,7 @@ import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnOrderList;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnPayUrl;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnSetAdd;
 import rx.Observable;
 
 
@@ -60,4 +61,18 @@ public class MyOrderModel extends BaseModel<ServiceManager, CacheManager> implem
         Observable<ReturnPayUrl> getUrl=mServiceManager.getGetAlipayUrlService().geturl(uid,salt,type,orderid);
         return getUrl;
     }
+
+    @Override
+    public Observable<ReturnSetAdd> DelectOrder(int uid, String salt, int orderid) {
+        Observable<ReturnSetAdd> result=mServiceManager.getDelectOrderService().Delect(uid,salt,orderid);
+        return result;
+    }
+
+    @Override
+    public Observable<ReturnSetAdd> CancelOrder(int uid, String salt, int orderid) {
+        Observable<ReturnSetAdd> result=mServiceManager.getCancelOrderService().Cancel(uid,salt,orderid);
+        return result;
+    }
+
+
 }

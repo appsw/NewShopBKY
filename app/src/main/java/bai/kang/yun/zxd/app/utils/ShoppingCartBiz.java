@@ -238,7 +238,7 @@ public class ShoppingCartBiz {
 
             }
         });
-        ShoppingCartDao.getInstance().delAllGoods();
+//        ShoppingCartDao.getInstance().delAllGoods();
     }
 
     /** 增减数量，操作通用，数据不通用 */

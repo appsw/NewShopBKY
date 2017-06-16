@@ -3,30 +3,37 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <EditText
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入姓名"/>
     <EditText
+        android:id="@+id/et_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入年龄"/>
     <EditText
+        android:id="@+id/et_sex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入性别"/>
     <EditText
+        android:id="@+id/et_yiyuan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入医院"/>
     <EditText
+        android:id="@+id/et_kebie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入科别"/>
     <EditText
+        android:id="@+id/et_yisheng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入医生"/>
     <EditText
+        android:id="@+id/et_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入日期"/>

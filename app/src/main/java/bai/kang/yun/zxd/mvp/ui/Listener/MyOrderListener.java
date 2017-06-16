@@ -6,5 +6,7 @@ package bai.kang.yun.zxd.mvp.ui.Listener;
 
 public interface MyOrderListener {
     void pay(int id);
+    void delect(int id);
     void updata(int id,String name);
+    void cancel(int id);
 }
