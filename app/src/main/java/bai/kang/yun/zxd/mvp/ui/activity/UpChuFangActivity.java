@@ -87,12 +87,12 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
 
     @Override
     public void showLoading() {
-
+        loadingDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        loadingDialog.close();
     }
 
     @Override

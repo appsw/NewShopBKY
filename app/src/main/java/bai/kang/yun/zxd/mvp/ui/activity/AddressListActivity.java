@@ -100,12 +100,12 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
 
     @Override
     public void showLoading() {
-
+        loadingDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        loadingDialog.close();
     }
 
     @Override

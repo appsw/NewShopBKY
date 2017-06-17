@@ -8,6 +8,7 @@ import com.jess.arms.mvp.Presenter;
 import com.umeng.analytics.MobclickAgent;
 
 import bai.kang.yun.zxd.app.utils.ActivityManger;
+import bai.kang.yun.zxd.mvp.ui.dialog.LoadingDialog;
 
 /**
  * Created by jess on 8/5/16 13:13
@@ -15,12 +16,17 @@ import bai.kang.yun.zxd.app.utils.ActivityManger;
  */
 public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
     protected WEApplication mWeApplication;
+    public LoadingDialog loadingDialog;
 
     @Nullable
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActivityManger.addAvtivity(this);
+        if(loadingDialog==null)
+            loadingDialog=new LoadingDialog(this,"玩命加载中...");
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -39,6 +45,7 @@ public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
         ActivityManger.removeAvtivity(this);
         this.mWeApplication = null;
         MobclickAgent.onPause(this);
+
     }
 
     @Override

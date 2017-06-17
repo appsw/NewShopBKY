@@ -47,7 +47,16 @@ public class ReturnUser {
         private String salt;          //用户token
         private String nick_name;          //用户昵称
         private String mobile;          //用户手机号
+        private String avatar;          //用户头像
         private int id;                 //用户id
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
 
         public String getMobile() {
             return mobile;

@@ -189,12 +189,12 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
 
     @Override
     public void showLoading() {
-
+        loadingDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        loadingDialog.close();
     }
 
     @Override

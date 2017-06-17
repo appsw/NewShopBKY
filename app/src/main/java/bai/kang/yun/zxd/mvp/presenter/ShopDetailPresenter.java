@@ -72,6 +72,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
         mRootView.setAdapter(mAdapter,shopCategoryAdapter);
     }
     public void getShop(int id){
+        mRootView.showLoading();
         mModel.getShopDetail(id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -81,6 +82,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                         new ErrorHandleSubscriber<ReturnShopDetail>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnShopDetail users) {
+                                mRootView.hideLoading();
                                 ReturnShopDetail.SingleEntity singleEntity=users.getSingle();
                                 Shop shop=new Shop();
                                 shop.setName(singleEntity.getName());
@@ -93,6 +95,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
 
     }
     public void getShopGoods(int kind,int id){
+        mRootView.showLoading();
         GoodsList.clear();
         mRootView.setListView(true);
         mRootView.setGridView(false);
@@ -107,6 +110,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                         new ErrorHandleSubscriber<ReturnShopGoods>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnShopGoods goods) {
+                                mRootView.hideLoading();
                                 if(goods.getStatus()==1){
                                 GoodsList.addAll(goods.getData());
                                 mAdapter.notifyDataSetChanged();
@@ -119,6 +123,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                         });
     }
     public void getShopCategory(int id){
+        mRootView.showLoading();
         mRootView.setListView(false);
         mRootView.setGridView(true);
         mModel.getShopCategory(id)
@@ -132,6 +137,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                         new ErrorHandleSubscriber<ReturnShopCategory>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnShopCategory goods) {
+                                mRootView.hideLoading();
                                 if(goods.getStatus()==1){
                                     CategoryList.addAll(goods.getData());
                                     shopCategoryAdapter.notifyDataSetChanged();

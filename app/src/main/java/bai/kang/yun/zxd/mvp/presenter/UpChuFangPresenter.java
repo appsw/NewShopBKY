@@ -58,6 +58,7 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
         config=application.getSharedPreferences("config", Context.MODE_PRIVATE);
     }
     public void SetImg( int id, File file){
+        mRootView.showLoading();
         mModel.SetImgChuFang(config.getInt("id",0),config.getString("salt","0"),id,file)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -67,6 +68,7 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
                         new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnSetAdd category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     UiUtils.makeText("处方单上传成功，请继续支付！");
                                     mRootView.killMyself();
@@ -78,6 +80,7 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
                         });
     }
     public void SetText( int id, String file){
+        mRootView.showLoading();
         mModel.SetTextChuFang(config.getInt("id",0),config.getString("salt","0"),id,file)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -87,6 +90,7 @@ public class UpChuFangPresenter extends BasePresenter<UpChuFangContract.Model, U
                         new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnSetAdd category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     UiUtils.makeText("处方单上传成功，请继续支付！");
                                     mRootView.killMyself();

@@ -14,6 +14,7 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.LoginContract;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDefaultAdd;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnUser;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -63,6 +64,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }else if(psw.isEmpty()){
             UiUtils.makeText("请输入密码");
         }else {
+            mRootView.showLoading();
             mModel.Login(name,psw)
                     .subscribeOn(Schedulers.io())
                     .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -73,14 +75,20 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                                 @Override
                                 public void onNext(ReturnUser category) {
                                     if(category.getStatus()==1){
-                                        UiUtils.makeText("登录成功");
+
                                         config.edit().putString("name",category.getSingle().getUser_name())
                                                 .putString("salt",category.getSingle().getSalt())
                                                 .putString("nick_name",category.getSingle().getNick_name())
                                                 .putString("mobile",category.getSingle().getMobile())
                                                 .putBoolean("isLog",true)
                                                 .putInt("id",category.getSingle().getId()).commit();
-                                        mRootView.killMyself();
+                                        if(category.getSingle().getAvatar()!=null){
+                                            config.edit().putBoolean("isHead",true)
+                                                    .putString("headUrl",category.getSingle().getAvatar())
+                                                    .commit();
+                                        }
+                                        getDefaultAdd();
+
                                     }else {
                                         UiUtils.makeText(category.getMessage());
                                     }
@@ -88,6 +96,32 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                             });
 
         }
+    }
+    public void getDefaultAdd(){
+        mModel.GetAdd(config.getInt("id",0),config.getString("salt","0"))
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnDefaultAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnDefaultAdd>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnDefaultAdd category) {
+                                if(category.getStatus()==1){
+                                    if(category.getSingle()!=null){
+                                        ReturnDefaultAdd.Single address=category.getSingle();
+                                        config.edit().putBoolean("isAdd",true).putString("add_name",address.getReal_name())
+                                                .putString("add_tel",address.getPhone()).putString("add_deils",address.getAddress())
+                                                .putInt("add_id",address.getId()).commit();
+                                    }
+                                    UiUtils.makeText("登录成功");
+                                    mRootView.hideLoading();
+                                    mRootView.killMyself();
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
     }
 
     public void re(){

@@ -95,12 +95,12 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
 
     @Override
     public void showLoading() {
-
+        loadingDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        loadingDialog.close();
     }
 
     @Override

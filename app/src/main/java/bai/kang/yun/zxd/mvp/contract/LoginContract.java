@@ -3,6 +3,7 @@ package bai.kang.yun.zxd.mvp.contract;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
+import bai.kang.yun.zxd.mvp.model.entity.ReturnDefaultAdd;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnUser;
 import rx.Observable;
 
@@ -30,5 +31,6 @@ public interface LoginContract {
     interface Model extends IModel {
         String getToken(String url);
         Observable<ReturnUser> Login(String username, String pswd);
+        Observable<ReturnDefaultAdd> GetAdd(int uid, String salt);
     }
 }

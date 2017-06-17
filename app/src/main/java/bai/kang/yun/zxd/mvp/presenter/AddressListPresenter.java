@@ -78,6 +78,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
             return;
         }
         addresses.clear();
+        mRootView.showLoading();
         mModel.getAddress(config.getInt("id",0),config.getString("salt","0"),1,Clear)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -87,6 +88,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         new ErrorHandleSubscriber<ReturnAddress>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnAddress category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     addresses.addAll(category.getPage_data().getItems());
                                     addressListAdapter.notifyDataSetChanged();
@@ -97,6 +99,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         });
     }
     public void delete(int id){
+        mRootView.showLoading();
         mModel.DeleteAdd(config.getInt("id",0),config.getString("salt","0"),id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -106,6 +109,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         new ErrorHandleSubscriber<ReturnDeleteAdd>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnDeleteAdd category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     UiUtils.makeText(category.getMessage());
                                     Request(true);
@@ -116,6 +120,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         });
     }
     public void SetDefault(ReturnAddress.ItemsEntity address){
+        mRootView.showLoading();
         mModel.SetDefault(config.getInt("id",0),config.getString("salt","0"),address.getId())
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -125,6 +130,7 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
                         new ErrorHandleSubscriber<ReturnDeleteAdd>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnDeleteAdd category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     UiUtils.makeText(category.getMessage());
                                     Request(true);

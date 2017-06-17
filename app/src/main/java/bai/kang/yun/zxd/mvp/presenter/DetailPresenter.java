@@ -62,6 +62,7 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
         mRootView.setAdapter(detailImgAdapter);
     }
     public void getDetail(int id){
+        mRootView.showLoading();
         mModel.getGoodsDetail(id)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
@@ -71,6 +72,7 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
                         new ErrorHandleSubscriber<ReturnDetail>(mErrorHandler) {
                             @Override
                             public void onNext(ReturnDetail category) {
+                                mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     mRootView.setDetail(category);
                                     if(category.getSingle().getImgList().size()==0){
