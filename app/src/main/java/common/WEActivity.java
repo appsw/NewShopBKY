@@ -24,6 +24,7 @@ public abstract class WEActivity<P extends Presenter> extends BaseActivity<P> {
         ActivityManger.addAvtivity(this);
         if(loadingDialog==null)
             loadingDialog=new LoadingDialog(this,"玩命加载中...");
+
         super.onCreate(savedInstanceState);
 
 

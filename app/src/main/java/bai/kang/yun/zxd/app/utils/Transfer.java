@@ -7,6 +7,7 @@ package bai.kang.yun.zxd.app.utils;
 public class Transfer {
     static public  int GOODS_CATEGORY=0;
     static public  int SHOP_CATEGORY=1;
+    static public  int GOODS_SEARCH=2;
     static public  int chosegoods=0;
     static public  int chosegoods_for_open_shoplist_type=0;
     static public  String YZM;

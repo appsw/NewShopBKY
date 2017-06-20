@@ -3,11 +3,13 @@ package common;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-import android.support.multidex.*;
+import android.support.multidex.MultiDex;
+
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.di.module.GlobeConfigModule;
 import com.jess.arms.http.GlobeHttpHandler;
 import com.jess.arms.utils.UiUtils;
+import com.mob.MobSDK;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -60,6 +62,8 @@ public class WEApplication extends BaseApplication {
         }
 
         installLeakCanary();//leakCanary内存泄露检查
+//        ShareSDK
+        MobSDK.init(getApplicationContext());
     }
 
 

@@ -8,17 +8,19 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jess.arms.utils.UiUtils;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerSearchComponent;
 import bai.kang.yun.zxd.di.module.SearchModule;
 import bai.kang.yun.zxd.mvp.contract.SearchContract;
@@ -48,14 +50,17 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
 
     @BindView(R.id.search_edtv)
     EditText et_search;
-    @BindView(R.id.search_icon)
-    ImageView search_icon;
+    @BindView(R.id.sp_kind)
+    Spinner sp_kind;
     @BindView(R.id.search_key_listv)
     ListView search_key_listv;
     @BindView(R.id.back_imgv)
     ImageView back_imgv;
     @BindView(R.id.search_delete_btn)
     Button search_delete;
+    private String[] kindString={"药品","保健品","医疗器械","消杀","化妆品"};
+    private ArrayAdapter arrayAdapter;
+    private int kind;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -74,6 +79,7 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
 
     @Override
     protected void initData() {
+        arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,kindString);
         // 第一次进入时查询所有的历史记录
         mPresenter.queryData("");
         //搜索框的文本变化实时监听
@@ -112,14 +118,7 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
 //                            getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                     // 按完搜索键后将当前查询的关键字保存起来,如果该关键字已经存在就不执行保存
-                    boolean hasData = mPresenter.hasData(et_search.getText().toString().trim());
-                    if (!hasData) {
-                        mPresenter.insertData(et_search.getText().toString().trim());
-
-                        mPresenter.queryData("");
-                    }
-                    //根据输入的内容模糊查询商品，并跳转到另一个界面，这个需要根据需求实现
-                    Toast.makeText(mApplication, "点击搜索", Toast.LENGTH_SHORT).show();
+                    search();
 
                 }
                 return false;
@@ -135,11 +134,22 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
                 TextView textView = (TextView) view.findViewById(R.id.find_textview);
                 String name = textView.getText().toString();
                 et_search.setText(name);
-                Toast.makeText(mApplication, name, Toast.LENGTH_SHORT).show();
+                search();
 
             }
         });
+        sp_kind.setAdapter(arrayAdapter);
+        sp_kind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                kind=position;
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -182,8 +192,8 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
         mPresenter.deleteData();
         mPresenter.queryData("");
     }
-    @OnClick(R.id.search_icon)
-    void search(){
+
+    public void search(){
         boolean hasData = mPresenter.hasData(et_search.getText().toString().trim());
         if (!hasData) {
             mPresenter.insertData(et_search.getText().toString().trim());
@@ -192,6 +202,11 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
             mPresenter.queryData("");
         }
         //根据输入的内容模糊查询商品，并跳转到另一个界面，这个根据需求实现
-        Toast.makeText(mApplication, "clicked!", Toast.LENGTH_SHORT).show();
+        Transfer.chosegoods_for_open_shoplist_type=Transfer.GOODS_SEARCH;
+        Intent intent=new Intent(SearchActivity.this,GoodsListActivity.class);
+        String key=et_search.getText().toString().trim();
+        intent.putExtra("key",key);
+        intent.putExtra("kind",kind);
+        startActivityForResult(intent,1);
     }
 }

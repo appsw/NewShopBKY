@@ -85,4 +85,22 @@ public class GoodsListModel extends BaseModel<ServiceManager, CacheManager> impl
                     }
                 });
     }
+
+    @Override
+    public Observable<CategoryGoods> getGoods(int kind, String key, int page, boolean updata) {
+        Observable<CategoryGoods> Goods = mServiceManager.
+                getGetSearchService().getGoods(kind,key,page);
+
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getSerchGoods(Goods
+                        ,new DynamicKeyGroup(key,page)
+                        ,new EvictDynamicKey(updata))
+                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
+                    @Override
+                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
 }

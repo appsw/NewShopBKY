@@ -36,6 +36,6 @@ public interface GoodsListContract {
     interface Model extends IModel {
         Observable<CategoryGoods> getGoodslist(int id, int page, boolean updata);
         Observable<ShopCategoryGoods> getShopGoodslist(int id,int kind, int page, boolean updata);
-
+        Observable<CategoryGoods> getGoods(int kind, String key, int page, boolean updata);
     }
 }

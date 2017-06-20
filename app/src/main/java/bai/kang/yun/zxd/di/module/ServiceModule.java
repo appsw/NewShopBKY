@@ -20,6 +20,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetPhoneYzm;
 import bai.kang.yun.zxd.mvp.model.api.service.GetRegionService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetSearchService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopDetailService;
@@ -224,6 +225,11 @@ public class ServiceModule {
     @Provides
     GetDefaultAddService provideGetDefaultAddService(Retrofit retrofit) {
         return retrofit.create(GetDefaultAddService.class);
+    }
+    @Singleton
+    @Provides
+    GetSearchService provideGetSearchService(Retrofit retrofit) {
+        return retrofit.create(GetSearchService.class);
     }
 
 

@@ -75,4 +75,7 @@ public interface CommonCache {
     //    店铺分类商品
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<ShopCategoryGoods>> getShopCategoryGoods(Observable<ShopCategoryGoods> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
+    //    搜索
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<CategoryGoods>> getSerchGoods(Observable<CategoryGoods> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
 }

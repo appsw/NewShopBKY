@@ -116,6 +116,21 @@
                     android:textSize="16dp" />
             </FrameLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="260px"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/im_wechat"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:src="@drawable/ssdk_oks_classic_wechat"/>
+            <ImageView
+                android:id="@+id/im_qq"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:src="@drawable/ssdk_oks_classic_qq"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/login_register"
             android:layout_width="wrap_content"
@@ -127,6 +142,7 @@
             android:text="没有帐号？免费注册"
             android:textColor="#666666"
             android:textSize="18dp" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -16,14 +16,11 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.FindContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
-import bai.kang.yun.zxd.mvp.model.entity.SPCategory;
 import bai.kang.yun.zxd.mvp.ui.adapter.FristListAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
-import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -157,40 +154,6 @@ public class FindPresenter extends BasePresenter<FindContract.Model, FindContrac
         this.mImageLoader = null;
         this.mApplication = null;
     }
-    private Observable<List<SPCategory>> getGoodsList(){
-        return Observable.create(new Observable.OnSubscribe<List<SPCategory>>() {
-            @Override
-            public void call(Subscriber<? super List<SPCategory>> subscriber) {
-                //Emit Data
-                List<SPCategory> goodses=new ArrayList();
-                for (int i=0;i<=10;i++){
-                    SPCategory goods=new SPCategory();
-                    goods.setName(""+i);
-                    goods.setImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492057604491&di=71f6ebba0c795ae4ce664eeea3021cce&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20130705%2F20130705113951-882480559.jpg");
-                    goods.setSubCategory(goodses);
-                    goodses.add(goods);
-                }
-                subscriber.onNext(goodses);
-                subscriber.onCompleted();
-            }
-        });
-    }
-    private Observable<List<SPCategory>> getLeft(){
-        return Observable.create(new Observable.OnSubscribe<List<SPCategory>>() {
-            @Override
-            public void call(Subscriber<? super List<SPCategory>> subscriber) {
-                //Emit Data
-                List<SPCategory> Categorys=new ArrayList();
-                for (int i=0;i<names.length;i++){
-                    SPCategory Category=new SPCategory();
-                    Category.setName(names[i]);
-                    Category.setId(i);
-                    Categorys.add(Category);
-                }
-                subscriber.onNext(Categorys);
-                subscriber.onCompleted();
-            }
-        });
-    }
+
 
 }

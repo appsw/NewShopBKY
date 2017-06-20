@@ -55,6 +55,8 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     private Paginate mPaginate;
     private boolean isLoadingMore;
     private RxPermissions mRxPermissions;
+    private int  kind;
+    private String key;
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         this.mRxPermissions = new RxPermissions(this);
@@ -74,10 +76,15 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     @Override
     protected void initData() {
         Log.e("id","id:"+ Transfer.chosegoods);
+        Intent intent=getIntent();
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true);
-        }else {
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
             mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+            kind=intent.getIntExtra("kind",0);
+            key=intent.getStringExtra("key");
+            mPresenter.getSerchGoods(kind,key,true);
         }
 
     }
@@ -119,8 +126,10 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     public void onRefresh() {
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true);
-        }else {
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
             mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+            mPresenter.getSerchGoods(kind,key,true);
         }
     }
 
@@ -164,7 +173,9 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
                     if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
                         mPresenter.requestUsers(Transfer.chosegoods,false);
                     }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-                        mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+                        mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,false);
+                    }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+                        mPresenter.getSerchGoods(kind,key,false);
                     }
                 }
 

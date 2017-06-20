@@ -25,6 +25,7 @@ import bai.kang.yun.zxd.mvp.ui.fragment.FindFragment;
 import bai.kang.yun.zxd.mvp.ui.fragment.FristFragment;
 import bai.kang.yun.zxd.mvp.ui.fragment.MeFragment;
 import butterknife.BindView;
+import cn.sharesdk.framework.ShareSDK;
 import common.AppComponent;
 import common.WEActivity;
 import common.WEFragment;
@@ -98,6 +99,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
     @Override
     protected void initData() {
+
         rl_frist.setOnClickListener(this);
         rl_find.setOnClickListener(this);
         rl_car.setOnClickListener(this);

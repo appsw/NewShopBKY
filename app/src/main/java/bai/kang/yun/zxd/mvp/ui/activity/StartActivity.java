@@ -9,6 +9,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
+import com.mob.MobSDK;
+
 import bai.kang.yun.zxd.R;
 
 
@@ -16,6 +18,7 @@ public class StartActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final View startView = View.inflate(this, R.layout.activity_start, null);
         setContentView(startView);
         //渐变
