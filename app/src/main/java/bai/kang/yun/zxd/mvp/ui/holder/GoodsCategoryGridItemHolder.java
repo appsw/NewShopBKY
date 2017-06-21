@@ -47,6 +47,7 @@ public class GoodsCategoryGridItemHolder extends BaseHolder<SPCategory> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(data.getImage())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
     }

@@ -86,7 +86,7 @@ public class MyOrderListAdapter extends BaseAdapter{
                     viewHolder.btn_cancel.setVisibility(View.VISIBLE);
                 }else{
                     viewHolder.btn_zf.setVisibility(View.GONE);
-                    viewHolder.btn_cancel.setVisibility(View.GONE);
+                    viewHolder.btn_cancel.setVisibility(View.VISIBLE);
                     viewHolder.btn_sc.setVisibility(View.VISIBLE);
                 }
             }else {

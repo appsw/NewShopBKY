@@ -12,6 +12,7 @@ import com.jess.arms.widget.imageloader.ImageLoader;
 import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import butterknife.BindView;
@@ -32,6 +33,7 @@ public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
     TextView name;
     @BindView(R.id.tv_p)
     TextView Price;
+    private int id;
     static final String HOST="http://www.baikangyun.com";
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
@@ -44,7 +46,7 @@ public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
 
     @Override
     public void setData(ReturnGoods.DataEntity data, int position) {
-
+        id=data.getId();
         Observable.just(data.getProductname())
                 .subscribe(RxTextView.text(name));
         Observable.just(data.getSaleprice()+"")
@@ -53,11 +55,13 @@ public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImageurl())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
     }
     @OnClick(R.id.iv_goods)
     void onclick(){
+        Transfer.chosegoods_for_open_goodsdetail_id=id;
         Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
         UiUtils.startActivity(intent);
     }

@@ -203,4 +203,8 @@ public class AddressListActivity extends WEActivity<AddressListPresenter> implem
                 break;
         }
     }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

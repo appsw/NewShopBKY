@@ -163,6 +163,8 @@
     <!-- 亮蓝色 -->
     <color name="darkgray">#a9a9a9</color>
     <!-- 暗灰色 -->
+    <color name="gray1">#E5E5E5</color>
+    <!-- 浅灰色 -->
     <color name="darkgrey">#a9a9a9</color>
     <!-- 暗灰色 -->
     <color name="brown">#a52a2a</color>

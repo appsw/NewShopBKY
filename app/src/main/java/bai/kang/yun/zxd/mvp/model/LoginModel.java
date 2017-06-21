@@ -68,6 +68,13 @@ public class LoginModel extends BaseModel<ServiceManager, CacheManager> implemen
     }
 
     @Override
+    public Observable<ReturnUser> OauthLogin(String oauth_type, String openID, String nickName, String headImg) {
+        Observable<ReturnUser> yzm = mServiceManager.
+                getOauthLogService().login(oauth_type,openID,nickName,headImg);
+        return yzm;
+    }
+
+    @Override
     public Observable<ReturnDefaultAdd> GetAdd(int uid, String salt) {
         Observable<ReturnDefaultAdd> add = mServiceManager.
                 getGetDefaultAddService().getDefaultAdd(uid,salt);

@@ -47,6 +47,7 @@ public class ServiceManager implements BaseServiceManager {
     private CancelOrderService mCancelOrderService;
     private GetDefaultAddService mGetDefaultAddService;
     private GetSearchService mGetSearchService;
+    private OauthLogService mOauthLogService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -69,7 +70,8 @@ public class ServiceManager implements BaseServiceManager {
                                   MakeOrderService makeOrderService,GetAlipayUrlService getAlipayUrlService,
                                   SetImgChuFangService setImgChuFangService,SetTextChuFangService setTextChuFangService,
                                   DelectOrderService delectOrderService,CancelOrderService cancelOrderService,
-                                  GetDefaultAddService getDefaultAddService,GetSearchService getSearchService){
+                                  GetDefaultAddService getDefaultAddService,GetSearchService getSearchService,
+                                  OauthLogService oauthLogService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -106,6 +108,7 @@ public class ServiceManager implements BaseServiceManager {
         this.mCancelOrderService=cancelOrderService;
         this.mGetDefaultAddService=getDefaultAddService;
         this.mGetSearchService=getSearchService;
+        this.mOauthLogService=oauthLogService;
     }
 
     public CommonService getCommonService() {
@@ -151,6 +154,7 @@ public class ServiceManager implements BaseServiceManager {
     public CancelOrderService getCancelOrderService(){return mCancelOrderService;}
     public GetDefaultAddService getGetDefaultAddService(){return mGetDefaultAddService;}
     public GetSearchService getGetSearchService(){return mGetSearchService;}
+    public OauthLogService getOauthLogService(){return mOauthLogService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

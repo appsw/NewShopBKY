@@ -17,13 +17,14 @@
             android:id="@+id/back_imgv"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:paddingLeft="15.0dip"
             android:paddingRight="15.0dip"
             android:clickable="true"
-            android:src="@mipmap/android_list_idex_left" />
+            android:src="@mipmap/android_list_idex_left"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
         <RelativeLayout

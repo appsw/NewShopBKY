@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -134,5 +135,9 @@ public class MapActivity extends Activity {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
+    }
+    @OnClick(R.id.register_back)
+    public void black(){
+        finish();
     }
 }

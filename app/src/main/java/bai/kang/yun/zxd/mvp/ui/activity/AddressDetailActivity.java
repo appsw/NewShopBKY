@@ -250,4 +250,8 @@ public class AddressDetailActivity extends WEActivity<AddressDetailPresenter> im
             }
         });
     }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

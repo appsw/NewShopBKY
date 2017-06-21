@@ -268,4 +268,8 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         rollPagerView.removeAllViews();
         super.onDestroy();
     }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

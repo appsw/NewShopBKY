@@ -410,5 +410,8 @@ public class PersonalSettingActivity extends WEActivity<PersonalSettingPresenter
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

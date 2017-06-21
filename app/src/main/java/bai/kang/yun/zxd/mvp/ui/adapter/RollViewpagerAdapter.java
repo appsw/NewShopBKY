@@ -1,6 +1,5 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +11,7 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 
 import java.util.List;
 
+import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import common.WEApplication;
 
@@ -38,6 +38,7 @@ public class RollViewpagerAdapter extends StaticPagerAdapter {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(imageUrl)
+                .errorPic(R.mipmap.imgerror)
                 .imageView(imageView)
                 .build());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

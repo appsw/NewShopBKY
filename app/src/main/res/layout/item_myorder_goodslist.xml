@@ -10,8 +10,7 @@
             android:id="@+id/item_im"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@mipmap/ic_launcher"/>
+            android:layout_height="match_parent"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="2"

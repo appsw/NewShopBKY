@@ -23,6 +23,7 @@ import bai.kang.yun.zxd.di.module.GoodsListModule;
 import bai.kang.yun.zxd.mvp.contract.GoodsListContract;
 import bai.kang.yun.zxd.mvp.presenter.GoodsListPresenter;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEActivity;
 import rx.Observable;
@@ -202,5 +203,9 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         super.onDestroy();
         this.mRxPermissions = null;
         this.mPaginate = null;
+    }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
     }
 }

@@ -146,6 +146,7 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
             mImageLoader.loadImage(mApplication, GlideImageConfig
                     .builder()
                     .url("http://www.baikangyun.com"+shop.getImgUrl())
+                    .errorPic(R.mipmap.imgerror)
                     .imageView(image)
                     .build());
             Log.e("url","http://www.baikangyun.com"+shop.getImgUrl());
@@ -175,5 +176,9 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     protected void onDestroy() {
         DefaultAdapter.releaseAllHolder(list);//super.onDestroy()之后会unbind,所有view被置为null,所以必须在之前调用
         super.onDestroy();
+    }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
     }
 }

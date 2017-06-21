@@ -179,4 +179,8 @@ public class RegisterActivity extends WEActivity<RegisterPresenter> implements R
     void register(){
         mPresenter.register();
     }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

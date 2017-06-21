@@ -209,4 +209,8 @@ public class SearchActivity extends WEActivity<SearchPresenter> implements Searc
         intent.putExtra("kind",kind);
         startActivityForResult(intent,1);
     }
+    @OnClick(R.id.back_imgv)
+    public void black(){
+        killMyself();
+    }
 }

@@ -230,4 +230,8 @@ public class UpChuFangActivity extends WEActivity<UpChuFangPresenter> implements
             mPresenter.SetText(id,jsonObject.toString());
         }
     }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 }

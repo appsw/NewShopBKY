@@ -70,6 +70,7 @@ public class MyOrderGoodsListAdapter extends BaseAdapter{
         imageLoader.loadImage(context, GlideImageConfig
                 .builder()
                 .url(HOST+goods.getImageUrl())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(viewHolder.image)
                 .build());
         return convertView;

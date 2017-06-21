@@ -97,6 +97,37 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
         }
     }
+    public void OauthLogin(String oauth_type, String openID, String nickName, String headImg){
+            mRootView.showLoading();
+            mModel.OauthLogin(oauth_type,openID,nickName,headImg)
+                    .subscribeOn(Schedulers.io())
+                    .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxUtils.<ReturnUser>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                    .subscribe(
+                            new ErrorHandleSubscriber<ReturnUser>(mErrorHandler) {
+                                @Override
+                                public void onNext(ReturnUser category) {
+                                    if(category.getStatus()==1){
+                                        config.edit().putString("name",category.getSingle().getUser_name())
+                                                .putString("salt",category.getSingle().getSalt())
+                                                .putString("nick_name",category.getSingle().getNick_name())
+                                                .putString("mobile",category.getSingle().getMobile())
+                                                .putBoolean("isLog",true)
+                                                .putInt("id",category.getSingle().getId()).commit();
+                                        if(category.getSingle().getAvatar()!=null){
+                                            config.edit().putBoolean("isHead",true)
+                                                    .putString("headUrl",category.getSingle().getAvatar())
+                                                    .commit();
+                                        }
+                                        getDefaultAdd();
+
+                                    }else {
+                                        UiUtils.makeText(category.getMessage());
+                                    }
+                                }
+                            });
+    }
     public void getDefaultAdd(){
         mModel.GetAdd(config.getInt("id",0),config.getString("salt","0"))
                 .subscribeOn(Schedulers.io())

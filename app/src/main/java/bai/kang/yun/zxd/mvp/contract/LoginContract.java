@@ -31,6 +31,8 @@ public interface LoginContract {
     interface Model extends IModel {
         String getToken(String url);
         Observable<ReturnUser> Login(String username, String pswd);
+        Observable<ReturnUser> OauthLogin(String oauth_type, String openID,
+                                          String nickName,String headImg);
         Observable<ReturnDefaultAdd> GetAdd(int uid, String salt);
     }
 }

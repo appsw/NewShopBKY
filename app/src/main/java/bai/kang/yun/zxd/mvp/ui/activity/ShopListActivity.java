@@ -27,6 +27,7 @@ import bai.kang.yun.zxd.di.module.ShopListModule;
 import bai.kang.yun.zxd.mvp.contract.ShopListContract;
 import bai.kang.yun.zxd.mvp.presenter.ShopListPresenter;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEActivity;
 import rx.Observable;
@@ -97,6 +98,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(Transfer.chosegoods_for_open_shoplist_imurl)
+                .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
         mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,true);
@@ -202,5 +204,9 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
         super.onDestroy();
         this.mRxPermissions = null;
         this.mPaginate = null;
+    }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
     }
 }

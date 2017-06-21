@@ -11,6 +11,7 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 
 import java.util.List;
 
+import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import common.WEApplication;
 
@@ -37,6 +38,7 @@ public class DetailImgAdapter extends StaticPagerAdapter {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(imageUrl)
+                .errorPic(R.mipmap.imgerror)
                 .imageView(imageView)
                 .build());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

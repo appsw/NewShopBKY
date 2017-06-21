@@ -172,6 +172,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         imageLoader.loadImage(mContext, GlideImageConfig
                 .builder()
                 .url(goods.getGoodsLogo())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(holder.iv_goodslogo)
                 .build());
 

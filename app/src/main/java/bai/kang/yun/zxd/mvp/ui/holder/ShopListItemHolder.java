@@ -71,6 +71,7 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImageUrl())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
     }

@@ -20,6 +20,7 @@ import bai.kang.yun.zxd.mvp.ui.Listener.MyOrderListener;
 import bai.kang.yun.zxd.mvp.ui.adapter.MyOrderListAdapter;
 import bai.kang.yun.zxd.mvp.ui.dialog.LoadingDialog;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEActivity;
 import rx.Observable;
@@ -206,5 +207,9 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
     @Override
     public void Refresh() {
         onResume();
+    }
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
     }
 }

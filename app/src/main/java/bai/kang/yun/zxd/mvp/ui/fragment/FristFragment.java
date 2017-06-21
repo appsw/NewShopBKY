@@ -195,16 +195,19 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url("http://www.baikangyun.com"+urls.get(0).getImg())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(ggw_im1)
                 .build());
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url("http://www.baikangyun.com"+urls.get(1).getImg())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(ggw_im2)
                 .build());
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url("http://www.baikangyun.com"+urls.get(2).getImg())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(ggw_im3)
                 .build());
 

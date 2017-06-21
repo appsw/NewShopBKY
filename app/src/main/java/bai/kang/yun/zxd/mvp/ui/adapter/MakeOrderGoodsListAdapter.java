@@ -69,6 +69,7 @@ public class MakeOrderGoodsListAdapter extends BaseAdapter {
         imageLoader.loadImage(context, GlideImageConfig
                 .builder()
                 .url(carGood.getGoodsLogo())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(viewHoder.im)
                 .build());
         return convertView;

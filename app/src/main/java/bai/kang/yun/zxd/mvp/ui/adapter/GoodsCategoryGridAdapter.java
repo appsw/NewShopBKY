@@ -65,10 +65,10 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
         }
         ReturnCategory.DataEntity spCategory=spCategories.get(position);
-//        Log.e("url",""+spCategory.getImage());
+
 //        mImageLoader.loadImage(mApplication, GlideImageConfig
 //                .builder()
-//                .url(spCategory.getImage())
+//                .placeholder(R.mipmap.yaowan)
 //                .imageView(viewHolder.imageView)
 //                .build());
         viewHolder.imageView.setImageResource(R.mipmap.yaowan);

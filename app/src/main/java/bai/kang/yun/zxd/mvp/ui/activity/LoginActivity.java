@@ -195,10 +195,15 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         if (i == Platform.ACTION_USER_INFOR) {
-            Message msg = new Message();
-            msg.what = MSG_AUTH_COMPLETE;
-            msg.obj = new Object[] {platform.getName(), hashMap};
-            handler.sendMessage(msg);
+            //判断指定平台是否已经完成授权
+            if(platform.isAuthValid()) {
+                String userId = platform.getDb().getUserId();
+                Message msg = new Message();
+                msg.what = MSG_AUTH_COMPLETE;
+                msg.obj = new Object[] {platform.getName(), hashMap,userId};
+                handler.sendMessage(msg);
+            }
+
         }
     }
 
@@ -230,15 +235,19 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
                 } break;
                 case MSG_AUTH_COMPLETE: {
                     //授权成功
-                    UiUtils.makeText("授权成功");
                     Object[] objs = (Object[]) msg.obj;
                     String platform = (String) objs[0];
                     HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
-
+                    String userId=(String) objs[2];
+                    mPresenter.OauthLogin(platform.toLowerCase(),userId,res.get("nickname").toString(),res.get("figureurl_qq_1").toString());
                 } break;
 
             }
         }
     };
+    @OnClick(R.id.register_back)
+    public void black(){
+        killMyself();
+    }
 
 }

@@ -72,6 +72,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImg_title())
+                .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
     }
