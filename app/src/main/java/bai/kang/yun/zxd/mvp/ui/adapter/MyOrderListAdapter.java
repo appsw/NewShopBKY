@@ -66,6 +66,8 @@ public class MyOrderListAdapter extends BaseAdapter{
             viewHolder.btn_zf= (Button) convertView.findViewById(R.id.btn_zf);
             viewHolder.btn_sc= (Button) convertView.findViewById(R.id.btn_sc);
             viewHolder.btn_cancel= (Button) convertView.findViewById(R.id.btn_cancel);
+            viewHolder.btn_sqtk= (Button) convertView.findViewById(R.id.btn_sqtk);
+            viewHolder.btn_qrsh= (Button) convertView.findViewById(R.id.btn_qrsh);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
@@ -78,22 +80,36 @@ public class MyOrderListAdapter extends BaseAdapter{
         myOrderGoodsListAdapter=new MyOrderGoodsListAdapter( UiUtils.getContext(),goodses);
         viewHolder.goodslist.setAdapter(myOrderGoodsListAdapter);
 
-        if(order.getStatus()==1)
+        if(order.getStatus()==1){
             if(order.isHasChufang()){
                 if(order.isChuFang()){
+                    viewHolder.btn_qrsh.setVisibility(View.GONE);
+                    viewHolder.btn_sqtk.setVisibility(View.GONE);
                     viewHolder.btn_sc.setVisibility(View.GONE);
                     viewHolder.btn_zf.setVisibility(View.VISIBLE);
                     viewHolder.btn_cancel.setVisibility(View.VISIBLE);
                 }else{
+                    viewHolder.btn_qrsh.setVisibility(View.GONE);
+                    viewHolder.btn_sqtk.setVisibility(View.GONE);
                     viewHolder.btn_zf.setVisibility(View.GONE);
                     viewHolder.btn_cancel.setVisibility(View.VISIBLE);
                     viewHolder.btn_sc.setVisibility(View.VISIBLE);
                 }
             }else {
+                viewHolder.btn_qrsh.setVisibility(View.GONE);
+                viewHolder.btn_sqtk.setVisibility(View.GONE);
                 viewHolder.btn_sc.setVisibility(View.GONE);
                 viewHolder.btn_zf.setVisibility(View.VISIBLE);
                 viewHolder.btn_cancel.setVisibility(View.VISIBLE);
             }
+        }else if(order.getStatus()==3){
+            viewHolder.btn_qrsh.setVisibility(View.VISIBLE);
+            viewHolder.btn_sqtk.setVisibility(View.VISIBLE);
+            viewHolder.btn_sc.setVisibility(View.GONE);
+            viewHolder.btn_zf.setVisibility(View.GONE);
+            viewHolder.btn_cancel.setVisibility(View.GONE);
+        }
+
 
         viewHolder.btn_zf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +142,22 @@ public class MyOrderListAdapter extends BaseAdapter{
                 }
             }
         });
+        viewHolder.btn_sqtk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myOrderListener!=null){
+                    myOrderListener.sqtk(order.getOrderId());
+                }
+            }
+        });
+        viewHolder.btn_qrsh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myOrderListener!=null){
+                    myOrderListener.qrsh(order.getOrderId());
+                }
+            }
+        });
         return convertView;
     }
     private class ViewHolder{
@@ -136,5 +168,7 @@ public class MyOrderListAdapter extends BaseAdapter{
         Button btn_zf;
         Button btn_sc;
         Button btn_cancel;
+        Button btn_sqtk;
+        Button btn_qrsh;
     }
 }

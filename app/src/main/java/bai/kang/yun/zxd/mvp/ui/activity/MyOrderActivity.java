@@ -174,6 +174,16 @@ public class MyOrderActivity extends WEActivity<MyOrderPresenter> implements MyO
             public void cancel(int id) {
                 mPresenter.CancelOrder(id);
             }
+
+            @Override
+            public void sqtk(int id) {
+                mPresenter.Refund(id);
+            }
+
+            @Override
+            public void qrsh(int id) {
+                mPresenter.Confirm(id);
+            }
         });
     }
 

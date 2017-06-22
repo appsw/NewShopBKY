@@ -8,6 +8,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.BannerService;
 import bai.kang.yun.zxd.mvp.model.api.service.CancelOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
+import bai.kang.yun.zxd.mvp.model.api.service.ConfirmReceipt;
 import bai.kang.yun.zxd.mvp.model.api.service.DelectOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAddressService;
@@ -32,6 +33,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
 import bai.kang.yun.zxd.mvp.model.api.service.LoginService;
 import bai.kang.yun.zxd.mvp.model.api.service.MakeOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.OauthLogService;
+import bai.kang.yun.zxd.mvp.model.api.service.RefundService;
 import bai.kang.yun.zxd.mvp.model.api.service.RegisterService;
 import bai.kang.yun.zxd.mvp.model.api.service.ResetPswdService;
 import bai.kang.yun.zxd.mvp.model.api.service.SetAddressService;
@@ -237,6 +239,17 @@ public class ServiceModule {
     OauthLogService provideOauthLogService(Retrofit retrofit) {
         return retrofit.create(OauthLogService.class);
     }
+    @Singleton
+    @Provides
+    ConfirmReceipt provideConfirmReceipt(Retrofit retrofit) {
+        return retrofit.create(ConfirmReceipt.class);
+    }
+    @Singleton
+    @Provides
+    RefundService provideRefundService(Retrofit retrofit) {
+        return retrofit.create(RefundService.class);
+    }
+
 
 
 }

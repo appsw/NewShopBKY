@@ -74,5 +74,17 @@ public class MyOrderModel extends BaseModel<ServiceManager, CacheManager> implem
         return result;
     }
 
+    @Override
+    public Observable<ReturnSetAdd> Confirm(int uid, String salt, int orderid) {
+        Observable<ReturnSetAdd> result=mServiceManager.getConfirmReceipt().Cancel(uid,salt,orderid);
+        return result;
+    }
+
+    @Override
+    public Observable<ReturnSetAdd> Refund(int uid, String salt, int orderid) {
+        Observable<ReturnSetAdd> result=mServiceManager.getRefundService().Cancel(uid,salt,orderid);
+        return result;
+    }
+
 
 }

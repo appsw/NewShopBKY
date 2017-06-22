@@ -76,5 +76,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消订单"/>
+        <Button
+            android:padding="2dp"
+            android:visibility="gone"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_sqtk"
+            android:layout_gravity="right"
+            android:background="@color/beige"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请退款"/>
+        <Button
+            android:padding="2dp"
+            android:visibility="gone"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_qrsh"
+            android:layout_gravity="right"
+            android:background="@color/crimson"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确认收货"/>
     </LinearLayout>
 </LinearLayout>

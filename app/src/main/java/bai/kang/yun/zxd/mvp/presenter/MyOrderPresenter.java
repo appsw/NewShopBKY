@@ -168,7 +168,42 @@ public class MyOrderPresenter extends BasePresenter<MyOrderContract.Model, MyOrd
                     }
                 });
     }
-
+    public void Confirm(int orderId){
+        mRootView.ShowLoading(true);
+        mModel.Confirm(config.getInt("id",0),config.getString("salt","0"),orderId)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnSetAdd shops) {
+                        mRootView.ShowLoading(false);
+                        if(shops.getStatus()==1){
+                            mRootView.Refresh();
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+    }
+    public void Refund(int orderId){
+        mRootView.ShowLoading(true);
+        mModel.Refund(config.getInt("id",0),config.getString("salt","0"),orderId)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnSetAdd>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<ReturnSetAdd>(mErrorHandler) {
+                    @Override
+                    public void onNext(ReturnSetAdd shops) {
+                        mRootView.ShowLoading(false);
+                        if(shops.getStatus()==1){
+                            mRootView.Refresh();
+                        }else
+                            UiUtils.makeText(shops.getMessage());
+                    }
+                });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

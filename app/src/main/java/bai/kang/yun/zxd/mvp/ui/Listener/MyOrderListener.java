@@ -9,4 +9,6 @@ public interface MyOrderListener {
     void delect(int id);
     void updata(int id,String name);
     void cancel(int id);
+    void sqtk(int id);
+    void qrsh(int id);
 }

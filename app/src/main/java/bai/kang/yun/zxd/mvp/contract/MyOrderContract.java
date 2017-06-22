@@ -40,6 +40,7 @@ public interface MyOrderContract {
         Observable<ReturnPayUrl> getPayUrl(int uid, String salt, String type, int orderid);
         Observable<ReturnSetAdd> DelectOrder(int uid, String salt,int orderid);
         Observable<ReturnSetAdd> CancelOrder(int uid, String salt,int orderid);
-
+        Observable<ReturnSetAdd> Confirm(int uid, String salt,int orderid);
+        Observable<ReturnSetAdd> Refund(int uid, String salt,int orderid);
     }
 }
