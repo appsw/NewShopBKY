@@ -3,6 +3,7 @@ package bai.kang.yun.zxd.mvp.ui.activity;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
-import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,6 +46,12 @@ public class MapActivity extends Activity {
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
+        findViewById(R.id.register_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
@@ -135,9 +141,5 @@ public class MapActivity extends Activity {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
-    }
-    @OnClick(R.id.register_back)
-    public void black(){
-        finish();
     }
 }

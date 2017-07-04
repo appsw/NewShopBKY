@@ -50,6 +50,8 @@ public class ServiceManager implements BaseServiceManager {
     private OauthLogService mOauthLogService;
     private ConfirmReceipt mConfirmReceipt;
     private RefundService mRefundService;
+    private GetAppVersionService mGetAppVersionService;
+    private GetAppService mGetAppService;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -74,7 +76,8 @@ public class ServiceManager implements BaseServiceManager {
                                   DelectOrderService delectOrderService,CancelOrderService cancelOrderService,
                                   GetDefaultAddService getDefaultAddService,GetSearchService getSearchService,
                                   OauthLogService oauthLogService,ConfirmReceipt confirmReceipt,
-                                  RefundService refundService){
+                                  RefundService refundService,GetAppVersionService getAppVersionService,
+                                  GetAppService getAppService){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -114,6 +117,8 @@ public class ServiceManager implements BaseServiceManager {
         this.mOauthLogService=oauthLogService;
         this.mConfirmReceipt=confirmReceipt;
         this.mRefundService=refundService;
+        this.mGetAppVersionService=getAppVersionService;
+        this.mGetAppService=getAppService;
     }
 
     public CommonService getCommonService() {
@@ -162,6 +167,8 @@ public class ServiceManager implements BaseServiceManager {
     public OauthLogService getOauthLogService(){return mOauthLogService;}
     public ConfirmReceipt getConfirmReceipt(){return mConfirmReceipt;}
     public RefundService getRefundService(){return mRefundService;}
+    public GetAppVersionService getGetAppVersionService(){return mGetAppVersionService;}
+    public GetAppService getGetAppService(){return mGetAppService;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

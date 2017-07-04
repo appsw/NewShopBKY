@@ -168,7 +168,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     public void qq(){
         QQAuth mqqAuth = QQAuth.createInstance("1106092569", mApplication); // 10000000为你申请的APP_ID,mContext是上下文
         WPA mWPA = new WPA(mApplication, mqqAuth.getQQToken());
-        String ESQ = "943009802";  //512821255为客服QQ号
+        String ESQ = "2853119501";  //2853119501为客服QQ号
         int ret = mWPA.startWPAConversation(this,ESQ, "你好，我正在看这个商品~"+ESQ); //客服QQ
         if (ret != 0) { //如果ret不为0，就说明调用SDK出现了错误
             Toast.makeText(mApplication,
@@ -181,7 +181,7 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
         intent.setAction(Intent.ACTION_CALL);
         //url:统一资源定位符
         //uri:统一资源标示符（更广）
-        intent.setData(Uri.parse("tel:" + "18764018870"));
+        intent.setData(Uri.parse("tel:" + "13153181461"));
         //开启系统拨号器
         startActivity(intent);
     }

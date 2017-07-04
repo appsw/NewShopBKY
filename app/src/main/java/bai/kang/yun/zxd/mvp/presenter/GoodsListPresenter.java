@@ -23,7 +23,9 @@ import bai.kang.yun.zxd.mvp.ui.adapter.GoodsListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -52,6 +54,7 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
     private boolean isFirst = true;
     private int preEndIndex;
     private int page = 1;
+    private int Itemssize;
 
     @Inject
     public GoodsListPresenter(GoodsListContract.Model model, GoodsListContract.View rootView
@@ -85,6 +88,26 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
 
         mModel.getGoodslist(id,page,isEvictCache)
         .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<CategoryGoods, Observable<CategoryGoods.ItemEntity>>() {
+                    @Override
+                    public Observable<CategoryGoods.ItemEntity> call(CategoryGoods categoryGoods) {
+                        if(categoryGoods.getStatus()==1){
+                            if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                            if(categoryGoods.getPage_data().getTotalPages()<=page) {
+                                mRootView.endLoadMore();
+                            }
+                            Itemssize=categoryGoods.getPage_data().getItems().size();
+                            page++;
+                            return Observable.from(categoryGoods.getPage_data().getItems());
+                        }
+                        else {
+                            UiUtils.makeText(categoryGoods.getMessage());
+                            return null;
+                        }
+
+                    }
+                })
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {
                     if (pullToRefresh)
@@ -99,28 +122,20 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                     else
                         mRootView.endLoadMore();//隐藏下拉加载更多的进度条
                 })
-                .compose(RxUtils.<CategoryGoods>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .compose(RxUtils.<CategoryGoods.ItemEntity>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
                 .subscribe(
-                        new ErrorHandleSubscriber<CategoryGoods>(mErrorHandler) {
+                        new ErrorHandleSubscriber<CategoryGoods.ItemEntity>(mErrorHandler) {
                     @Override
-                    public void onNext(CategoryGoods users) {
-                        if(users.getStatus()==1){
-                            if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                    public void onNext(CategoryGoods.ItemEntity users) {
+                        if(users!=null){
                             preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                            GoodsList.addAll(users.getPage_data().getItems());
-
-                            if(users.getPage_data().getTotalPages()<=page) {
-                                mRootView.endLoadMore();
-                            }
+                            GoodsList.add(users);
                             if (pullToRefresh){
                                 mAdapter.notifyDataSetChanged();}
                             else
-                                mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
-                                page++;
-                        }else{
-                            UiUtils.makeText(users.getMessage());
-                        }
+                                mAdapter.notifyItemRangeInserted(preEndIndex,Itemssize);
 
+                        }
                     }
                 });
     }

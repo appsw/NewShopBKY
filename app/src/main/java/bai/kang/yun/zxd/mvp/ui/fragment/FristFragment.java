@@ -28,11 +28,13 @@ import javax.annotation.Nullable;
 
 import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.SpaceItemDecoration;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.di.component.DaggerFristComponent;
 import bai.kang.yun.zxd.di.module.FristModule;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.presenter.FristPresenter;
+import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.MapActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.SearchActivity;
@@ -47,7 +49,8 @@ import common.WEFragment;
  * Created by Administrator on 2017/4/12 0012.
  */
 
-public class FristFragment extends WEFragment<FristPresenter>implements FristContract.View {
+public class FristFragment extends WEFragment<FristPresenter>implements FristContract.View,
+        View.OnClickListener{
 
 
     static Context context;
@@ -67,6 +70,7 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
     ImageView ggw_im3;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private WEApplication mApplication;
+    private List<Advertisement.DataEntity> urls;
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
@@ -86,12 +90,15 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_frist, container,
                 false);
+
         return view;
     }
 
     @Override
     protected void initData() {
-
+        ggw_im1.setOnClickListener(this);
+        ggw_im2.setOnClickListener(this);
+        ggw_im3.setOnClickListener(this);
         mPresenter.requestUrls();
         mPresenter.getGoodsGrid();
         mPresenter.setGrid();
@@ -192,6 +199,7 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
 
     @Override
     public void setImg(List<Advertisement.DataEntity> urls) {
+        this.urls=urls;
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url("http://www.baikangyun.com"+urls.get(0).getImg())
@@ -216,5 +224,38 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
     void ss(){
         Intent intent=new Intent(mApplication, SearchActivity.class);
         UiUtils.startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.frist_ggw_1:
+                int id1=urls.get(0).getId();
+                if(id1!=0){
+                    Transfer.chosegoods_for_open_goodsdetail_id=id1;
+                    Intent intent=new Intent(mApplication, DetailActivity.class);
+                    UiUtils.startActivity(intent);
+                }
+
+                break;
+            case R.id.frist_ggw_2:
+                int id2=urls.get(1).getId();
+                if(id2!=0){
+                    Transfer.chosegoods_for_open_goodsdetail_id=id2;
+                    Intent intent=new Intent(mApplication, DetailActivity.class);
+                    UiUtils.startActivity(intent);
+                }
+                break;
+            case R.id.frist_ggw_3:
+                int id3=urls.get(2).getId();
+                if(id3!=0){
+                    Transfer.chosegoods_for_open_goodsdetail_id=id3;
+                    Intent intent=new Intent(mApplication, DetailActivity.class);
+                    UiUtils.startActivity(intent);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

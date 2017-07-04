@@ -1,5 +1,7 @@
 package bai.kang.yun.zxd.mvp.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -30,6 +32,7 @@ import butterknife.BindView;
 import common.AppComponent;
 import common.WEFragment;
 
+import static bai.kang.yun.zxd.mvp.ui.fragment.FristFragment.context;
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 /**
@@ -134,8 +137,28 @@ public class CarFragment extends WEFragment<CarPresenter> implements CarContract
     public void killMyself() {
 
     }
-    public static void OnKeyDown(int keyCode, KeyEvent event) {
+    public static boolean OnKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == event.KEYCODE_BACK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("确认退出吗？");
+            builder.setTitle("提示");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    System.exit(0);//退出程序
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
 
+        }
+        return true;
     }
 
     @Override

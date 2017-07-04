@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:textSize="65px"
+        android:textSize="17sp"
         android:text="复方氨酚烷胺胶囊" />
     <TextView
         android:layout_marginTop="30px"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:textColor="@color/darkred"
-        android:textSize="65px"
+        android:textSize="16sp"
         android:text="￥12.5" />
 
 </LinearLayout>

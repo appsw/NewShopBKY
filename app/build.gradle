@@ -13,8 +13,9 @@ android {
     }
 
     defaultConfig {
+
         multiDexEnabled true
-        multiDexKeepFile file('multiDexKeep.txt')
+//        multiDexKeepFile file('multiDexKeep.txt')
         applicationId "bai.kang.yun.zxd"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -24,6 +25,7 @@ android {
         ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
              abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64" }
     }
+
     buildTypes {
 
         debug {
@@ -47,6 +49,7 @@ android {
         disable 'InvalidPackage'
         disable "ResourceType"
         abortOnError false
+        checkReleaseBuilds false
     }
 }
 

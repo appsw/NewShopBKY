@@ -13,6 +13,8 @@ import bai.kang.yun.zxd.mvp.model.api.service.DelectOrderService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAlipayUrlService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetAppService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetAppVersionService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetDefaultAddService;
@@ -249,6 +251,18 @@ public class ServiceModule {
     RefundService provideRefundService(Retrofit retrofit) {
         return retrofit.create(RefundService.class);
     }
+    @Singleton
+    @Provides
+    GetAppVersionService provideGetAppVersionService(Retrofit retrofit) {
+        return retrofit.create(GetAppVersionService.class);
+    }
+    @Singleton
+    @Provides
+    GetAppService provideGetAppService(Retrofit retrofit) {
+        return retrofit.create(GetAppService.class);
+    }
+
+
 
 
 

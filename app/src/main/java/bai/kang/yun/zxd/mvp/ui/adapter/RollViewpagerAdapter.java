@@ -1,5 +1,6 @@
 package bai.kang.yun.zxd.mvp.ui.adapter;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +13,9 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
+import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import common.WEApplication;
 
 /**
@@ -47,14 +50,9 @@ public class RollViewpagerAdapter extends StaticPagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiUtils.makeText("您点击了第"+position+"个");
-//                Intent intent=new Intent(context, XqForBannerActivity.class);
-//                Bundle bundle =new Bundle();
-//                bundle.putString("GoodsId",list.get(position).get("id"));
-//                Log.e("GoodsId",""+list.get(position).get("id"));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent,3);
-
+                Transfer.chosegoods_for_open_goodsdetail_id=list.get(position).getId();
+                Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
+                UiUtils.startActivity(intent);
             }
         });
         return imageView;

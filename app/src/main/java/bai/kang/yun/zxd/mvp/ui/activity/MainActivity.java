@@ -16,6 +16,7 @@ import com.paginate.Paginate;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import bai.kang.yun.zxd.R;
+import bai.kang.yun.zxd.app.utils.UpdateManager;
 import bai.kang.yun.zxd.di.component.DaggerMainComponent;
 import bai.kang.yun.zxd.di.module.MainModule;
 import bai.kang.yun.zxd.mvp.contract.MainContract;
@@ -25,7 +26,6 @@ import bai.kang.yun.zxd.mvp.ui.fragment.FindFragment;
 import bai.kang.yun.zxd.mvp.ui.fragment.FristFragment;
 import bai.kang.yun.zxd.mvp.ui.fragment.MeFragment;
 import butterknife.BindView;
-import cn.sharesdk.framework.ShareSDK;
 import common.AppComponent;
 import common.WEActivity;
 import common.WEFragment;
@@ -99,7 +99,8 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
 
     @Override
     protected void initData() {
-
+        UpdateManager updateManager=new UpdateManager(this);
+        updateManager.checkUpdate();
         rl_frist.setOnClickListener(this);
         rl_find.setOnClickListener(this);
         rl_car.setOnClickListener(this);

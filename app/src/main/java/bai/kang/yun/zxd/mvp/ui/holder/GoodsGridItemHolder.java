@@ -43,13 +43,12 @@ public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
         mApplication = (WEApplication) itemView.getContext().getApplicationContext();
         mImageLoader = mApplication.getAppComponent().imageLoader();
     }
-
     @Override
     public void setData(ReturnGoods.DataEntity data, int position) {
         id=data.getId();
         Observable.just(data.getProductname())
                 .subscribe(RxTextView.text(name));
-        Observable.just(data.getSaleprice()+"")
+        Observable.just("￥"+data.getSaleprice())
                 .subscribe(RxTextView.text(Price));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
