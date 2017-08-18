@@ -66,7 +66,7 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
         mRootView.setAdapter(mAdapter);//设置Adapter
     }
 
-    public void requestUsers(final int kind,final int id,final boolean pullToRefresh) {
+    public void requestUsers(final int kind,final int id,String price,String spcount,final boolean pullToRefresh) {
 
 
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
@@ -79,7 +79,7 @@ public class ShopListPresenter extends BasePresenter<ShopListContract.Model, Sho
             isEvictCache = false;
         }
 
-         mModel.getShoplist(kind,id,page,isEvictCache)
+         mModel.getShoplist(kind,id,page,isEvictCache,price,spcount)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {

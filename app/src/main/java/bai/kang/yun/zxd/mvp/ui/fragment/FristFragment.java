@@ -12,9 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.utils.UiUtils;
@@ -33,11 +33,15 @@ import bai.kang.yun.zxd.di.component.DaggerFristComponent;
 import bai.kang.yun.zxd.di.module.FristModule;
 import bai.kang.yun.zxd.mvp.contract.FristContract;
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnADGrid;
 import bai.kang.yun.zxd.mvp.presenter.FristPresenter;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.GoodsListActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.MainActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.MapActivity;
 import bai.kang.yun.zxd.mvp.ui.activity.SearchActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.ShopDetailActivity;
+import bai.kang.yun.zxd.mvp.ui.adapter.FristADGridAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.RollViewpagerAdapter;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -103,6 +107,7 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         mPresenter.getGoodsGrid();
         mPresenter.setGrid();
         mPresenter.getGGwUrl();
+        mPresenter.getADGrid();
         setOnclick();
     }
     public static WEFragment getInstance(){
@@ -168,24 +173,44 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==6){
-                    Intent intent=new Intent(getActivity(), MapActivity.class);
-                    UiUtils.startActivity(intent);
-                    return;
+                List<ReturnADGrid.DataEntity> list=((FristADGridAdapter)gridView.getAdapter()).getList();
+                ReturnADGrid.DataEntity dataEntity=list.get(position);
+                String alt=dataEntity.getAlt();
+                Intent intent;
+                switch (alt){
+                    case "product":
+                        Transfer.chosegoods_for_open_goodsdetail_id=Integer.parseInt(list.get(position).getUrl());
+                        intent=new Intent(UiUtils.getContext(), DetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    case "shop":
+                        Transfer.choseshop_for_open_shopdetail_id=Integer.parseInt(list.get(position).getUrl());
+                        intent=new Intent(UiUtils.getContext(), ShopDetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    case "category":
+                        Transfer.chosegoods=Integer.parseInt(dataEntity.getUrl());
+                        intent=new Intent(getActivity(), GoodsListActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    case "allCategory":
+                        ((MainActivity)getActivity()).clickTab2Layout();
+                        break;
+                    case "map":
+                        intent=new Intent(getActivity(), MapActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    default:
+                        break;
                 }
-               Intent intent=new Intent(getActivity(), GoodsListActivity.class);
-                UiUtils.startActivity(intent);
-                UiUtils.makeText("您点击了第"+position+"个");
-//                Intent intent =new Intent(context, CategoryList.class);
-//                intent.putExtra("keywords",cat_id[position]+"");
-//                startActivityForResult(intent,3);
+
             }
         });
     }
 
 
     @Override
-    public void setAdapter(RollViewpagerAdapter rolladapter, SimpleAdapter simpleAdapter,
+    public void setAdapter(RollViewpagerAdapter rolladapter, BaseAdapter simpleAdapter,
                            DefaultAdapter defaultadapter) {
         rollPagerView.setPlayDelay(3000);//*播放间隔
         rollPagerView.setAnimationDurtion(500);//透明度
@@ -230,28 +255,61 @@ public class FristFragment extends WEFragment<FristPresenter>implements FristCon
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.frist_ggw_1:
-                int id1=urls.get(0).getId();
-                if(id1!=0){
-                    Transfer.chosegoods_for_open_goodsdetail_id=id1;
-                    Intent intent=new Intent(mApplication, DetailActivity.class);
-                    UiUtils.startActivity(intent);
+                String url=urls.get(0).getUrl();
+                String alt=urls.get(0).getAlt();
+                Intent intent;
+                switch (alt){
+                    case "product":
+                        Transfer.chosegoods_for_open_goodsdetail_id=Integer.parseInt(url);
+                        intent=new Intent(UiUtils.getContext(), DetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    case "shop":
+                        Transfer.choseshop_for_open_shopdetail_id=Integer.parseInt(url);
+                        intent=new Intent(UiUtils.getContext(), ShopDetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    default:
+                        break;
                 }
 
                 break;
             case R.id.frist_ggw_2:
-                int id2=urls.get(1).getId();
-                if(id2!=0){
-                    Transfer.chosegoods_for_open_goodsdetail_id=id2;
-                    Intent intent=new Intent(mApplication, DetailActivity.class);
-                    UiUtils.startActivity(intent);
+                String url1=urls.get(1).getUrl();
+                String alt1=urls.get(1).getAlt();
+                Intent intent1;
+                switch (alt1){
+                    case "product":
+                        Transfer.chosegoods_for_open_goodsdetail_id=Integer.parseInt(url1);
+                        intent1=new Intent(UiUtils.getContext(), DetailActivity.class);
+                        UiUtils.startActivity(intent1);
+                        break;
+                    case "shop":
+                        Transfer.choseshop_for_open_shopdetail_id=Integer.parseInt(url1);
+                        intent1=new Intent(UiUtils.getContext(), ShopDetailActivity.class);
+                        UiUtils.startActivity(intent1);
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case R.id.frist_ggw_3:
-                int id3=urls.get(2).getId();
-                if(id3!=0){
-                    Transfer.chosegoods_for_open_goodsdetail_id=id3;
-                    Intent intent=new Intent(mApplication, DetailActivity.class);
-                    UiUtils.startActivity(intent);
+                String url2=urls.get(2).getUrl();
+                String alt2=urls.get(2).getAlt();
+                Intent intent2;
+                switch (alt2){
+                    case "product":
+                        Transfer.chosegoods_for_open_goodsdetail_id=Integer.parseInt(url2);
+                        intent2=new Intent(UiUtils.getContext(), DetailActivity.class);
+                        UiUtils.startActivity(intent2);
+                        break;
+                    case "shop":
+                        Transfer.choseshop_for_open_shopdetail_id=Integer.parseInt(url2);
+                        intent2=new Intent(UiUtils.getContext(), ShopDetailActivity.class);
+                        UiUtils.startActivity(intent2);
+                        break;
+                    default:
+                        break;
                 }
                 break;
             default:

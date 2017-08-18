@@ -13,6 +13,7 @@ import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
 import bai.kang.yun.zxd.mvp.model.entity.CarShop;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnComment;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -103,5 +104,11 @@ public class DetailModel extends BaseModel<ServiceManager, CacheManager> impleme
             }
         });
         return realm.asObservable();
+    }
+    @Override
+    public Observable<ReturnComment> getShopComment(int id, int page) {
+        Observable<ReturnComment> Comment = mServiceManager.
+                getGetCommentsService().getComment(id,page);
+        return Comment;
     }
 }

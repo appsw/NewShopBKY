@@ -49,6 +49,24 @@ public class Banner {
         private int pid;
         private String title;
         private String img;
+        private String url;
+        private String alt;
+
+        public String getAlt() {
+            return alt;
+        }
+
+        public void setAlt(String alt) {
+            this.alt = alt;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
 
         @Override
         public String toString() {

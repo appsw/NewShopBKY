@@ -38,7 +38,7 @@ public class DetailImgAdapter extends StaticPagerAdapter {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(imageUrl)
-                .errorPic(R.mipmap.imgerror)
+                .errorPic(R.mipmap.none)
                 .imageView(imageView)
                 .build());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

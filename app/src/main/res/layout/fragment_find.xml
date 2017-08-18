@@ -35,7 +35,7 @@
                 android:layout_marginRight="8.0dip"
                 android:src="@drawable/icon_search" />
 
-            <EditText
+            <TextView
                 android:id="@+id/search_edtv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

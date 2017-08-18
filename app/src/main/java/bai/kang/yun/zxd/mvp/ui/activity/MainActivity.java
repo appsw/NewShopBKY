@@ -211,7 +211,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     /**
      * 点击第一个tab
      */
-    private void clickTab1Layout() {
+    public void clickTab1Layout() {
         if (fristFragment == null) {
             fristFragment =  FristFragment.getInstance();
         }
@@ -233,7 +233,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     /**
      * 点击第二个tab
      */
-    private void clickTab2Layout() {
+    public void clickTab2Layout() {
         if (findFragment == null) {
             findFragment = FindFragment.newInstance();
         }
@@ -256,7 +256,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     /**
      * 点击第三个tab
      */
-    private void clickTab3Layout() {
+    public void clickTab3Layout() {
         if (carFragment == null) {
             carFragment = CarFragment.newInstance();
         }
@@ -278,7 +278,7 @@ public class MainActivity extends WEActivity<MainPresenter> implements MainContr
     /**
      * 点击第四个tab
      */
-    private void clickTab4Layout() {
+    public void clickTab4Layout() {
         if (meFragment == null) {
             meFragment = MeFragment.newInstance();
         }

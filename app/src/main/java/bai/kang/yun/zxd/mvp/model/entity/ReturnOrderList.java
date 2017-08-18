@@ -87,13 +87,31 @@ public class ReturnOrderList {
 
         private int OrderId;
         private int Status;
-        private int ExpressStatus;
+        private int QueryStatus;
+        private int ExpressStatus;//0未发货 2已发货 3已签收
+        private int PayStatus;      //0支付 1已支付
         private float RealAmount;
         private String OrderNo;
         private String Shop_Name;
         private boolean  HasChufang;
         private boolean  IsChuFang;
         private List<GoodsEntiy> GoodsList;
+
+        public int getPayStatus() {
+            return PayStatus;
+        }
+
+        public void setPayStatus(int payStatus) {
+            PayStatus = payStatus;
+        }
+
+        public int getQueryStatus() {
+            return QueryStatus;
+        }
+
+        public void setQueryStatus(int queryStatus) {
+            QueryStatus = queryStatus;
+        }
 
         public float getRealAmount() {
             return RealAmount;

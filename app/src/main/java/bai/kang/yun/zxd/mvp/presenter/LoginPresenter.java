@@ -75,7 +75,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                                 @Override
                                 public void onNext(ReturnUser category) {
                                     if(category.getStatus()==1){
-
+                                        mRootView.hideLoading();
                                         config.edit().putString("name",category.getSingle().getUser_name())
                                                 .putString("salt",category.getSingle().getSalt())
                                                 .putString("nick_name",category.getSingle().getNick_name())
@@ -90,6 +90,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                                         getDefaultAdd();
 
                                     }else {
+                                        mRootView.hideLoading();
                                         UiUtils.makeText(category.getMessage());
                                     }
                                 }

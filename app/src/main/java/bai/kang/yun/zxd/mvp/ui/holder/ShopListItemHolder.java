@@ -65,13 +65,13 @@ public class ShopListItemHolder extends BaseHolder<ReturnShop.ItemEntity> {
                 .subscribe(RxTextView.text(add));
         Observable.just("￥"+data.getSalePrice())
                 .subscribe(RxTextView.text(price));
-        Observable.just(data.getScore()+"")
+        Observable.just(data.getStock()+"")
                 .subscribe(RxTextView.text(probability));
 
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImageUrl())
-                .errorPic(R.mipmap.imgerror)
+                .errorPic(R.mipmap.none)
                 .imageView(im)
                 .build());
     }

@@ -54,8 +54,8 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     @BindView(R.id.shop_item_category) TextView tv_category;
     @BindView(R.id.head_mimgv) SPMoreImageView image;
     @BindView(R.id.shop_goodslist) RecyclerView list;
-    @BindView(R.id.shop_goodscategory)
-    GridView gridView;
+    @BindView(R.id.shop_goodscategory) GridView gridView;
+    @BindView(R.id.shop_zz) GridView ZZgridView;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
 
     @Override
@@ -92,7 +92,8 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     void category(){
         mPresenter.getShopCategory(Transfer.choseshop_for_open_shopdetail_id);
     }
-
+    @OnClick(R.id.shop_item_zz)
+    void zz(){ mPresenter.getShopZZ(Transfer.choseshop_for_open_shopdetail_id);}
     @Override
     public void showLoading() {
         loadingDialog.show();
@@ -128,9 +129,10 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
     }
 
     @Override
-    public void setAdapter(DefaultAdapter adapter, BaseAdapter baseAdapter) {
+    public void setAdapter(DefaultAdapter adapter, BaseAdapter baseAdapter,BaseAdapter baseAdapter1) {
         list.setAdapter(adapter);
         gridView.setAdapter(baseAdapter);
+        ZZgridView.setAdapter(baseAdapter1);
         initRecycleView();
     }
 
@@ -169,6 +171,15 @@ public class ShopDetailActivity extends WEActivity<ShopDetailPresenter> implemen
             gridView.setVisibility(View.VISIBLE);
         }else {
             gridView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void setZZGridView(boolean is) {
+        if(is){
+            ZZgridView.setVisibility(View.VISIBLE);
+        }else {
+            ZZgridView.setVisibility(View.INVISIBLE);
         }
     }
 

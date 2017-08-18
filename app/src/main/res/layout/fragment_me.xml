@@ -3,7 +3,7 @@
     android:id="@+id/person_layout"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="500dip"
+    android:layout_height="350dp"
     android:background="@color/bg_activity"
     android:orientation="vertical" >
     <!-- 顶部 -->
@@ -43,7 +43,7 @@
     <include layout="@layout/person_order_category_slice"/>
     <include layout="@layout/separator_line_margin_slice"/>
 
-    <!-- 我的收藏 -->
+    <!-- 我的收藏
     <bai.kang.yun.zxd.app.utils.SPArrowRowView
         android:id="@+id/person_collect_aview"
         android:layout_width="match_parent"
@@ -51,15 +51,15 @@
         android:clickable="true"
         android:focusable="true"
         custom:titleText="我的收藏" />
-    <include layout="@layout/separator_line_margin_slice"/>
+    <include layout="@layout/separator_line_margin_slice"/>-->
 
-    <!-- 余额, 积分 -->
+    <!-- 余额, 积分
     <include
         android:id="@+id/person_integrate_rlayout"
         layout="@layout/person_integrate_row_slice"
         android:layout_width="match_parent"
         android:layout_height="60dip"/>
-    <View  style="@style/separator_line"/>
+    <View  style="@style/separator_line"/>-->
 
     <!-- 收货地址 -->
     <bai.kang.yun.zxd.app.utils.SPArrowRowView
@@ -72,13 +72,13 @@
     <View  style="@style/separator_line"/>
 
     <!-- 优惠券 -->
-    <bai.kang.yun.zxd.app.utils.SPArrowRowView
+    <!--<bai.kang.yun.zxd.app.utils.SPArrowRowView
         android:id="@+id/person_coupon_aview"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_row"
         android:clickable="true"
         android:focusable="true"
         custom:titleText="优惠券" />
-    <View  style="@style/separator_line"/>
+    <View  style="@style/separator_line"/>-->
 
 </LinearLayout>

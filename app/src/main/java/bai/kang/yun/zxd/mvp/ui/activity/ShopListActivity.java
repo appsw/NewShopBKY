@@ -63,13 +63,16 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
     TextView tv_zzh;
     @BindView(R.id.goods_factory)
     TextView tv_factory;
+    @BindView(R.id.goods_guige)
+    TextView tv_guige;
     @BindView(R.id.item_im)
     ImageView im;
     private Paginate mPaginate;
     private boolean isLoadingMore;
     private RxPermissions mRxPermissions;
     private ImageLoader mImageLoader;
-
+    private String price="none";
+    private String stock="none";
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerShopListComponent
@@ -91,17 +94,20 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
         Observable.just(Transfer.chosegoods_for_open_shoplist_name)
                 .subscribe(RxTextView.text(tv_name));
-        Observable.just(Transfer.chosegoods_for_open_shoplist_name)
+        Observable.just(Transfer.chosegoods_for_open_shoplist_zzh)
                 .subscribe(RxTextView.text(tv_zzh));
         Observable.just(Transfer.chosegoods_for_open_shoplist_Manufacturers)
                 .subscribe(RxTextView.text(tv_factory));
+        Observable.just(Transfer.chosegoods_for_open_shoplist_guige)
+                .subscribe(RxTextView.text(tv_guige));
+
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(Transfer.chosegoods_for_open_shoplist_imurl)
                 .errorPic(R.mipmap.imgerror)
                 .imageView(im)
                 .build());
-        mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,true);
+        mPresenter.requestUsers(Transfer.chosegoods_for_open_shoplist_kind,Transfer.chosegoods_for_open_shoplist_id,price,stock,true);
     }
 
 
@@ -139,7 +145,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
     @Override
     public void onRefresh() {
-        mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,true);
+        mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,price,stock,true);
     }
 
     @Override
@@ -178,7 +184,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,false);
+                    mPresenter.requestUsers( Transfer.chosegoods_for_open_shoplist_kind, Transfer.chosegoods_for_open_shoplist_id,price,stock,false);
                 }
 
                 @Override
@@ -188,7 +194,7 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
 
                 @Override
                 public boolean hasLoadedAllItems() {
-                    return !isLoadingMore;
+                    return false;
                 }
             };
 
@@ -208,5 +214,39 @@ public class ShopListActivity extends WEActivity<ShopListPresenter> implements
     @OnClick(R.id.register_back)
     public void black(){
         killMyself();
+    }
+    @OnClick(R.id.tv_zh)
+    public void tv_zh(){
+        price="none";
+        stock="none";
+        mPresenter.requestUsers(Transfer.chosegoods_for_open_shoplist_kind,Transfer.chosegoods_for_open_shoplist_id,price,stock,true);
+    }
+    @OnClick(R.id.tv_jg)
+    public void tv_jg(){
+        if(price.equals("none")||price.equals("asc")){
+            price="desc";
+        }else if(price.equals("none")||price.equals("desc")){
+            price="asc";
+        }else {
+            price="none";
+        }
+
+        stock="none";
+
+        mPresenter.requestUsers(Transfer.chosegoods_for_open_shoplist_kind,Transfer.chosegoods_for_open_shoplist_id,price,stock,true);
+    }
+    @OnClick(R.id.tv_xl)
+    public void tv_xl(){
+
+        price="none";
+
+        if(stock.equals("none")||stock.equals("asc")){
+            stock="desc";
+        }else if(stock.equals("none")||stock.equals("desc")){
+            stock="asc";
+        }else {
+            stock="none";
+        }
+        mPresenter.requestUsers(Transfer.chosegoods_for_open_shoplist_kind,Transfer.chosegoods_for_open_shoplist_id,price,stock,true);
     }
 }

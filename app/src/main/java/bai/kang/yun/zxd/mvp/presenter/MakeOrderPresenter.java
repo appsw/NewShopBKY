@@ -112,7 +112,7 @@ public class MakeOrderPresenter extends BasePresenter<MakeOrderContract.Model, M
             Add_Id=config.getInt("add_id",0);
         else
             Add_Id=MakeOrderActivity.Add_Id;
-        mModel.GetShopExpress(config.getInt("id",0),config.getString("salt","0"),207,weight,Add_Id )
+        mModel.GetShopExpress(config.getInt("id",0),config.getString("salt","0"),shopid,weight,Add_Id )
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .observeOn(AndroidSchedulers.mainThread())

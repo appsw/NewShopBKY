@@ -21,7 +21,9 @@ import bai.kang.yun.zxd.mvp.contract.FristContract;
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnADGrid;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
+import bai.kang.yun.zxd.mvp.ui.adapter.FristADGridAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsGridAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.RollViewpagerAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
@@ -45,6 +47,7 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
     RollViewpagerAdapter rollViewpagerAdapter;
     GoodsGridAdapter goodsGridAdapter;
     SimpleAdapter simpleadapter;
+    FristADGridAdapter fristADGridAdapter;
     String [] name={"男性","女性",
             "老人","儿童","中成药","西成药","附近药店","健康问答"};
     int[] ic={R.mipmap.ic_nan,R.mipmap.ic_nv,
@@ -52,6 +55,7 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
             R.mipmap.ic_zhong,R.mipmap.ic_xi,R.mipmap.ic_fu,
             R.mipmap.ic_wen};
     List<Map<String,Object>> list=new ArrayList<>();
+    List<ReturnADGrid.DataEntity> adlist=new ArrayList<>();
     private boolean isFirst = true;
     private int preEndIndex;
 
@@ -64,9 +68,10 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
         this.mAppManager = appManager;
         rollViewpagerAdapter = new RollViewpagerAdapter(banners);
         goodsGridAdapter=new GoodsGridAdapter(GoodsList);
+        fristADGridAdapter=new FristADGridAdapter(adlist,application);
         simpleadapter=new SimpleAdapter(UiUtils.getContext(),list, R.layout.item_gridview,
                 new String[]{"pt","name"},new int[]{R.id.pt,R.id.name});
-        mRootView.setAdapter(rollViewpagerAdapter,simpleadapter,goodsGridAdapter);//设置Adapter
+        mRootView.setAdapter(rollViewpagerAdapter,fristADGridAdapter,goodsGridAdapter);//设置Adapter
 
 
     }
@@ -130,6 +135,23 @@ public class FristPresenter  extends BasePresenter<FristContract.Model, FristCon
             list.add(map);
         }
         simpleadapter.notifyDataSetChanged();
+    }
+    public void getADGrid(){
+        mModel.getADGrid()
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnADGrid>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnADGrid>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnADGrid goods) {
+                                if(goods.getStatus()==1){
+                                    adlist.addAll(goods.getData());
+                                    fristADGridAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
     }
 
 

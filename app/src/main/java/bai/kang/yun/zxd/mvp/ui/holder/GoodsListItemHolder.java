@@ -41,6 +41,8 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
     @Nullable
     @BindView(R.id.item_jg)
     TextView price;
+    @BindView(R.id.item_guige)
+    TextView guige;
     @Nullable
     @BindView(R.id.item_seleing)
     TextView seleing;
@@ -64,6 +66,8 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
                 .subscribe(RxTextView.text(name));
         Observable.just(data.getPizhunwenhao())
                 .subscribe(RxTextView.text(abst));
+        Observable.just(data.getGuige())
+                .subscribe(RxTextView.text(guige));
         Observable.just(data.getMinPrice()+"")
                 .subscribe(RxTextView.text(price));
         Observable.just(data.getSpCount()+"")
@@ -72,7 +76,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImg_title())
-                .errorPic(R.mipmap.imgerror)
+                .errorPic(R.mipmap.none)
                 .imageView(im)
                 .build());
     }
@@ -82,6 +86,7 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
         Transfer.chosegoods_for_open_shoplist_id=itemEntity.getId();
         Transfer.chosegoods_for_open_shoplist_name=itemEntity.getDrugs_name();
         Transfer.chosegoods_for_open_shoplist_zzh=itemEntity.getPizhunwenhao();
+        Transfer.chosegoods_for_open_shoplist_guige=itemEntity.getGuige();
         Transfer.chosegoods_for_open_shoplist_Manufacturers=itemEntity.getManufacturers();
         Transfer.chosegoods_for_open_shoplist_imurl=HOST+itemEntity.getImg_title();
         Intent intent = null;

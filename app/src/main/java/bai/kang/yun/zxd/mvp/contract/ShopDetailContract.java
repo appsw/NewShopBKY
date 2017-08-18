@@ -9,6 +9,7 @@ import com.jess.arms.mvp.IModel;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopZZ;
 import bai.kang.yun.zxd.mvp.model.entity.Shop;
 import rx.Observable;
 
@@ -28,10 +29,11 @@ import rx.Observable;
 public interface ShopDetailContract {
     //对于经常使用的关于UI的方法可以定义到BaseView中,如显示隐藏进度条,和显示文字消息
     interface View extends BaseView {
-        void setAdapter(DefaultAdapter adapter, BaseAdapter baseAdapter);
+        void setAdapter(DefaultAdapter adapter, BaseAdapter baseAdapter, BaseAdapter baseAdapter1);
         void setShop(Shop shop);
         void setListView(boolean is);
         void setGridView(boolean is);
+        void setZZGridView(boolean is);
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
@@ -39,5 +41,7 @@ public interface ShopDetailContract {
         Observable<ReturnShopDetail> getShopDetail(int id);
         Observable<ReturnShopGoods> getShopGoods(int kind,int id);
         Observable<ReturnShopCategory> getShopCategory(int id);
+        Observable<ReturnShopZZ> getShopZZ(int id);
+
     }
 }

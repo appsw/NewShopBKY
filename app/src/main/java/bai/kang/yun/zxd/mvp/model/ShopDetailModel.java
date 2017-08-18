@@ -14,6 +14,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopDetail;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnShopGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnShopZZ;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.Reply;
@@ -103,4 +104,13 @@ public class ShopDetailModel extends BaseModel<ServiceManager, CacheManager> imp
                     }
                 });
     }
+
+    @Override
+    public Observable<ReturnShopZZ> getShopZZ(int id) {
+        Observable<ReturnShopZZ> shops = mServiceManager.
+                getShopZZService().getShopZZ(id);
+        return shops;
+    }
+
+
 }

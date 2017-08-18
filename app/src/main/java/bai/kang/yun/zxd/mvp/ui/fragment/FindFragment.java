@@ -21,9 +21,11 @@ import bai.kang.yun.zxd.di.component.DaggerFindComponent;
 import bai.kang.yun.zxd.di.module.FindModule;
 import bai.kang.yun.zxd.mvp.contract.FindContract;
 import bai.kang.yun.zxd.mvp.presenter.FindPresenter;
+import bai.kang.yun.zxd.mvp.ui.activity.SearchActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.GoodsCategoryListAdapter;
 import bai.kang.yun.zxd.mvp.ui.holder.GoodsCategoryListItemHolder;
 import butterknife.BindView;
+import butterknife.OnClick;
 import common.AppComponent;
 import common.WEFragment;
 
@@ -168,6 +170,10 @@ public class FindFragment extends WEFragment<FindPresenter> implements FindContr
     private void initRecycleView() {
         UiUtils.configRecycleView(list, new LinearLayoutManager(getActivity()));
     }
-
+    @OnClick(R.id.ss)
+    void ss(){
+        Intent intent=new Intent(getActivity(), SearchActivity.class);
+        UiUtils.startActivity(intent);
+    }
 
 }

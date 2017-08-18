@@ -88,6 +88,7 @@ public class ReturnDetail {
         private int weight;                     //重量
         private int is_chufangi;                //是否处方药
         private float market_price;                //市场价
+        private int stock;                          //库存
 
         public int getShop_id() {
             return shop_id;
@@ -184,16 +185,160 @@ public class ReturnDetail {
         public void setSaleprice(float saleprice) {
             this.saleprice = saleprice;
         }
-    }
-    public static class InfoEntity{
-        private String Description;                //详细
 
-        public String getDescription() {
-            return Description;
+        public int getStock() {
+            return stock;
         }
 
-        public void setDescription(String description) {
-            Description = description;
+        public void setStock(int stock) {
+            this.stock = stock;
+        }
+    }
+    public static class InfoEntity{
+
+        private int is_chufang;         //是否处方
+        private int IsImported;          //是否进口
+        private String Pizhunwenhao;   //卫生许可证号
+        private String DrugstyName;            //产品名称
+        private String Manufacturers;       //生产厂商
+        private String DrugsSymptom;        //性状
+        private String DrugsStore;           //储存条件
+        private String ValidityTime;     //有效期
+        private String Zhuyaochengfen;            //主要成分
+        private String Jinji;              //禁忌
+        private String Xianghuzuoyong;             //相互作用
+        private String Yaoliduli;              //药理毒理
+        private String Gongnengzhuzhi;       //功能主治
+        private String Yongfayongliang;       //用法用量
+        private String Buliangfanying;       //不良反应
+        private String Zhuyishixiang;       //注意事项
+
+        public int getIs_chufang() {
+            return is_chufang;
+        }
+
+        public void setIs_chufang(int is_chufang) {
+            this.is_chufang = is_chufang;
+        }
+
+        public int getIsImported() {
+            return IsImported;
+        }
+
+        public void setIsImported(int isImported) {
+            IsImported = isImported;
+        }
+
+        public String getPizhunwenhao() {
+            return Pizhunwenhao;
+        }
+
+        public void setPizhunwenhao(String pizhunwenhao) {
+            Pizhunwenhao = pizhunwenhao;
+        }
+
+        public String getDrugstyName() {
+            return DrugstyName;
+        }
+
+        public void setDrugstyName(String drugstyName) {
+            DrugstyName = drugstyName;
+        }
+
+        public String getManufacturers() {
+            return Manufacturers;
+        }
+
+        public void setManufacturers(String manufacturers) {
+            Manufacturers = manufacturers;
+        }
+
+        public String getDrugsSymptom() {
+            return DrugsSymptom;
+        }
+
+        public void setDrugsSymptom(String drugsSymptom) {
+            DrugsSymptom = drugsSymptom;
+        }
+
+        public String getDrugsStore() {
+            return DrugsStore;
+        }
+
+        public void setDrugsStore(String drugsStore) {
+            DrugsStore = drugsStore;
+        }
+
+        public String getValidityTime() {
+            return ValidityTime;
+        }
+
+        public void setValidityTime(String validityTime) {
+            ValidityTime = validityTime;
+        }
+
+        public String getZhuyaochengfen() {
+            return Zhuyaochengfen;
+        }
+
+        public void setZhuyaochengfen(String zhuyaochengfen) {
+            Zhuyaochengfen = zhuyaochengfen;
+        }
+
+        public String getJinji() {
+            return Jinji;
+        }
+
+        public void setJinji(String jinji) {
+            Jinji = jinji;
+        }
+
+        public String getXianghuzuoyong() {
+            return Xianghuzuoyong;
+        }
+
+        public void setXianghuzuoyong(String xianghuzuoyong) {
+            Xianghuzuoyong = xianghuzuoyong;
+        }
+
+        public String getYaoliduli() {
+            return Yaoliduli;
+        }
+
+        public void setYaoliduli(String yaoliduli) {
+            Yaoliduli = yaoliduli;
+        }
+
+        public String getGongnengzhuzhi() {
+            return Gongnengzhuzhi;
+        }
+
+        public void setGongnengzhuzhi(String gongnengzhuzhi) {
+            Gongnengzhuzhi = gongnengzhuzhi;
+        }
+
+        public String getYongfayongliang() {
+            return Yongfayongliang;
+        }
+
+        public void setYongfayongliang(String yongfayongliang) {
+            Yongfayongliang = yongfayongliang;
+        }
+
+        public String getBuliangfanying() {
+            return Buliangfanying;
+        }
+
+        public void setBuliangfanying(String buliangfanying) {
+            Buliangfanying = buliangfanying;
+        }
+
+        public String getZhuyishixiang() {
+            return Zhuyishixiang;
+        }
+
+        public void setZhuyishixiang(String zhuyishixiang) {
+            Zhuyishixiang = zhuyishixiang;
         }
     }
     public static class ImgEntity{

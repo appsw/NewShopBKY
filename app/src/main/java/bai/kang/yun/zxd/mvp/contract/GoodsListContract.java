@@ -28,14 +28,15 @@ public interface GoodsListContract {
         void setAdapter(DefaultAdapter adapter);
         void startLoadMore();
         void endLoadMore();
+        void noMore();
         //申请权限
         RxPermissions getRxPermissions();
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
-        Observable<CategoryGoods> getGoodslist(int id, int page, boolean updata);
+        Observable<CategoryGoods> getGoodslist(int id, int page,String price,String spcount, boolean updata);
         Observable<ShopCategoryGoods> getShopGoodslist(int id,int kind, int page, boolean updata);
-        Observable<CategoryGoods> getGoods(int kind, String key, int page, boolean updata);
+        Observable<CategoryGoods> getGoods(int kind, String key, int page,String price,String spcount, boolean updata);
     }
 }

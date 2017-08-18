@@ -128,7 +128,9 @@ public class MakeOrderListAdapter extends BaseAdapter {
             return 0;
         float sum=0;
         for(CarGoods carGoods:goodses){
-            sum+=Float.parseFloat(carGoods.getPrice());
+            float aSum=Float.parseFloat(carGoods.getPrice());
+            float Sums=aSum * Float.parseFloat(carGoods.getNumber());
+            sum+=Sums;
         }
         sum+=ExpressPre;
         float finalSum = sum;

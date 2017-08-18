@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jess.arms.utils.UiUtils;
 
@@ -56,7 +55,7 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
     @BindView(R.id.login_password)
     EditText psaaword;
     @BindView(R.id.login_register)
-    TextView register;
+    Button register;
     @BindView(R.id.btn_login)
     Button login;
     private static final int MSG_SMSSDK_CALLBACK = 1;
@@ -122,7 +121,7 @@ public class LoginActivity extends WEActivity<LoginPresenter> implements LoginCo
         }
         plat.setPlatformActionListener(this);
         // true不使用SSO授权，false使用SSO授权
-        plat.SSOSetting(true);
+        plat.SSOSetting(false);
         //获取用户资料
         plat.showUser(null);
     }

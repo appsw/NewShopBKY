@@ -44,6 +44,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
+
         android:layout_height="match_parent">
         <bai.kang.yun.zxd.app.utils.ScrollViewContainer
             android:layout_width="match_parent"
@@ -51,17 +52,18 @@
             <bai.kang.yun.zxd.app.utils.PullPushLayout
                 android:id="@+id/layout"
                 android:layout_width="match_parent"
-                android:layout_height="1920px" >
+                android:layout_height="match_parent">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
                     <RelativeLayout
                         android:id="@+id/rl_top"
                         android:layout_width="match_parent"
-                        android:layout_height="960px" >
+                        android:layout_height="600dp"
+                        android:layout_margin="8dp">
                         <com.jude.rollviewpager.RollPagerView
                             android:layout_width="match_parent"
-                            android:layout_height="960px"
+                            android:layout_height="match_parent"
                             android:id="@+id/rollViewpager"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
@@ -71,14 +73,14 @@
                     <RelativeLayout
                         android:id="@+id/ll_content"
                         android:layout_width="match_parent"
-                        android:layout_height="850px"
+                        android:layout_height="350dp"
                         android:layout_below="@id/rl_top"
                         android:background="#FFFFFF"
                         >
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="辅导费雷克萨德积分了"
+                            android:text=" "
                             android:textSize="25sp"
                             android:maxLength="35"
                             android:textColor="@color/black"
@@ -90,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:text="￥"
                             android:textSize="30sp"
-                            android:textColor="@color/darkred"
+                            android:textColor="@color/light_red"
                             android:layout_below="@+id/textView"
                             android:id="@+id/textView6" />
                         <LinearLayout
@@ -131,22 +133,40 @@
                                 android:text="商品总价："
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
-                                android:layout_marginLeft="80dp"/>
+                                android:layout_marginLeft="20dp"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="￥"
-                                android:textColor="@color/darkred"
+                                android:textColor="@color/light_red"
                                 android:textSize="15sp"/>
                             <TextView
                                 android:id="@+id/tv_sum"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="20"
-                                android:textColor="@color/darkred"
+                                android:text=" "
+                                android:textColor="@color/light_red"
                                 android:textSize="15sp"/>
                         </LinearLayout>
-
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linearLayout"
+                            android:layout_marginTop="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:text="库存："/>
+                            <TextView
+                                android:id="@+id/tv_kc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:text="123"/>
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="150px"
@@ -203,9 +223,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="459.00"
+                            android:text=" "
                             android:textSize="30sp"
-                            android:textColor="@color/darkred"
+                            android:textColor="@color/light_red"
                             android:id="@+id/textView2"
                             android:layout_alignBaseline="@+id/textView6"
                             android:layout_alignBottom="@+id/textView6"
@@ -220,11 +240,325 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white" >
-                <WebView
-                    android:id="@+id/xq_webview"
-                    android:background="@color/white"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp">
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp">
+                        <TableRow
+                            android:id="@+id/TRname">
+                            <TextView
+                                android:text="通用名称："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dname"
+                                android:textSize="18sp"
+                                android:text="感冒灵颗粒"
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRpzwh">
+                            <TextView
+                                android:text="批准文号："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dpzwh"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRsccs">
+                            <TextView
+                                android:text="生产厂商："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dsccs"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRsfjk">
+                            <TextView
+                                android:text="是否进口："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dsfjk"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRxz">
+                            <TextView
+                                android:text="性状："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dxz"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRyxcf">
+                            <TextView
+                                android:text="有效成分："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dyxcf"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRgnzz">
+                            <TextView
+                                android:text="功效/适用："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dgnzz"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRyfyl">
+                            <TextView
+                                android:text="用法用量："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dyfyl"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRzysx">
+                            <TextView
+                                android:text="注意事项："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dzysx"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRsfcf">
+                            <TextView
+                                android:text="是否处方："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dsfcf"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRblfy">
+                            <TextView
+                                android:text="不良反应："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dblfy"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRyldl">
+                            <TextView
+                                android:text="药理毒理："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dyldl"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRxhzy">
+                            <TextView
+                                android:text="相互作用："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dxhzy"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRjjz">
+                            <TextView
+                                android:text="禁忌症："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_djjz"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRcctj">
+                            <TextView
+                                android:text="贮藏条件："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dcctj"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/TRyxq">
+                            <TextView
+                                android:text="有效期："
+                                android:textSize="18sp"
+                                android:layout_weight="2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tv_dyxq"
+                                android:textSize="18sp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:layout_weight="5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                        </TableRow>
+                    </TableLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"></View>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="评价"
+                            android:layout_gravity="center_vertical"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right">
+                            <ImageView
+                                android:id="@+id/more_comment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/arrow_right"
+                                android:layout_gravity="center_vertical"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"></View>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
 
             </ScrollView>
         </bai.kang.yun.zxd.app.utils.ScrollViewContainer>

@@ -54,7 +54,7 @@ public class GoodsGridItemHolder extends BaseHolder<ReturnGoods.DataEntity> {
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImageurl())
-                .errorPic(R.mipmap.imgerror)
+                .errorPic(R.mipmap.none)
                 .imageView(im)
                 .build());
     }

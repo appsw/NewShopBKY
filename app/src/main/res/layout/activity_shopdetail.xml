@@ -199,13 +199,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbars="vertical"
+                    android:visibility="gone"
                     tools:listitem="@layout/item_shop_goodslist"
                     />
                 <GridView
                     android:id="@+id/shop_goodscategory"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="match_parent">
-
+                </GridView>
+                <GridView
+                    android:id="@+id/shop_zz"
+                    android:layout_width="match_parent"
+                    android:numColumns="1"
+                    android:visibility="gone"
+                    android:layout_height="match_parent">
                 </GridView>
             </RelativeLayout>
         </LinearLayout>

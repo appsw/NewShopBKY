@@ -15,7 +15,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/darkgray"/>
+        android:background="#E8E8E8"/>
     <bai.kang.yun.zxd.app.utils.MyGridView
         android:id="@+id/find_category_grid"
         android:numColumns="3"

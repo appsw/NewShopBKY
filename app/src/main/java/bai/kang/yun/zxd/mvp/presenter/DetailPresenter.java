@@ -16,7 +16,9 @@ import javax.inject.Inject;
 
 import bai.kang.yun.zxd.mvp.contract.DetailContract;
 import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnComment;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
+import bai.kang.yun.zxd.mvp.ui.adapter.CommentsListAdapter;
 import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -46,7 +48,9 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
     private List<ReturnDetail.ImgEntity> list;
+    private List<ReturnComment.ItemsEntity> commentlist;
     private DetailImgAdapter detailImgAdapter;
+    private CommentsListAdapter commentsListAdapter;
 
     @Inject
     public DetailPresenter(DetailContract.Model model, DetailContract.View rootView
@@ -58,8 +62,10 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
         this.mImageLoader = imageLoader;
         this.mAppManager = appManager;
         list=new ArrayList<>();
+        commentlist=new ArrayList<>();
         detailImgAdapter=new DetailImgAdapter(list);
-        mRootView.setAdapter(detailImgAdapter);
+        commentsListAdapter=new CommentsListAdapter(commentlist);
+        mRootView.setAdapter(detailImgAdapter,commentsListAdapter);
     }
     public void getDetail(int id){
         mRootView.showLoading();
@@ -75,7 +81,7 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
                                 mRootView.hideLoading();
                                 if(category.getStatus()==1){
                                     mRootView.setDetail(category);
-                                    if(category.getSingle().getImgList().size()==0){
+                                    if(category.getSingle().getImgList().size()!=0){
                                         list.addAll(category.getSingle().getImgList());
                                     }else {
                                         ReturnDetail.ImgEntity imgEntity=new ReturnDetail.ImgEntity();
@@ -103,6 +109,27 @@ public class DetailPresenter extends BasePresenter<DetailContract.Model, DetailC
 
     }
 
+    public void getComment(int id){
+        mRootView.showLoading();
+        mModel.getShopComment(id,1)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtils.<ReturnComment>bindToLifecycle(mRootView))//使用RXlifecycle,使subscription和activity一起销毁
+                .subscribe(
+                        new ErrorHandleSubscriber<ReturnComment>(mErrorHandler) {
+                            @Override
+                            public void onNext(ReturnComment category) {
+                                mRootView.hideLoading();
+                                if(category.getStatus()==1){
+                                    commentlist.addAll(category.getPage_data().getItems());
+                                    commentsListAdapter.notifyDataSetChanged();
+                                }else {
+                                    UiUtils.makeText(category.getMessage());
+                                }
+                            }
+                        });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

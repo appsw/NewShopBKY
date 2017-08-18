@@ -1,9 +1,11 @@
 package bai.kang.yun.zxd.mvp.contract;
 
+import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.mvp.BaseView;
 import com.jess.arms.mvp.IModel;
 
 import bai.kang.yun.zxd.mvp.model.entity.CarGoods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnComment;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
 import bai.kang.yun.zxd.mvp.ui.adapter.DetailImgAdapter;
 import rx.Observable;
@@ -27,12 +29,13 @@ public interface DetailContract {
         void setDetail(ReturnDetail detail);
         int getnum();
         void setSum();
-        void setAdapter(DetailImgAdapter rolladapter);
+        void setAdapter(DetailImgAdapter rolladapter,DefaultAdapter adapter);
     }
 
     //Model层定义接口,外部只需关心model返回的数据,无需关心内部细节,及是否使用缓存
     interface Model extends IModel {
         Observable<ReturnDetail> getGoodsDetail(int id);
         Observable addGoods(CarGoods goods);
+        Observable<ReturnComment> getShopComment(int id, int page);
     }
 }

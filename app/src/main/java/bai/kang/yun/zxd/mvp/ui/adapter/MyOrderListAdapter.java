@@ -62,6 +62,7 @@ public class MyOrderListAdapter extends BaseAdapter{
             viewHolder.name=(TextView) convertView.findViewById(R.id.order_shopname);
             viewHolder.preact=(TextView) convertView.findViewById(R.id.allpreact);
             viewHolder.delect=(TextView) convertView.findViewById(R.id.order_delect);
+            viewHolder.number=(TextView) convertView.findViewById(R.id.order_number);
             viewHolder.goodslist= (Search_View) convertView.findViewById(R.id.goods_list);
             viewHolder.btn_zf= (Button) convertView.findViewById(R.id.btn_zf);
             viewHolder.btn_sc= (Button) convertView.findViewById(R.id.btn_sc);
@@ -77,6 +78,7 @@ public class MyOrderListAdapter extends BaseAdapter{
         goodses=order.getGoodsList();
         viewHolder.name.setText(order.getShop_Name());
         viewHolder.preact.setText(order.getRealAmount()+"");
+        viewHolder.number.setText(order.getOrderNo());
         myOrderGoodsListAdapter=new MyOrderGoodsListAdapter( UiUtils.getContext(),goodses);
         viewHolder.goodslist.setAdapter(myOrderGoodsListAdapter);
 
@@ -164,6 +166,7 @@ public class MyOrderListAdapter extends BaseAdapter{
         TextView name;
         TextView delect;
         TextView preact;
+        TextView number;
         Search_View goodslist;
         Button btn_zf;
         Button btn_sc;

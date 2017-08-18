@@ -55,9 +55,12 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     SwipeRefreshLayout mSwipeRefreshLayout;
     private Paginate mPaginate;
     private boolean isLoadingMore;
+    private boolean isHave=true;
     private RxPermissions mRxPermissions;
     private int  kind;
     private String key;
+    private String price="none";
+    private String spcount="none";
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         this.mRxPermissions = new RxPermissions(this);
@@ -79,13 +82,13 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         Log.e("id","id:"+ Transfer.chosegoods);
         Intent intent=getIntent();
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
-            mPresenter.requestUsers(Transfer.chosegoods,true);
+            mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
             mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             kind=intent.getIntExtra("kind",0);
             key=intent.getStringExtra("key");
-            mPresenter.getSerchGoods(kind,key,true);
+            mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }
 
     }
@@ -126,11 +129,11 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     @Override
     public void onRefresh() {
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
-            mPresenter.requestUsers(Transfer.chosegoods,true);
+            mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
             mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
-            mPresenter.getSerchGoods(kind,key,true);
+            mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }
     }
 
@@ -160,6 +163,11 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     }
 
     @Override
+    public void noMore() {
+        isHave=false;
+    }
+
+    @Override
     public RxPermissions getRxPermissions() {
         return mRxPermissions;
     }
@@ -167,17 +175,21 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
      * 初始化Paginate,用于加载更多
      */
     private void initPaginate() {
+        if(isHave){
         if (mPaginate == null) {
             Paginate.Callbacks callbacks = new Paginate.Callbacks() {
                 @Override
                 public void onLoadMore() {
-                    if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
-                        mPresenter.requestUsers(Transfer.chosegoods,false);
-                    }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-                        mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,false);
-                    }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
-                        mPresenter.getSerchGoods(kind,key,false);
-                    }
+
+                        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+                            mPresenter.requestUsers(Transfer.chosegoods,false,price,spcount);
+                        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+                            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,false);
+                        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+                            mPresenter.getSerchGoods(kind,key,false,price,spcount);
+                        }
+
+
                 }
 
                 @Override
@@ -187,7 +199,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
 
                 @Override
                 public boolean hasLoadedAllItems() {
-                    return !isLoadingMore;
+                    return false;
                 }
             };
 
@@ -195,6 +207,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
                     .setLoadingTriggerThreshold(0)
                     .build();
             mPaginate.setHasMoreDataToLoad(false);
+        }
         }
     }
     @Override
@@ -207,5 +220,57 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
     @OnClick(R.id.register_back)
     public void black(){
         killMyself();
+    }
+    @OnClick(R.id.tv_zh)
+    public void tv_zh(){
+        price="none";
+        spcount="none";
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+            mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+            mPresenter.getSerchGoods(kind,key,true,price,spcount);
+        }
+    }
+    @OnClick(R.id.tv_jg)
+    public void tv_jg(){
+        if(price.equals("none")||price.equals("asc")){
+            price="desc";
+        }else if(price.equals("none")||price.equals("desc")){
+            price="asc";
+        }else {
+            price="none";
+        }
+
+        spcount="none";
+
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+            mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+            mPresenter.getSerchGoods(kind,key,true,price,spcount);
+        }
+    }
+    @OnClick(R.id.tv_xl)
+    public void tv_xl(){
+
+        price="none";
+
+        if(spcount.equals("none")||spcount.equals("asc")){
+            spcount="desc";
+        }else if(spcount.equals("none")||spcount.equals("desc")){
+            spcount="asc";
+        }else {
+            spcount="none";
+        }
+        if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
+            mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+        }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
+            mPresenter.getSerchGoods(kind,key,true,price,spcount);
+        }
     }
 }

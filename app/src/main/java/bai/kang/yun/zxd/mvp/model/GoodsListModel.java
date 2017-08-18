@@ -13,11 +13,7 @@ import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.ShopCategoryGoods;
-import io.rx_cache.DynamicKeyGroup;
-import io.rx_cache.EvictDynamicKey;
-import io.rx_cache.Reply;
 import rx.Observable;
-import rx.functions.Func1;
 
 
 /**
@@ -53,20 +49,21 @@ public class GoodsListModel extends BaseModel<ServiceManager, CacheManager> impl
     }
 
     @Override
-    public Observable<CategoryGoods> getGoodslist(int id,int page, boolean update) {
+    public Observable<CategoryGoods> getGoodslist(int id,int page,String price,String spcount, boolean update) {
         Observable<CategoryGoods> Goods = mServiceManager.
-                getCategoryGoodsService().getCategory(id,page);
+                getCategoryGoodsService().getCategory(id,page,price,spcount);
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
-        return mCacheManager.getCommonCache()
-                .getCategoryGoods(Goods
-                        ,new DynamicKeyGroup(id,page)
-                ,new EvictDynamicKey(update))
-                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
-                    @Override
-                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
-                        return Observable.just(listReply.getData());
-                    }
-                });
+//        return mCacheManager.getCommonCache()
+//                .getCategoryGoods(Goods
+//                        ,new DynamicKeyGroup(id,page)
+//                ,new EvictDynamicKey(update))
+//                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
+//                    @Override
+//                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
+//                        return Observable.just(listReply.getData());
+//                    }
+//                });
+        return Goods;
     }
 
     @Override
@@ -74,33 +71,35 @@ public class GoodsListModel extends BaseModel<ServiceManager, CacheManager> impl
         Observable<ShopCategoryGoods> Goods = mServiceManager.
                 getGetShopCategoryGoodsService().getShopCategoryGoods(id,kind,page);
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
-        return mCacheManager.getCommonCache()
-                .getShopCategoryGoods(Goods
-                        ,new DynamicKeyGroup(id,page)
-                        ,new EvictDynamicKey(updata))
-                .flatMap(new Func1<Reply<ShopCategoryGoods>, Observable<ShopCategoryGoods>>() {
-                    @Override
-                    public Observable<ShopCategoryGoods> call(Reply<ShopCategoryGoods> listReply) {
-                        return Observable.just(listReply.getData());
-                    }
-                });
+//        return mCacheManager.getCommonCache()
+//                .getShopCategoryGoods(Goods
+//                        ,new DynamicKeyGroup(id,page)
+//                        ,new EvictDynamicKey(updata))
+//                .flatMap(new Func1<Reply<ShopCategoryGoods>, Observable<ShopCategoryGoods>>() {
+//                    @Override
+//                    public Observable<ShopCategoryGoods> call(Reply<ShopCategoryGoods> listReply) {
+//                        return Observable.just(listReply.getData());
+//                    }
+//                });
+        return Goods;
     }
 
     @Override
-    public Observable<CategoryGoods> getGoods(int kind, String key, int page, boolean updata) {
+    public Observable<CategoryGoods> getGoods(int kind, String key, int page,String price,String spcount, boolean updata) {
         Observable<CategoryGoods> Goods = mServiceManager.
-                getGetSearchService().getGoods(kind,key,page);
+                getGetSearchService().getGoods(kind,key,page,price,spcount);
 
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
-        return mCacheManager.getCommonCache()
-                .getSerchGoods(Goods
-                        ,new DynamicKeyGroup(key,page)
-                        ,new EvictDynamicKey(updata))
-                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
-                    @Override
-                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
-                        return Observable.just(listReply.getData());
-                    }
-                });
+//        return mCacheManager.getCommonCache()
+//                .getSerchGoods(Goods
+//                        ,new DynamicKeyGroup(key,page)
+//                        ,new EvictDynamicKey(updata))
+//                .flatMap(new Func1<Reply<CategoryGoods>, Observable<CategoryGoods>>() {
+//                    @Override
+//                    public Observable<CategoryGoods> call(Reply<CategoryGoods> listReply) {
+//                        return Observable.just(listReply.getData());
+//                    }
+//                });
+        return Goods;
     }
 }

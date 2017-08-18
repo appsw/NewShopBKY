@@ -7,6 +7,7 @@ import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.model.entity.CategoryGoods;
 import bai.kang.yun.zxd.mvp.model.entity.Goods;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnADGrid;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnCategory;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDetail;
@@ -78,4 +79,7 @@ public interface CommonCache {
     //    搜索
     @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
     Observable<Reply<CategoryGoods>> getSerchGoods(Observable<CategoryGoods> scope, DynamicKeyGroup idLastUserQueried, EvictProvider evictProvider);
+    //八个按钮
+    @LifeCache(duration = 2, timeUnit = TimeUnit.HOURS)
+    Observable<Reply<ReturnADGrid>> getADGrid(Observable<ReturnADGrid> ADS);
 }

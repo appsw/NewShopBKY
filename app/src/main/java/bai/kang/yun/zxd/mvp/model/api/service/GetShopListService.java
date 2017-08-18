@@ -10,6 +10,7 @@ import rx.Observable;
  */
 
 public interface GetShopListService {
-    @GET("/goods/get_shop_list/{kind}/{id}/{page}")
-    Observable<ReturnShop> getShopList (@Path("kind") int kind, @Path("id") int id, @Path("page") int page);
+    @GET("/goods/get_shop_list/{kind}/{id}/{page}/{price}/{stock}")
+    Observable<ReturnShop> getShopList (@Path("kind") int kind, @Path("id") int id, @Path("page") int page
+            , @Path("price") String price, @Path("stock") String stock);
 }

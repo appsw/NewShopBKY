@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:text="店铺评分："/>
+                    android:text="库存："/>
                 <TextView
                     android:id="@+id/item_probability"
                     android:layout_width="wrap_content"

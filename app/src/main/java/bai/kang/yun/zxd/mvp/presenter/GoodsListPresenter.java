@@ -6,7 +6,6 @@ import com.jess.arms.base.AppManager;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
-import com.jess.arms.utils.PermissionUtil;
 import com.jess.arms.utils.RxUtils;
 import com.jess.arms.utils.UiUtils;
 import com.jess.arms.widget.imageloader.ImageLoader;
@@ -69,12 +68,12 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
         mRootView.setAdapter(mAdapter);//设置Adapter
     }
 
-    public void requestUsers(final int id,final boolean pullToRefresh) {
+    public void requestUsers(final int id,final boolean pullToRefresh,final String price,final String spcount) {
 
         //请求外部存储权限用于适配android6.0的权限管理机制
-        PermissionUtil.externalStorage(() -> {
-            //request permission success, do something.
-        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
+//        PermissionUtil.externalStorage(() -> {
+//            //request permission success, do something.
+//        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
 
         if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
@@ -86,7 +85,7 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
             isEvictCache = false;
         }
 
-        mModel.getGoodslist(id,page,isEvictCache)
+        mModel.getGoodslist(id,page,price,spcount,isEvictCache)
         .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<CategoryGoods, Observable<CategoryGoods.ItemEntity>>() {
@@ -94,11 +93,14 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                     public Observable<CategoryGoods.ItemEntity> call(CategoryGoods categoryGoods) {
                         if(categoryGoods.getStatus()==1){
                             if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                            else
+                                page++;
                             if(categoryGoods.getPage_data().getTotalPages()<=page) {
                                 mRootView.endLoadMore();
+                                mRootView.noMore();
                             }
                             Itemssize=categoryGoods.getPage_data().getItems().size();
-                            page++;
+
                             return Observable.from(categoryGoods.getPage_data().getItems());
                         }
                         else {
@@ -133,18 +135,18 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                             if (pullToRefresh){
                                 mAdapter.notifyDataSetChanged();}
                             else
-                                mAdapter.notifyItemRangeInserted(preEndIndex,Itemssize);
+                                mAdapter.notifyItemRangeInserted(preEndIndex,1);
 
                         }
                     }
                 });
     }
-    public void getSerchGoods(int kind, String key,  boolean pullToRefresh) {
+    public void getSerchGoods(int kind, String key,  boolean pullToRefresh,final String price,final String spcount) {
 
         //请求外部存储权限用于适配android6.0的权限管理机制
-        PermissionUtil.externalStorage(() -> {
-            //request permission success, do something.
-        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
+//        PermissionUtil.externalStorage(() -> {
+//            //request permission success, do something.
+//        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
 
         if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b
@@ -156,7 +158,7 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
             isEvictCache = false;
         }
 
-        mModel.getGoods(kind,key,page,pullToRefresh)
+        mModel.getGoods(kind,key,page,price,spcount,pullToRefresh)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(() -> {
@@ -179,17 +181,19 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
                             public void onNext(CategoryGoods users) {
                                 if(users.getStatus()==1){
                                     if (pullToRefresh) GoodsList.clear();//如果是上拉刷新则清空列表
+                                    else
+                                        page++;
                                     preEndIndex = GoodsList.size();//更新之前列表总长度,用于确定加载更多的起始位置
                                     GoodsList.addAll(users.getPage_data().getItems());
 
                                     if(users.getPage_data().getTotalPages()<=page) {
                                         mRootView.endLoadMore();
+                                        mRootView.noMore();
                                     }
                                     if (pullToRefresh){
                                         mAdapter.notifyDataSetChanged();}
                                     else
                                         mAdapter.notifyItemRangeInserted(preEndIndex, users.getPage_data().getItems().size());
-                                    page++;
                                 }else{
                                     UiUtils.makeText(users.getMessage());
                                 }
@@ -200,10 +204,10 @@ public class GoodsListPresenter extends BasePresenter<GoodsListContract.Model, G
 
     public void ShopGoods(final int id,final int kind,final boolean pullToRefresh) {
 
-        //请求外部存储权限用于适配android6.0的权限管理机制
-        PermissionUtil.externalStorage(() -> {
-            //request permission success, do something.
-        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
+//        //请求外部存储权限用于适配android6.0的权限管理机制
+//        PermissionUtil.externalStorage(() -> {
+//            //request permission success, do something.
+//        }, mRootView.getRxPermissions(), mRootView, mErrorHandler);
 
         if (pullToRefresh) page = 1;//上拉刷新默认只请求第一页
         //关于RxCache缓存库的使用请参考 http://www.jianshu.com/p/b58ef6b0624b

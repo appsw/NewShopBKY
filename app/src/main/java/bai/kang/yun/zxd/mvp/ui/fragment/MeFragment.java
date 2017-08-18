@@ -187,40 +187,82 @@ public class MeFragment extends WEFragment<MePresenter> implements MeContract.Vi
     }
     @OnClick(R.id.person_receive_address_aview)
     void newAdd(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), AddressListActivity.class);
         UiUtils.startActivity(intent);
     }
     @OnClick(R.id.account_rlayout)
     void personal(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), PersonalSettingActivity.class);
         UiUtils.startActivity(intent);
     }
     @OnClick(R.id.person_order_all_container)
     void order(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra("type",0);
         getActivity().startActivityForResult(intent,1);
     }
     @OnClick(R.id.im_fk)
     void order_fk(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra("type",1);
         getActivity().startActivityForResult(intent,1);
     }
     @OnClick(R.id.im_sh)
     void order_sh(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra("type",3);
         getActivity().startActivityForResult(intent,1);
     }
     @OnClick(R.id.im_pj)
     void order_pj(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra("type",4);
         getActivity().startActivityForResult(intent,1);
     }
     @OnClick(R.id.im_fh)
     void order_fh(){
+        if(!config.getBoolean("isLog",false)){
+            UiUtils.makeText("请先登录");
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            UiUtils.startActivity(intent);
+            return;
+        }
         Intent intent=new Intent(getActivity(), MyOrderActivity.class);
         intent.putExtra("type",2);
         getActivity().startActivityForResult(intent,1);

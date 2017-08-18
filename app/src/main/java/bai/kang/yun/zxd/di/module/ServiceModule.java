@@ -10,6 +10,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.CarListService;
 import bai.kang.yun.zxd.mvp.model.api.service.CommonService;
 import bai.kang.yun.zxd.mvp.model.api.service.ConfirmReceipt;
 import bai.kang.yun.zxd.mvp.model.api.service.DelectOrderService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetADGrid;
 import bai.kang.yun.zxd.mvp.model.api.service.GetADService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAddressService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAlipayUrlService;
@@ -17,6 +18,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetAppService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetAppVersionService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetCategoryService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetCommentsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetDefaultAddService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetExpressListService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetGoodsDetailService;
@@ -29,6 +31,7 @@ import bai.kang.yun.zxd.mvp.model.api.service.GetShopCategoryService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopDetailService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopGoodsService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetShopListService;
+import bai.kang.yun.zxd.mvp.model.api.service.GetShopZZService;
 import bai.kang.yun.zxd.mvp.model.api.service.GetTokenService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsGridService;
 import bai.kang.yun.zxd.mvp.model.api.service.GoodsListService;
@@ -262,7 +265,22 @@ public class ServiceModule {
         return retrofit.create(GetAppService.class);
     }
 
+    @Singleton
+    @Provides
+    GetShopZZService provideGetShopZZService(Retrofit retrofit) {
+        return retrofit.create(GetShopZZService.class);
+    }
 
+    @Singleton
+    @Provides
+    GetCommentsService provideGetCommentsService(Retrofit retrofit) {
+        return retrofit.create(GetCommentsService.class);
+    }
+    @Singleton
+    @Provides
+    GetADGrid provideGetADGrid(Retrofit retrofit) {
+        return retrofit.create(GetADGrid.class);
+    }
 
 
 

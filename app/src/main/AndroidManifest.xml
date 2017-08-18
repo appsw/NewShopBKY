@@ -95,6 +95,9 @@
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.MakeOrderActivity">
 
         </activity>
+        <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.CommentActivity">
+
+        </activity>
         <activity android:name="bai.kang.yun.zxd.mvp.ui.activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -162,6 +165,9 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="fb1f080a0e87149d90e8426aa2b41c6a"/>
+        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+        <meta-data android:name="Mob-AppKey" android:value="20456837d67e6"/>
+        <meta-data android:name="Mob-AppSecret" android:value="1194788424947dd7735c9906a929b895"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="bai.kang.yun.zxd.provider"
@@ -171,9 +177,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
-        <meta-data android:name="Mob-AppKey" android:value="1ecac5dd1923a"/>
-        <meta-data android:name="Mob-AppSecret" android:value="987dae101d4ffa82658857f55073c675"/>
+
     </application>
 
 

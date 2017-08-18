@@ -16,6 +16,7 @@ import bai.kang.yun.zxd.R;
 import bai.kang.yun.zxd.app.utils.Transfer;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
 import bai.kang.yun.zxd.mvp.ui.activity.DetailActivity;
+import bai.kang.yun.zxd.mvp.ui.activity.ShopDetailActivity;
 import common.WEApplication;
 
 /**
@@ -50,9 +51,25 @@ public class RollViewpagerAdapter extends StaticPagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Transfer.chosegoods_for_open_goodsdetail_id=list.get(position).getId();
-                Intent intent=new Intent(UiUtils.getContext(), DetailActivity.class);
-                UiUtils.startActivity(intent);
+                Banner.DataEntity dataEntity=list.get(position);
+                String url=dataEntity.getUrl();
+                String alt=dataEntity.getAlt();
+                Intent intent;
+                switch (alt){
+                    case "product":
+                        Transfer.chosegoods_for_open_goodsdetail_id=Integer.parseInt(url);
+                        intent=new Intent(UiUtils.getContext(), DetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    case "shop":
+                        Transfer.choseshop_for_open_shopdetail_id=Integer.parseInt(url);
+                        intent=new Intent(UiUtils.getContext(), ShopDetailActivity.class);
+                        UiUtils.startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+
             }
         });
         return imageView;

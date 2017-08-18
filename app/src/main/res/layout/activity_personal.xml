@@ -127,6 +127,7 @@
                     style="@style/textStyle.Medium.User"
                     android:text="Ben"
                     android:id="@+id/nickname_txtv"
+                    android:layout_marginRight="10dp"
                     android:layout_alignBottom="@+id/textView5"
                     android:layout_toLeftOf="@+id/nick_arrow" />
                 <View android:id="@+id/line3"
@@ -160,6 +161,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="男"
                     android:id="@+id/sex_txtv"
+                    android:layout_marginRight="10dp"
                     android:layout_alignBottom="@+id/txt_sex"
                     android:layout_toLeftOf="@+id/nick_arrow_sex" />
                 <View android:id="@+id/line4"

@@ -2,7 +2,6 @@ package bai.kang.yun.zxd.mvp.presenter;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.jess.arms.base.AppManager;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
 import bai.kang.yun.zxd.mvp.contract.AddressListContract;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnAddress;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnDeleteAdd;
-import bai.kang.yun.zxd.mvp.ui.activity.LoginActivity;
 import bai.kang.yun.zxd.mvp.ui.adapter.AddressListAdapter;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
@@ -71,12 +69,12 @@ public class AddressListPresenter extends BasePresenter<AddressListContract.Mode
         mRootView.setAdapter(addressListAdapter);
     }
     public void Request(boolean Clear){
-        if(!config.getBoolean("isLog",false)){
-            UiUtils.makeText("请先登录");
-            Intent intent=new Intent(mApplication, LoginActivity.class);
-            mRootView.launchActivity(intent);
-            return;
-        }
+//        if(!config.getBoolean("isLog",false)){
+//            UiUtils.makeText("请先登录");
+//            Intent intent=new Intent(mApplication, LoginActivity.class);
+//            mRootView.launchActivity(intent);
+//            return;
+//        }
         addresses.clear();
         mRootView.showLoading();
         mModel.getAddress(config.getInt("id",0),config.getString("salt","0"),1,Clear)

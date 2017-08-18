@@ -73,6 +73,13 @@
                 android:text="国字健字G20100800"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/goods_guige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12粒/板"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -116,7 +123,7 @@
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="按销量"
+            android:text="按库存"
             android:textSize="18sp"
             android:layout_height="wrap_content" />
 

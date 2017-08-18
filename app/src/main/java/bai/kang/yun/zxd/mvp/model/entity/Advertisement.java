@@ -45,10 +45,13 @@ public class Advertisement {
     }
 
     public static class DataEntity{
+
         private int id;
         private int pid;
         private String title;
         private String img;
+        private String url;
+        private String alt;
 
         @Override
         public String toString() {
@@ -90,6 +93,22 @@ public class Advertisement {
 
         public void setImg(String img) {
             this.img = img;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getAlt() {
+            return alt;
+        }
+
+        public void setAlt(String alt) {
+            this.alt = alt;
         }
     }
 

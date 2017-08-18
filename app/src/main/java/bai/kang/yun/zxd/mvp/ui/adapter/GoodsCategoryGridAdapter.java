@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jess.arms.widget.imageloader.ImageLoader;
+import com.jess.arms.widget.imageloader.glide.GlideImageConfig;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
     Context context;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private final WEApplication mApplication;
+    private String HOST="http://www.baikangyun.com";
     public GoodsCategoryGridAdapter(List<ReturnCategory.DataEntity> spCategories,Context context){
         this.spCategories=spCategories;
         this.context=context;
@@ -66,12 +68,16 @@ public class GoodsCategoryGridAdapter extends BaseAdapter {
         }
         ReturnCategory.DataEntity spCategory=spCategories.get(position);
 
-//        mImageLoader.loadImage(mApplication, GlideImageConfig
-//                .builder()
-//                .placeholder(R.mipmap.yaowan)
-//                .imageView(viewHolder.imageView)
-//                .build());
-        viewHolder.imageView.setImageResource(R.mipmap.yaowan);
+        if(spCategory.getImageurl()!=""){
+            mImageLoader.loadImage(mApplication, GlideImageConfig
+                    .builder()
+                    .url(HOST+spCategory.getImageurl())
+                    .errorPic(R.mipmap.yaowan)
+                    .imageView(viewHolder.imageView)
+                    .build());
+        }else {
+            viewHolder.imageView.setImageResource(R.mipmap.yaowan);
+        }
         viewHolder.name.setText(spCategory.getName());
         return convertView;
     }

@@ -9,6 +9,7 @@
         <TextView
             android:layout_gravity="center"
             android:id="@+id/order_shopname"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="百康云大药房"
@@ -18,11 +19,19 @@
             android:layout_marginLeft="450px"
             android:layout_gravity="center"
             android:id="@+id/order_delect"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="删除"
             android:textSize="19sp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/order_number"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BKYS_201708181016104777"
+        android:textSize="19sp"/>
     <bai.kang.yun.zxd.mvp.ui.view.Search_View
         android:id="@+id/goods_list"
         android:layout_width="match_parent"
@@ -36,6 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="商品总价："
             android:textSize="19sp"/>
         <TextView

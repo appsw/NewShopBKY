@@ -9,6 +9,7 @@ import bai.kang.yun.zxd.mvp.model.api.cache.CacheManager;
 import bai.kang.yun.zxd.mvp.model.api.service.ServiceManager;
 import bai.kang.yun.zxd.mvp.model.entity.Advertisement;
 import bai.kang.yun.zxd.mvp.model.entity.Banner;
+import bai.kang.yun.zxd.mvp.model.entity.ReturnADGrid;
 import bai.kang.yun.zxd.mvp.model.entity.ReturnGoods;
 import io.rx_cache.Reply;
 import rx.Observable;
@@ -60,6 +61,20 @@ public class FristModel extends BaseModel<ServiceManager, CacheManager> implemen
                 .flatMap(new Func1<Reply<ReturnGoods>, Observable<ReturnGoods>>() {
                     @Override
                     public Observable<ReturnGoods> call(Reply<ReturnGoods> listReply) {
+                        return Observable.just(listReply.getData());
+                    }
+                });
+    }
+
+    @Override
+    public Observable<ReturnADGrid> getADGrid() {
+        Observable<ReturnADGrid> goods = mServiceManager.getGetADGrid().getADGrid();
+        //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
+        return mCacheManager.getCommonCache()
+                .getADGrid(goods)
+                .flatMap(new Func1<Reply<ReturnADGrid>, Observable<ReturnADGrid>>() {
+                    @Override
+                    public Observable<ReturnADGrid> call(Reply<ReturnADGrid> listReply) {
                         return Observable.just(listReply.getData());
                     }
                 });

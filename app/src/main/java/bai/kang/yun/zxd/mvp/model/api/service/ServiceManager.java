@@ -52,6 +52,9 @@ public class ServiceManager implements BaseServiceManager {
     private RefundService mRefundService;
     private GetAppVersionService mGetAppVersionService;
     private GetAppService mGetAppService;
+    private GetShopZZService mGetShopZZService;
+    private GetCommentsService mGetCommentsService;
+    private GetADGrid mGetADGrid;
     /**
      * 如果需要添加service只需在构造方法中添加对应的service,在提供get方法返回出去,只要在ServiceModule提供了该service
      * Dagger2会自行注入
@@ -77,7 +80,8 @@ public class ServiceManager implements BaseServiceManager {
                                   GetDefaultAddService getDefaultAddService,GetSearchService getSearchService,
                                   OauthLogService oauthLogService,ConfirmReceipt confirmReceipt,
                                   RefundService refundService,GetAppVersionService getAppVersionService,
-                                  GetAppService getAppService){
+                                  GetAppService getAppService,GetShopZZService getShopZZService,
+                                  GetCommentsService getCommentsService,GetADGrid getADGrid){
         this.mCommonService = commonService;
         this.mUserService = userService;
         this.mBannerService=bannerService;
@@ -119,6 +123,9 @@ public class ServiceManager implements BaseServiceManager {
         this.mRefundService=refundService;
         this.mGetAppVersionService=getAppVersionService;
         this.mGetAppService=getAppService;
+        this.mGetShopZZService=getShopZZService;
+        this.mGetCommentsService=getCommentsService;
+        this.mGetADGrid=getADGrid;
     }
 
     public CommonService getCommonService() {
@@ -169,6 +176,9 @@ public class ServiceManager implements BaseServiceManager {
     public RefundService getRefundService(){return mRefundService;}
     public GetAppVersionService getGetAppVersionService(){return mGetAppVersionService;}
     public GetAppService getGetAppService(){return mGetAppService;}
+    public GetShopZZService getShopZZService(){return  mGetShopZZService;}
+    public GetCommentsService getGetCommentsService(){return mGetCommentsService;}
+    public GetADGrid getGetADGrid(){return mGetADGrid;}
 
     /**
      * 这里可以释放一些资源(注意这里是单例，即不需要在activity的生命周期调用)

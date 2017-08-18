@@ -63,7 +63,7 @@ public class GoodsListForShopItemHolder extends BaseHolder<ReturnShopGoods.DataE
         mImageLoader.loadImage(mApplication, GlideImageConfig
                 .builder()
                 .url(HOST+data.getImageUrl())
-                .errorPic(R.mipmap.imgerror)
+                .errorPic(R.mipmap.none)
                 .imageView(im)
                 .build());
     }

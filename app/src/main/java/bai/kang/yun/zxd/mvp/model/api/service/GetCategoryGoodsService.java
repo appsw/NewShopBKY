@@ -10,6 +10,6 @@ import rx.Observable;
  */
 
 public interface GetCategoryGoodsService {
-    @GET("/goods/get_goods_by_category/{id}/{page}")
-    Observable<CategoryGoods> getCategory (@Path("id") int id, @Path("page") int page);
+    @GET("/goods/get_goods_by_category/{id}/{page}/{price}/{spcount}")
+    Observable<CategoryGoods> getCategory (@Path("id") int id, @Path("page") int page, @Path("price") String price, @Path("spcount") String spcount);
 }
