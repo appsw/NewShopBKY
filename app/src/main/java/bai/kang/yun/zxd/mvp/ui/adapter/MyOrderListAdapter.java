@@ -63,6 +63,8 @@ public class MyOrderListAdapter extends BaseAdapter{
             viewHolder.preact=(TextView) convertView.findViewById(R.id.allpreact);
             viewHolder.delect=(TextView) convertView.findViewById(R.id.order_delect);
             viewHolder.number=(TextView) convertView.findViewById(R.id.order_number);
+            viewHolder.zfzt=(TextView) convertView.findViewById(R.id.tv_zfzt);
+            viewHolder.wuzt=(TextView) convertView.findViewById(R.id.tv_wlzt);
             viewHolder.goodslist= (Search_View) convertView.findViewById(R.id.goods_list);
             viewHolder.btn_zf= (Button) convertView.findViewById(R.id.btn_zf);
             viewHolder.btn_sc= (Button) convertView.findViewById(R.id.btn_sc);
@@ -104,12 +106,40 @@ public class MyOrderListAdapter extends BaseAdapter{
                 viewHolder.btn_zf.setVisibility(View.VISIBLE);
                 viewHolder.btn_cancel.setVisibility(View.VISIBLE);
             }
+            viewHolder.zfzt.setText("未支付");
+            viewHolder.wuzt.setText("未发货");
+        }else if(order.getStatus()==2){
+            viewHolder.btn_qrsh.setVisibility(View.GONE);
+            viewHolder.btn_sqtk.setVisibility(View.GONE);
+            viewHolder.btn_sc.setVisibility(View.GONE);
+            viewHolder.btn_zf.setVisibility(View.GONE);
+            viewHolder.btn_cancel.setVisibility(View.VISIBLE);
+            viewHolder.zfzt.setText("已支付");
+            viewHolder.wuzt.setText("未发货");
         }else if(order.getStatus()==3){
             viewHolder.btn_qrsh.setVisibility(View.VISIBLE);
             viewHolder.btn_sqtk.setVisibility(View.VISIBLE);
             viewHolder.btn_sc.setVisibility(View.GONE);
             viewHolder.btn_zf.setVisibility(View.GONE);
             viewHolder.btn_cancel.setVisibility(View.GONE);
+            viewHolder.zfzt.setText("已支付");
+            viewHolder.wuzt.setText("已发货");
+        }else if(order.getStatus()==-1){
+            viewHolder.btn_qrsh.setVisibility(View.GONE);
+            viewHolder.btn_sqtk.setVisibility(View.GONE);
+            viewHolder.btn_sc.setVisibility(View.GONE);
+            viewHolder.btn_zf.setVisibility(View.GONE);
+            viewHolder.btn_cancel.setVisibility(View.GONE);
+            viewHolder.zfzt.setText("");
+            viewHolder.wuzt.setText("订单关闭");
+        }else {
+            viewHolder.btn_qrsh.setVisibility(View.GONE);
+            viewHolder.btn_sqtk.setVisibility(View.GONE);
+            viewHolder.btn_sc.setVisibility(View.GONE);
+            viewHolder.btn_zf.setVisibility(View.GONE);
+            viewHolder.btn_cancel.setVisibility(View.GONE);
+            viewHolder.zfzt.setText("");
+            viewHolder.wuzt.setText("订单完成");
         }
 
 
@@ -167,6 +197,8 @@ public class MyOrderListAdapter extends BaseAdapter{
         TextView delect;
         TextView preact;
         TextView number;
+        TextView zfzt;
+        TextView wuzt;
         Search_View goodslist;
         Button btn_zf;
         Button btn_sc;

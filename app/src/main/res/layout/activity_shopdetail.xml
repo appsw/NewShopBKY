@@ -202,19 +202,20 @@
                     android:visibility="gone"
                     tools:listitem="@layout/item_shop_goodslist"
                     />
-                <GridView
+                <bai.kang.yun.zxd.app.utils.MyGridView
                     android:id="@+id/shop_goodscategory"
                     android:layout_width="match_parent"
                     android:visibility="gone"
+                    android:numColumns="4"
                     android:layout_height="match_parent">
-                </GridView>
-                <GridView
+                </bai.kang.yun.zxd.app.utils.MyGridView>
+                <bai.kang.yun.zxd.app.utils.MyGridView
                     android:id="@+id/shop_zz"
                     android:layout_width="match_parent"
                     android:numColumns="1"
                     android:visibility="gone"
                     android:layout_height="match_parent">
-                </GridView>
+                </bai.kang.yun.zxd.app.utils.MyGridView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

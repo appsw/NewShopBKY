@@ -146,6 +146,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                             public void onNext(ReturnShopCategory goods) {
                                 mRootView.hideLoading();
                                 if(goods.getStatus()==1){
+                                    CategoryList.clear();
                                     CategoryList.addAll(goods.getData());
                                     shopCategoryAdapter.notifyDataSetChanged();
                                 }else{
@@ -172,6 +173,7 @@ public class ShopDetailPresenter extends BasePresenter<ShopDetailContract.Model,
                             public void onNext(ReturnShopZZ goods) {
                                 mRootView.hideLoading();
                                 if(goods.getStatus()==1){
+                                    ZZList.clear();
                                     ZZList.addAll(goods.getPage_data().getItems());
                                     shopZZImageAdapter.notifyDataSetChanged();
                                 }else{

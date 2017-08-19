@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jess.arms.utils.UiUtils;
+
 import java.util.List;
 
 import bai.kang.yun.zxd.R;
@@ -63,7 +65,7 @@ public class ShopCategoryAdapter extends BaseAdapter {
                 Transfer.chosegoods_for_open_shoplist_type=Transfer.SHOP_CATEGORY;
                 Transfer.choseshopcategory_open_goods_id=CategoryList.get(position).getId();
                 Intent intent=new Intent(context, GoodsListActivity.class);
-                context.startActivity(intent);
+                UiUtils.startActivity(intent);
             }
         });
         return convertView;

@@ -55,6 +55,22 @@
             android:textColor="@color/darkred"
             android:textSize="19sp"
             android:text="￥8"/>
+        <TextView
+            android:id="@+id/tv_zfzt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:textSize="19sp"
+            android:text="已支付"/>
+        <TextView
+            android:id="@+id/tv_wlzt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:textSize="19sp"
+            android:text="已发货"/>
         <Button
             android:visibility="gone"
             android:padding="2dp"

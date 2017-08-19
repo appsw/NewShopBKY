@@ -92,8 +92,10 @@ public class GoodsListItemHolder extends BaseHolder<CategoryGoods.ItemEntity> {
         Intent intent = null;
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY)
             intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
-        else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY)
+        else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
+            Transfer.chosegoods_for_open_goodsdetail_id=itemEntity.getId();
             intent=new Intent(UiUtils.getContext(), DetailActivity.class);
+        }
         else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH)
             intent=new Intent(UiUtils.getContext(), ShopListActivity.class);
         UiUtils.startActivity(intent);

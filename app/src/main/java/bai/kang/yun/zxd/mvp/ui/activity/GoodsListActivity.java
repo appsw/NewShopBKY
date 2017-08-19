@@ -84,7 +84,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             kind=intent.getIntExtra("kind",0);
             key=intent.getStringExtra("key");
@@ -131,7 +131,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }
@@ -228,7 +228,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }
@@ -248,7 +248,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }
@@ -268,7 +268,7 @@ public class GoodsListActivity extends WEActivity<GoodsListPresenter>
         if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_CATEGORY){
             mPresenter.requestUsers(Transfer.chosegoods,true,price,spcount);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.SHOP_CATEGORY){
-            mPresenter.ShopGoods(Transfer.chosegoods_for_open_goodsdetail_id,Transfer.choseshopcategory_open_goods_id,true);
+            mPresenter.ShopGoods(Transfer.choseshop_for_open_shopdetail_id,Transfer.choseshopcategory_open_goods_id,true);
         }else if(Transfer.chosegoods_for_open_shoplist_type==Transfer.GOODS_SEARCH){
             mPresenter.getSerchGoods(kind,key,true,price,spcount);
         }

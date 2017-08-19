@@ -163,8 +163,14 @@ public class DetailActivity extends WEActivity<DetailPresenter> implements Detai
     }
 
     @Override
-    protected void initData() {
+    protected void onResume() {
+        super.onResume();
         mPresenter.getDetail(Transfer.chosegoods_for_open_goodsdetail_id);
+    }
+
+    @Override
+    protected void initData() {
+
     }
     /**
      * 初始化RecycleView
